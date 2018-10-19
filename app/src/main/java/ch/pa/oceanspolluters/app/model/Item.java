@@ -1,7 +1,7 @@
 package ch.pa.oceanspolluters.app.model;
 
 public interface Item {
-    int getId();
+    Integer getId();
     String getName();
     float getWeightKg();
 }

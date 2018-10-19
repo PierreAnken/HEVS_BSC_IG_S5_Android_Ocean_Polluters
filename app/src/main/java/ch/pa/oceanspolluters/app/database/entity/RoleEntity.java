@@ -1,14 +1,17 @@
 package ch.pa.oceanspolluters.app.database.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+
 import ch.pa.oceanspolluters.app.model.Role;
 
 @Entity(tableName = "roles", primaryKeys = {"id"})
 public class RoleEntity implements Role {
 
-    @NonNull
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
+
     private String name;
 
     public RoleEntity() {
@@ -23,7 +26,7 @@ public class RoleEntity implements Role {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

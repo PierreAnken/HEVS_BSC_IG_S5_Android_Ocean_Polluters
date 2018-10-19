@@ -2,6 +2,7 @@ package ch.pa.oceanspolluters.app.database.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.model.Item;
@@ -9,8 +10,8 @@ import ch.pa.oceanspolluters.app.model.Item;
 @Entity(tableName = "items", primaryKeys = {"id"})
 public class ItemEntity implements Item {
 
-    @NonNull
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
     private String name;
 
     @ColumnInfo(name = "weight_kg")
@@ -32,7 +33,7 @@ public class ItemEntity implements Item {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

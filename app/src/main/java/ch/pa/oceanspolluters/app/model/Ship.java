@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public interface Ship {
-    int getId();
+    Integer getId();
     int getCaptainId();
     int getDestinationPortId();
     Date getDepartureDate();
-    int getMaxLoad();
+
+    float getMaxLoadKg();
     ArrayList<Container> getContainerList();
     String getName();
 }

@@ -19,10 +19,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            // For Room Persistence Library
-            url "https://maven.google.com"
-        }
     }
 }
 

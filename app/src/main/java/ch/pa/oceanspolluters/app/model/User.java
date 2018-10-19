@@ -1,9 +1,11 @@
 package ch.pa.oceanspolluters.app.model;
 
 public interface User {
-    int getId();
+    Integer getId();
     String getFirstname();
     String getLastname();
-    String getPassword();
-    Role getRole();
+
+    int getPassword();
+
+    int getRoleId();
 }

@@ -1,17 +1,36 @@
 package ch.pa.oceanspolluters.app.database.entity;
 
-import java.util.ArrayList;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
+
 import ch.pa.oceanspolluters.app.model.Container;
 import ch.pa.oceanspolluters.app.model.Item;
 
-@Entity(tableName = "containers", primaryKeys = {"id"})
+@Entity(tableName = "containers",
+        foreignKeys =
+        @ForeignKey(
+                entity = ShipEntity.class,
+                parentColumns = "id", // remote class
+                childColumns = "ship_id", // local class
+                onDelete = ForeignKey.SET_NULL
+        ),
+
+        indices = {
+                @Index(
+                        value = {"ship_id"}
+                )}
+)
+
 public class ContainerEntity implements Container {
 
-    @NonNull
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
 
     @ColumnInfo(name = "item_list")
     private ArrayList<Item> itemList;
@@ -20,7 +39,7 @@ public class ContainerEntity implements Container {
     private String dockPosition;
 
     @ColumnInfo(name = "ship_id")
-    private int  shipId;
+    private int shipId;
 
     private boolean loaded;
 
@@ -41,7 +60,7 @@ public class ContainerEntity implements Container {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     @Override
