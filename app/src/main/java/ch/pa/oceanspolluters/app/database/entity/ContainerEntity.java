@@ -28,7 +28,7 @@ public class ContainerEntity implements Container {
     }
 
     public ContainerEntity(@NonNull Container container) {
-        itemList = container.getItemList();
+        itemList = new ArrayList<>(container.getItemList());
         dockPosition = container.getDockPosition();
         shipId = container.getShipId();
         loaded = container.getLoadingStatus();
@@ -48,7 +48,6 @@ public class ContainerEntity implements Container {
     public ArrayList<Item> getItemList() {
         return itemList;
     }
-
 
     public void addItem(@NonNull Item item) {
         itemList.add(item);
