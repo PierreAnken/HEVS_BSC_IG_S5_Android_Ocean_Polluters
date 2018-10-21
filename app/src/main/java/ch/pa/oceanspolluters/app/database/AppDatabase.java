@@ -6,6 +6,7 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -22,7 +23,8 @@ import ch.pa.oceanspolluters.app.database.entity.RoleEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
-@Database(entities = {ContainerEntity.class, ItemEntity.class, PortEntity.class, RoleEntity.class, ShipEntity.class}, version = 1)
+@Database(entities = {UserEntity.class, ContainerEntity.class, ItemEntity.class, PortEntity.class, RoleEntity.class, ShipEntity.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String TAG = "AppDatabase";
@@ -32,7 +34,6 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "oceans-polluters-database";
 
     public abstract RoleDao roleDao();
-
     public abstract UserDao userDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
