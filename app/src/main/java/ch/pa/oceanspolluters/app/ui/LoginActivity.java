@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,64 +7,37 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.AppDatabase;
-import ch.pa.oceanspolluters.app.database.dao.UserDao;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.repository.UserRepository;
-import ch.pa.oceanspolluters.app.model.User;
+import ch.pa.oceanspolluters.app.util.Roles;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity{
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove dummy users after connexion to DB
-     */
-    private final UserDummy[] test_users = new UserDummy[]{
-        new UserDummy(0,"Pierre", 1234, 1),
-        new UserDummy(1,"Jean", 1234, 2),
-        new UserDummy(2,"Paul", 1234, 3)
-    };
-
-    private String[] usersTest = new String[]{
-            "Pierre",  "Jean" ,"Paul"
-    };
-
-    public class UserDummy{
-
-        public int id;
-        public String name;
-        public int password;
-        public int roleId;
-
-        public UserDummy(int id, String name, int password, int roleId){
-            this.id = id;
-            this.name = name;
-            this.password = password;
-            this.roleId = roleId;
-        }
-    }
 
     private UserLoginTask mAuthTask = null;
 
     // UI references.
     private EditText mPassword;
     private Spinner mSpinner;
-    private LiveData<List<UserEntity>> users;
+    private List<UserEntity> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,30 +46,41 @@ public class LoginActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_login);
         mPassword = (EditText)findViewById(R.id.password);
-        mSpinner = (Spinner) findViewById(R.id.users_spinner);
-
-        /*users = UserRepository.getInstance(AppDatabase.getInstance(this)).getUsers();
 
 
-        ArrayList<String> userNames = new  ArrayList<String>();
+        new LoadUsersTask().execute();
 
-        for (UserEntity user: users
-             ) {
-            userNames.add(user.getFirstname() +" "+user.getLastname());
-        }*/
-
-        ArrayAdapter<String> usersAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersTest);
-        usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(usersAdapter);
-
-        Button mLoginButton = (Button) findViewById(R.id.login_button);
+        ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
+    }
+    private class LoadUsersTask extends AsyncTask<Void, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(Void... empty) {
+
+            users = UserRepository.getInstance(AppDatabase.getInstance(getApplicationContext())).getUsers();
+            String[] userNames = new  String[users.size()+1];
+            userNames[0] = "- Select User -";
+            for(int i = 1; i<userNames.length; i++){
+                userNames[i] = (users.get(i-1).getFirstname() +" "+users.get(i-1).getLastname());
+            }
+
+            return userNames;
+        }
+
+        @Override
+        protected void onPostExecute(String[] userNames) {
+            mSpinner = findViewById(R.id.users_spinner);
+            ArrayAdapter<String> usersAdapter =
+                    new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, userNames);
+            usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinner.setAdapter(usersAdapter);
+        }
     }
 
     @Override
@@ -106,11 +89,20 @@ public class LoginActivity extends AppCompatActivity{
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.parameters:
+                startActivity(new Intent(this, ParameterActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
-
         // Reset errors.
          mPassword.setError(null);
 
@@ -118,56 +110,49 @@ public class LoginActivity extends AppCompatActivity{
         String password = mPassword.getText().toString();
         String userName = mSpinner.getSelectedItem().toString();
 
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
-            mPassword.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password) ) {
+            mPassword.setError(getString(R.string.error_empty_password));
         }
         else{
-            new UserLoginTask().execute(userName,password);
+            if(userName.indexOf('-') < 0)
+                new UserLoginTask().execute(userName,password);
         }
     }
 
-    private boolean isPasswordValid(String password) {
-        return password.length() == 4;
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    private class UserLoginTask extends AsyncTask<String, Void, Boolean> {
-
+    private class UserLoginTask extends AsyncTask<String, Void, Integer> {
 
         @Override
-        protected Boolean doInBackground(String... credentials) {
-            System.out.println("Debugpa - "+ credentials.length);
+        protected Integer doInBackground(String... credentials) {
             if(credentials.length == 2){
-                System.out.println("Debugpa - "+credentials[0]+" "+credentials[1]);
-                for (UserDummy user: test_users) {
 
-                    if (user.name.equals(credentials[0]) && Integer.toString(user.password).equals(credentials[1])) {
-                        return true;
+                for(int i = 0; i<users.size(); i++){
+
+                    if ((users.get(i).getFirstname() +" "+users.get(i).getLastname()).equals(credentials[0]) && Integer.toString(users.get(i).getPassword()).equals(credentials[1])) {
+                        BaseApp.setCurrentUser(users.get(i));
+                        return users.get(i).getRoleId();
                     }
                 }
             }
-            return false;
+            return -1;
         }
 
         @Override
-        protected void onPostExecute(Boolean loginSuccess) {
-            if(loginSuccess){
-                Context context = getApplicationContext();
-                CharSequence text = "Login Success";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+        protected void onPostExecute(Integer userRoleId) {
+            if(userRoleId >= 0){
+                ((BaseApp)getApplication()).displayShortToast("Login success");
 
-                Intent intent = new Intent(context, CaptainHomeActivity.class);
-                startActivity(intent);
-                finish();
-
-            }else{
-                mPassword.setError(getString(R.string.error_incorrect_password));
+                if(userRoleId == Roles.Administrator.id()){
+                     startActivity(new Intent(getApplicationContext(), AdministratorHomeActivity.class));
+                }
+                else if(userRoleId == Roles.Docker.id()){
+                    startActivity(new Intent(getApplicationContext(), DockerHomeActivity.class));
+                }
+                else if(userRoleId == Roles.LogisticManager.id()){
+                    startActivity(new Intent(getApplicationContext(), LogisticManagerHomeActivity.class));
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(), CaptainHomeActivity.class));
+                }
             }
         }
     }

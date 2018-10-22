@@ -17,23 +17,13 @@ public class CaptainHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_captain_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_captain_home, menu);
-        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        // Handle item selection
         switch (item.getItemId()) {
-            case R.id.logout:
             case android.R.id.home:
-                intent = new Intent(getApplicationContext(), LoginActivity.class);
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

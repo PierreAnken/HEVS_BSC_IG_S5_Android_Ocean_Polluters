@@ -3,6 +3,7 @@
     package="ch.pa.oceanspolluters.app">
 
     <application
+        android:name=".BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,13 +16,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ParameterActivity" />
+        <activity android:name=".ui.ParameterActivity"
+            android:label="@string/title_activity_parameters"
+            android:parentActivityName="ui.LoginActivity"/>
+        <activity android:name=".ui.DockerHomeActivity"
+            android:label="@string/title_activity_docker_home"
+            android:parentActivityName="ui.LoginActivity"/>
         <activity android:name=".ui.CaptainHomeActivity"
             android:label="@string/title_activity_captain_home"
             android:parentActivityName="ui.LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ui.LoginActivity" />
+        </activity>
+        <activity android:name=".ui.AdministratorHomeActivity"
+            android:label="@string/title_activity_administrator_home"
+            android:parentActivityName="ui.LoginActivity">
+        </activity>
+        <activity android:name=".ui.LogisticManagerHomeActivity"
+            android:label="@string/title_activity_logistic_manager_home"
+            android:parentActivityName="ui.LoginActivity">
         </activity>
     </application>
 

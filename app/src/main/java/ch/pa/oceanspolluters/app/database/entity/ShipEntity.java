@@ -18,7 +18,7 @@ import ch.pa.oceanspolluters.app.model.Ship;
 @Entity(tableName = "ships",
         foreignKeys = {
                 @ForeignKey(
-                        entity = RoleEntity.class,
+                        entity = UserEntity.class,
                         parentColumns = "id", // remote class
                         childColumns = "capitain_id", // local class
                         onDelete = ForeignKey.SET_NULL

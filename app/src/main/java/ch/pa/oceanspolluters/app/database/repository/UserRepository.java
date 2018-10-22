@@ -27,11 +27,11 @@ public class UserRepository {
         return sInstance;
     }
 
-    public LiveData<UserEntity> getUser(final int id) {
+    public UserEntity getUser(final int id) {
         return mDatabase.userDao().getById(id);
     }
 
-    public LiveData<List<UserEntity>> getUsers() {
+    public List<UserEntity> getUsers() {
         return mDatabase.userDao().getAll();
     }
 

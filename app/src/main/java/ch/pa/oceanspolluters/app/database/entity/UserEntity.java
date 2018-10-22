@@ -10,18 +10,7 @@ import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.model.User;
 
-@Entity(tableName = "users",
-        foreignKeys =
-        @ForeignKey(
-                entity = RoleEntity.class,
-                parentColumns = "id", // remote class
-                childColumns = "role_id", // local class
-                onDelete = ForeignKey.SET_NULL
-        ),
-        indices = {
-        @Index(value = {"role_id"})}
-)
-
+@Entity(tableName = "users")
 public class UserEntity implements User {
 
     @PrimaryKey(autoGenerate = true)
@@ -34,6 +23,9 @@ public class UserEntity implements User {
     @ColumnInfo(name = "role_id")
     private int roleId;
 
+    public UserEntity(){
+
+    }
     @Ignore
     public UserEntity(@NonNull User user) {
         id = user.getId();
@@ -42,7 +34,7 @@ public class UserEntity implements User {
         password = user.getPassword();
         roleId = user.getRoleId();
     }
-
+    @Ignore
     public UserEntity(int id, String firstname, String lastname, int password, int roleId) {
         this.firstname = firstname;
         this.lastname = lastname;

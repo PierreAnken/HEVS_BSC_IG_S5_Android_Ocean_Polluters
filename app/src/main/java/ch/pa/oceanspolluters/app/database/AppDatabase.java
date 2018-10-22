@@ -9,54 +9,42 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import ch.pa.oceanspolluters.app.database.dao.RoleDao;
 import ch.pa.oceanspolluters.app.database.dao.UserDao;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.RoleEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
-@Database(entities = {UserEntity.class, ContainerEntity.class, ItemEntity.class, PortEntity.class, RoleEntity.class, ShipEntity.class}, version = 1)
+@Database(entities = {UserEntity.class, ContainerEntity.class, ItemEntity.class, PortEntity.class, ShipEntity.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static final String TAG = "AppDatabase";
-
     private static AppDatabase sInstance;
 
-    private static final String DATABASE_NAME = "oceans-polluters-database";
+    private static final String DATABASE_NAME = "oceans-polluters-databaseV1.4";
 
-    public abstract RoleDao roleDao();
     public abstract UserDao userDao();
 
-    private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
-
+    //Singleton database
     public static AppDatabase getInstance(final Context appContext) {
         if (sInstance == null) {
             synchronized (AppDatabase.class) {
                 if (sInstance == null) {
                     sInstance = buildDatabase(appContext.getApplicationContext());
-                    sInstance.updateDatabaseCreated(appContext.getApplicationContext());
                 }
             }
         }
         return sInstance;
     }
 
-    /**
-     * Build the database. {@link Builder#build()} only sets up the database configuration and
-     * creates a new instance of the database.
-     * The SQLite database is only created when it's accessed for the first time.
-     */
+    //database init
     private static AppDatabase buildDatabase(final Context appContext) {
-        Log.i(TAG, "Database will be initialized.");
+
         return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
                 .addCallback(new Callback() {
                     @Override
@@ -64,47 +52,22 @@ public abstract class AppDatabase extends RoomDatabase {
                         super.onCreate(db);
                         Executors.newSingleThreadExecutor().execute(() -> {
                             AppDatabase database = AppDatabase.getInstance(appContext);
-                            initializeDemoData(database);
-                            // notify that the database was created and it's ready to be used
-                            database.setDatabaseCreated();
+                            initializeBaseData(database);
                         });
                     }
                 }).build();
     }
 
-    /**
-     * Check whether the database already exists and expose it via {@link #getDatabaseCreated()}
-     */
-    private void updateDatabaseCreated(final Context context) {
-        if (context.getDatabasePath(DATABASE_NAME).exists()) {
-            Log.i(TAG, "Database initialized.");
-            setDatabaseCreated();
-        }
-    }
-
-    private void setDatabaseCreated() {
-        mIsDatabaseCreated.postValue(true);
-    }
-
-    public static void initializeDemoData(final AppDatabase database) {
+    public static void initializeBaseData(final AppDatabase database) {
         Executors.newSingleThreadExecutor().execute(() -> {
             database.runInTransaction(() -> {
-                Log.i(TAG, "Wipe database.");
-                database.roleDao().deleteAll();
                 database.userDao().deleteAll();
 
                 // Generate the data for pre-population
-                List<RoleEntity> roles = DataGenerator.generateRoles();
                 List<UserEntity> users = DataGenerator.generateUsers();
-
-                Log.i(TAG, "Insert demo data.");
-                database.roleDao().insertAll(roles);
                 database.userDao().insertAll(users);
             });
         });
     }
 
-    public LiveData<Boolean> getDatabaseCreated() {
-        return mIsDatabaseCreated;
-    }
 }

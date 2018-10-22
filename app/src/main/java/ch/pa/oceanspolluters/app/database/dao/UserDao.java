@@ -19,12 +19,12 @@ import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 public abstract class UserDao {
 
     @Query("SELECT * FROM users WHERE id = :id")
-    public abstract LiveData<UserEntity> getById(int id);
+    public abstract UserEntity getById(int id);
 
-    @Query("SELECT * FROM users")
-    public abstract LiveData<List<UserEntity>> getAll();
+    @Query("SELECT * FROM users ORDER BY Firstname")
+    public abstract List<UserEntity> getAll();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(UserEntity user);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
