@@ -1,5 +1,6 @@
 package ch.pa.oceanspolluters.app.ui;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,7 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.pa.oceanspolluters.app.R;
+import ch.pa.oceanspolluters.app.database.AppDatabase;
+import ch.pa.oceanspolluters.app.database.dao.UserDao;
+import ch.pa.oceanspolluters.app.database.entity.UserEntity;
+import ch.pa.oceanspolluters.app.database.repository.UserRepository;
+import ch.pa.oceanspolluters.app.model.User;
 
 /**
  * A login screen that offers login via email/password.
@@ -54,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText mPassword;
     private Spinner mSpinner;
+    private LiveData<List<UserEntity>> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +72,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mPassword = (EditText)findViewById(R.id.password);
-
-        // Set up the list of users
         mSpinner = (Spinner) findViewById(R.id.users_spinner);
+
+        /*users = UserRepository.getInstance(AppDatabase.getInstance(this)).getUsers();
+
+
+        ArrayList<String> userNames = new  ArrayList<String>();
+
+        for (UserEntity user: users
+             ) {
+            userNames.add(user.getFirstname() +" "+user.getLastname());
+        }*/
+
         ArrayAdapter<String> usersAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersTest);
         usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -99,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
             new UserLoginTask().execute(userName,password);
         }
     }
-
 
     private boolean isPasswordValid(String password) {
         return password.length() == 4;
