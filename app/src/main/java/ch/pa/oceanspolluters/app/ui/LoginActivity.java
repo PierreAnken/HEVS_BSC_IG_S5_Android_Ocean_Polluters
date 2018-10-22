@@ -28,7 +28,7 @@ import ch.pa.oceanspolluters.app.model.User;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseToolbarActivity{
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -68,7 +68,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         mPassword = (EditText)findViewById(R.id.password);
@@ -96,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
-
+        setSupportActionBar(getToolbar());
     }
 
     private void attemptLogin() {
