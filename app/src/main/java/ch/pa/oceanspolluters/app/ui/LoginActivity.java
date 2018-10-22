@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
      * TODO: remove dummy users after connexion to DB
      */
     private final UserDummy[] test_users = new UserDummy[]{
-        new UserDummy(0,"Pierre", 12345, 1),
-        new UserDummy(1,"Jean", 12345, 2),
-        new UserDummy(2,"Paul", 12345, 3)
+        new UserDummy(0,"Pierre", 1234, 1),
+        new UserDummy(1,"Jean", 1234, 2),
+        new UserDummy(2,"Paul", 1234, 3)
     };
 
     private String[] usersTest = new String[]{
@@ -54,14 +54,16 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText mPassword;
     private Spinner mSpinner;
-    private View mLoginView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mPassword = (EditText)findViewById(R.id.password);
+
         // Set up the list of users
+        mSpinner = (Spinner) findViewById(R.id.users_spinner);
         ArrayAdapter<String> usersAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usersTest);
         usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -75,10 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mLoginView = findViewById(R.id.login_form);
     }
-
-
 
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -86,15 +85,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Reset errors.
-        mPassword.setError(null);
+         mPassword.setError(null);
 
         // Store values at the time of the login attempt.
         String password = mPassword.getText().toString();
         String userName = mSpinner.getSelectedItem().toString();
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPassword.setError(getString(R.string.error_incorrect_password));
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+            mPassword.setError(getString(R.string.error_invalid_password));
         }
         else{
             new UserLoginTask().execute(userName,password);
@@ -115,25 +114,31 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... credentials) {
+            System.out.println("Debugpa - "+ credentials.length);
+            if(credentials.length == 2){
+                System.out.println("Debugpa - "+credentials[0]+" "+credentials[1]);
+                for (UserDummy user: test_users) {
 
-            for (UserDummy user: test_users) {
-
-                if (user.name.equals(credentials[0]) && Integer.toString(user.password).equals(credentials[1])) {
-
-                    Context context = getApplicationContext();
-                    CharSequence text = "Login Success";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    return true;
+                    if (user.name.equals(credentials[0]) && Integer.toString(user.password).equals(credentials[1])) {
+                        return true;
+                    }
                 }
             }
-            mPassword.setError(getString(R.string.error_incorrect_password));
             return false;
         }
 
-
+        @Override
+        protected void onPostExecute(Boolean loginSuccess) {
+            if(loginSuccess){
+                Context context = getApplicationContext();
+                CharSequence text = "Login Success";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }else{
+                mPassword.setError(getString(R.string.error_incorrect_password));
+            }
+        }
     }
 }
 
