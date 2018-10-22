@@ -4,4 +4,5 @@ public interface Item {
     Integer getId();
     String getName();
     float getWeightKg();
+    Integer getContainerId();
 }

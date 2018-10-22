@@ -1,44 +1,19 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.model.User;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -115,13 +90,14 @@ public class LoginActivity extends AppCompatActivity {
 
         // Store values at the time of the login attempt.
         String password = mPassword.getText().toString();
+        String userName = mSpinner.getSelectedItem().toString();
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPassword.setError(getString(R.string.error_incorrect_password));
         }
         else{
-            mAuthTask = new UserLoginTask(mSpinner.getSelectedItem().toString(),mPassword.getText().toString());
+            new UserLoginTask().execute(userName,password);
         }
     }
 
@@ -134,22 +110,15 @@ public class LoginActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<String, Void, Boolean> {
 
-        private final String mUserName;
-        private final String mUserPassword;
-
-        UserLoginTask(String userName, String password) {
-            mUserName = userName;
-            mUserPassword = password;
-        }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(String... credentials) {
 
             for (UserDummy user: test_users) {
 
-                if (user.name.equals(mUserName) && Integer.toString(user.password).equals(mUserPassword)) {
+                if (user.name.equals(credentials[0]) && Integer.toString(user.password).equals(credentials[1])) {
 
                     Context context = getApplicationContext();
                     CharSequence text = "Login Success";
@@ -161,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             mPassword.setError(getString(R.string.error_incorrect_password));
-            return true;
+            return false;
         }
 
 

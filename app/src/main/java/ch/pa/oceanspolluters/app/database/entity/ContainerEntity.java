@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.database.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -33,9 +34,6 @@ public class ContainerEntity implements Container {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    @ColumnInfo(name = "item_list")
-    private ArrayList<Item> itemList = new ArrayList<>();
-
     @ColumnInfo(name = "dock_position")
     private String dockPosition;
 
@@ -44,22 +42,19 @@ public class ContainerEntity implements Container {
 
     private boolean loaded;
 
-    public ContainerEntity() {
-    }
 
+    @Ignore
     public ContainerEntity(@NonNull Container container) {
-        itemList = new ArrayList<>(container.getItemList());
         dockPosition = container.getDockPosition();
         shipId = container.getShipId();
-        loaded = container.getLoadingStatus();
+        loaded = container.getLoaded();
         id = container.getId();
     }
 
-    public ContainerEntity(String dockPosition, int shipId, boolean loaded, int id, List<Item> itemList) {
+    public ContainerEntity(String dockPosition, int shipId, boolean loaded, int id) {
         this.dockPosition = dockPosition;
         this.shipId = shipId;
         this.loaded = loaded;
-        this.itemList = new ArrayList<>(itemList);
         this.id = id;
     }
 
@@ -67,18 +62,7 @@ public class ContainerEntity implements Container {
     public Integer getId() {
         return id;
     }
-    @Override
-    public ArrayList<Item> getItemList() {
-        return itemList;
-    }
-
-    public void addItem(@NonNull Item item) {
-        itemList.add(item);
-    }
-
-    public void removeItem(@NonNull Item item) {
-        itemList.remove(item);
-    }
+    public void setId(Integer id){ this.id = id;}
 
     @Override
     public String getDockPosition() {
@@ -99,11 +83,11 @@ public class ContainerEntity implements Container {
     }
 
     @Override
-    public boolean getLoadingStatus() {
+    public boolean getLoaded() {
         return loaded;
     }
 
-    public void setLoadingStatus(boolean loaded) {
+    public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
 

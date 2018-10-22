@@ -25,7 +25,7 @@ public abstract class UserDao {
     public abstract LiveData<List<UserEntity>> getAll();
 
     @Insert
-    public abstract int insert(UserEntity user);
+    public abstract long insert(UserEntity user);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertAll(List<UserEntity> users);

@@ -15,9 +15,9 @@ public class DataGenerator {
 
         List<RoleEntity> roles = new ArrayList<>();
 
-        roles.add(new RoleEntity("Captain"));
-        roles.add(new RoleEntity("Docker"));
-        roles.add(new RoleEntity("Logistics Manager"));
+        roles.add(new RoleEntity("Captain",0));
+        roles.add(new RoleEntity("Docker",1));
+        roles.add(new RoleEntity("Logistics Manager",2));
 
         return roles;
     }
@@ -25,9 +25,9 @@ public class DataGenerator {
     public static List<UserEntity> generateUsers() {
 
         List<UserEntity> users = new ArrayList<>();
-        users.add(new UserEntity("John", "Smith", 12345, 0));
-        users.add(new UserEntity("Lewis", "Roth", 12345, 1));
-        users.add(new UserEntity("Wilson", "Snord", 12345, 2));
+        users.add(new UserEntity(0,"John", "Smith", 12345, 0));
+        users.add(new UserEntity(1,"Lewis", "Roth", 12345, 1));
+        users.add(new UserEntity(2,"Wilson", "Snord", 12345, 2));
         return users;
     }
 

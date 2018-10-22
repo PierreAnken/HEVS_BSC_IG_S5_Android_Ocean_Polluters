@@ -7,9 +7,8 @@ public interface Ship {
     Integer getId();
     int getCaptainId();
     int getDestinationPortId();
-    Date getDepartureDate();
+    String getDepartureDate();
 
     float getMaxLoadKg();
-    ArrayList<Container> getContainerList();
     String getName();
 }

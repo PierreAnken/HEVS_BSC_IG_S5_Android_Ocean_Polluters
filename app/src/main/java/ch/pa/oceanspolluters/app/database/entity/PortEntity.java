@@ -1,12 +1,13 @@
 package ch.pa.oceanspolluters.app.database.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.model.Port;
 
-@Entity(tableName = "ports", primaryKeys = {"id"})
+@Entity(tableName = "ports")
 public class PortEntity implements Port {
 
     @PrimaryKey(autoGenerate = true)
@@ -14,21 +15,21 @@ public class PortEntity implements Port {
 
     private String name;
 
-    public PortEntity() {
-    }
-
+    @Ignore
     public PortEntity(@NonNull Port port) {
         name = port.getName();
     }
 
-    public PortEntity(String name) {
+    public PortEntity(String name, int id) {
         this.name = name;
+        this.id = id;
     }
 
     @Override
     public Integer getId() {
         return id;
     }
+    public void setId(Integer id){ this.id = id;}
 
     @Override
     public String getName() {

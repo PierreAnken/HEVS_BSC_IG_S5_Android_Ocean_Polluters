@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.database.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -17,11 +18,8 @@ import ch.pa.oceanspolluters.app.model.User;
                 childColumns = "role_id", // local class
                 onDelete = ForeignKey.SET_NULL
         ),
-
         indices = {
-                @Index(
-                        value = {"role_id"}
-                )}
+        @Index(value = {"role_id"})}
 )
 
 public class UserEntity implements User {
@@ -36,27 +34,28 @@ public class UserEntity implements User {
     @ColumnInfo(name = "role_id")
     private int roleId;
 
-    public UserEntity() {
-    }
-
+    @Ignore
     public UserEntity(@NonNull User user) {
+        id = user.getId();
         firstname = user.getFirstname();
         lastname = user.getLastname();
         password = user.getPassword();
         roleId = user.getRoleId();
     }
 
-    public UserEntity(String firstname, String lastname, int password, int roleId) {
+    public UserEntity(int id, String firstname, String lastname, int password, int roleId) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
         this.roleId = roleId;
+        this.id = id;
     }
 
     @Override
     public Integer getId() {
         return id;
     }
+    public void setId(Integer id){ this.id = id;}
 
     @Override
     public String getFirstname() {

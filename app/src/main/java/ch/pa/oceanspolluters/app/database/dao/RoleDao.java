@@ -25,7 +25,7 @@ public abstract class RoleDao {
     public abstract LiveData<List<RoleEntity>> getAll();
 
     @Insert
-    public abstract int insert(RoleEntity role);
+    public abstract long insert(RoleEntity role);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertAll(List<RoleEntity> roles);

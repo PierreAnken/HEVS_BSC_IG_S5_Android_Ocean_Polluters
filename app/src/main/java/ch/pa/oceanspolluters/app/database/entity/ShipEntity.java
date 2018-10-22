@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.database.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -29,16 +30,9 @@ import ch.pa.oceanspolluters.app.model.Ship;
                         onDelete = ForeignKey.SET_NULL
                 )
         },
-
         indices = {
-                @Index(
-                        value = {"ship_id"}
-                ),
-                @Index(
-                        value = {"destination_port_id"}
-                )
-        }
-
+                @Index(value = {"capitain_id"}),
+                @Index(value = {"destination_port_id"})}
 )
 public class ShipEntity implements Ship {
 
@@ -48,30 +42,26 @@ public class ShipEntity implements Ship {
     private String name;
 
     @ColumnInfo(name = "capitain_id")
-    private int capitainId;
+    private int captainId;
 
     @ColumnInfo(name = "destination_port_id")
     private int destinationPortId;
 
     @ColumnInfo(name = "departure_date")
-    private Date departureDate;
+    private String departureDate;
 
     @ColumnInfo(name = "max_Load_Kg")
     private float maxLoadKg;
 
-    @ColumnInfo(name = "container_list")
-    private ArrayList<Container> containerList;
 
-    public ShipEntity() {
-    }
-
+    @Ignore
     public ShipEntity(@NonNull Ship ship) {
-        capitainId = ship.getCaptainId();
+        captainId = ship.getCaptainId();
         destinationPortId = ship.getDestinationPortId();
         departureDate = ship.getDepartureDate();
         maxLoadKg = ship.getMaxLoadKg();
-        containerList = new ArrayList<>(ship.getContainerList());
         name = ship.getName();
+        id = ship.getId();
     }
 
     public ShipEntity(String name, float maxLoadKg) {
@@ -90,27 +80,15 @@ public class ShipEntity implements Ship {
     public Integer getId() {
         return id;
     }
-    @Override
-    public ArrayList<Container> getContainerList() {
-        return containerList;
-    }
-
-
-    public void addContainer(@NonNull Container container) {
-        containerList.add(container);
-    }
-
-    public void removeContainer(@NonNull Container container) {
-        containerList.remove(container);
-    }
+    public void setId(Integer id){ this.id = id;}
 
     @Override
     public int getCaptainId() {
-        return capitainId;
+        return captainId;
     }
 
-    public void setCapitainId(int capitainId) {
-        this.capitainId = capitainId;
+    public void setCaptainId(int capitainId) {
+        this.captainId = capitainId;
     }
 
     @Override
@@ -132,11 +110,11 @@ public class ShipEntity implements Ship {
     }
 
     @Override
-    public Date getDepartureDate() {
+    public String getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(Date departureDate) {
+    public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
     }
 
