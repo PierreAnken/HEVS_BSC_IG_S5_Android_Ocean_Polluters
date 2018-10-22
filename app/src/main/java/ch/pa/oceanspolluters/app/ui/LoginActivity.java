@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,7 @@ import ch.pa.oceanspolluters.app.model.User;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseToolbarActivity{
+public class LoginActivity extends AppCompatActivity{
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -98,7 +99,12 @@ public class LoginActivity extends BaseToolbarActivity{
                 attemptLogin();
             }
         });
-        setSupportActionBar(getToolbar());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
     }
 
     private void attemptLogin() {
