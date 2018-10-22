@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Oceans Polluters</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_parameters">Parameters</string>
+    <string name="title_activity_captain_home">Captain\'s Cockpit</string>
+
     <!-- Strings related to login -->
     <string name="sign_in">Sign in</string>
     <string name="error_invalid_password">Invalid password format</string>
