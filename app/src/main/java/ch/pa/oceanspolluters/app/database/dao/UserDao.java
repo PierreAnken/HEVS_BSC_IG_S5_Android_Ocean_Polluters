@@ -24,7 +24,7 @@ public abstract class UserDao {
     @Query("SELECT * FROM users WHERE name like '%' || :name || '%' limit 1")
     public abstract UserEntity getByName(String name);
 
-    @Query("SELECT * FROM users ORDER BY Name")
+    @Query("SELECT * FROM users")
     public abstract List<UserEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

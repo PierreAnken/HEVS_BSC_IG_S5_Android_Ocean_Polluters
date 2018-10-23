@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected String[] doInBackground(Void... empty) {
 
-            users = UserRepository.getInstance(AppDatabase.getInstance(getApplicationContext())).getUsers();
+            users =  AppDatabase.getInstance(getApplicationContext()).userDao().getAll();
             String[] userNames = new  String[users.size()+1];
             userNames[0] = "- Select User -";
             for(int i = 1; i<userNames.length; i++){

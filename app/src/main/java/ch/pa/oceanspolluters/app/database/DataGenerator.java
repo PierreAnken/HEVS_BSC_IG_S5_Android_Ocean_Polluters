@@ -21,7 +21,6 @@ public class DataGenerator {
 
     public static void generateBaseData(AppDatabase db) {
 
-
         //init users
         db.userDao().deleteAll();
         List<UserEntity> users = new ArrayList<>();
@@ -82,7 +81,7 @@ public class DataGenerator {
             char[] alphabetNumber = "abcdefghijklmnopqrstuvwxyz01234567890".toUpperCase().toCharArray();
             String dockPosition = "";
             for(int j = 0; j<8; j++)
-                dockPosition+= alphabetNumber[(int)Math.floor(Math.random()*alphabetNumber.length+1)];
+                dockPosition+= alphabetNumber[(int)Math.floor(Math.random()*alphabetNumber.length)];
 
             containers.add(new ContainerEntity(dockPosition,shipId,loaded));
 
@@ -103,7 +102,7 @@ public class DataGenerator {
             for(int j = 0; j<numberItem; j++){
 
                 ItemTypes[] typesId = ItemTypes.values();
-                int type = typesId[(int)Math.floor(Math.random()*typesId.length+1)].id();
+                int type = typesId[(int)Math.floor(Math.random()*typesId.length)].id();
 
                 float weight = (float)Math.random()*50;
 
