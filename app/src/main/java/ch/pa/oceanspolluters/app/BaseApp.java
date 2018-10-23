@@ -24,6 +24,7 @@ public class BaseApp extends Application {
 
     }
 
+
     public void connectUser(UserEntity user){
         currentUser = user;
         displayShortToast(currentUser.getName() + " connected");
