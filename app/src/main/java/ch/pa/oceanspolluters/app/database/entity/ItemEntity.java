@@ -25,7 +25,9 @@ public class ItemEntity implements Item {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id = null;
-    private String name;
+
+    @ColumnInfo(name = "item_type_id")
+    private int itemTypeId;
 
     @ColumnInfo(name = "container_id")
     private Integer containerId;
@@ -35,13 +37,13 @@ public class ItemEntity implements Item {
 
     @Ignore
     public ItemEntity(@NonNull Item item) {
-        name = item.getName();
+        itemTypeId = item.getItemTypeId();
         weightKg = item.getWeightKg();
         containerId = getContainerId();
     }
 
-    public ItemEntity(String name, float weightKg, int id, int containerId) {
-        this.name = name;
+    public ItemEntity(int itemTypeId, float weightKg, int id, int containerId) {
+        this.itemTypeId = itemTypeId;
         this.weightKg = weightKg;
         this.containerId = containerId;
     }
@@ -53,11 +55,11 @@ public class ItemEntity implements Item {
     public void setId(Integer id){ this.id = id;}
 
     @Override
-    public String getName() {
-        return name;
+    public int getItemTypeId() {
+        return itemTypeId;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void seItemTypeId(int itemTypeId) {
+        this.itemTypeId = itemTypeId;
     }
 
     @Override

@@ -21,6 +21,9 @@ public abstract class UserDao {
     @Query("SELECT * FROM users WHERE id = :id")
     public abstract UserEntity getById(int id);
 
+    @Query("SELECT * FROM users WHERE name like '%' || :name || '%' limit 1")
+    public abstract UserEntity getByName(String name);
+
     @Query("SELECT * FROM users ORDER BY Name")
     public abstract List<UserEntity> getAll();
 

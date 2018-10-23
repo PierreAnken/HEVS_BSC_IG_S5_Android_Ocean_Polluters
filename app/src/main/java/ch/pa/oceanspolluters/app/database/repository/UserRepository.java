@@ -31,6 +31,10 @@ public class UserRepository {
         return mDatabase.userDao().getById(id);
     }
 
+    public UserEntity getByName(String name) {
+        return mDatabase.userDao().getByName(name);
+    };
+
     public List<UserEntity> getUsers() {
         return mDatabase.userDao().getAll();
     }
@@ -46,6 +50,7 @@ public class UserRepository {
     public void delete(final UserEntity user) {
         mDatabase.userDao().delete(user);
     }
+
 
 
 

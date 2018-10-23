@@ -63,9 +63,12 @@ public class ShipEntity implements Ship {
         name = ship.getName();
     }
 
-    public ShipEntity(String name, float maxLoadKg) {
+    public ShipEntity(String name, float maxLoadKg, int captainId, int destinationPortId, String departureDate) {
         this.name = name;
         this.maxLoadKg = maxLoadKg;
+        this.captainId = captainId;
+        this.destinationPortId = destinationPortId;
+        this.departureDate = departureDate;
     }
 
     @Override

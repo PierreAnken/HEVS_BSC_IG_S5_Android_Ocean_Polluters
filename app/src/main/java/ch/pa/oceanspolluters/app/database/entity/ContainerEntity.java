@@ -6,6 +6,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Relation;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class ContainerEntity implements Container {
     private int shipId;
 
     private boolean loaded;
-
 
     @Ignore
     public ContainerEntity(@NonNull Container container) {

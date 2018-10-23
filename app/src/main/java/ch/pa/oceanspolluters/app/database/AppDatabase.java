@@ -13,7 +13,10 @@ import android.support.annotation.NonNull;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import ch.pa.oceanspolluters.app.database.dao.ContainerDao;
+import ch.pa.oceanspolluters.app.database.dao.ItemDao;
 import ch.pa.oceanspolluters.app.database.dao.PortDao;
+import ch.pa.oceanspolluters.app.database.dao.ShipDao;
 import ch.pa.oceanspolluters.app.database.dao.UserDao;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
@@ -31,7 +34,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract PortDao portDao();
-
+    public abstract ItemDao itemDao();
+    public abstract ContainerDao containerDao();
+    public abstract ShipDao shipDao();
 
     //Singleton database
     public static AppDatabase getInstance(final Context appContext) {
