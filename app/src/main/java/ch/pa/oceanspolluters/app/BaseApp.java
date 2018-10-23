@@ -1,28 +1,56 @@
 package ch.pa.oceanspolluters.app;
 
 import android.app.Application;
+import android.arch.persistence.room.Database;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
+import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
 public class BaseApp extends Application {
 
     private static UserEntity currentUser;
 
-    public static void setCurrentUser(UserEntity user){
-        currentUser = user;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        /*init database at startup
+        / otherwise Login Spinner is empty*/
+        AppDatabase.getInstance(this);
+
     }
 
-    public static UserEntity getCurrentUser(){
+    public void connectUser(UserEntity user){
+        currentUser = user;
+        displayShortToast(currentUser.getName() + " connected");
+    }
+
+    public void disconnectUser(){
+
+      if(currentUser != null)
+      {
+          displayShortToast(currentUser.getName() + " disconnected");
+          currentUser = null;
+      }
+    }
+
+    public UserEntity getCurrentUser(){
         return currentUser;
     }
 
 
     public void displayShortToast(String text){
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 }

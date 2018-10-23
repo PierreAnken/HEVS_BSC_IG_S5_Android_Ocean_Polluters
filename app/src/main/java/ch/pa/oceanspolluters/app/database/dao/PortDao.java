@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.database.dao;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -10,32 +9,33 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
 /**
  * https://developer.android.com/topic/libraries/architecture/room.html#no-object-references
  */
 @Dao
-public abstract class UserDao {
+public abstract class PortDao {
 
-    @Query("SELECT * FROM users WHERE id = :id")
-    public abstract UserEntity getById(int id);
+    @Query("SELECT * FROM ports WHERE id = :id")
+    public abstract PortEntity getById(int id);
 
-    @Query("SELECT * FROM users ORDER BY Name")
-    public abstract List<UserEntity> getAll();
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract long insert(UserEntity user);
+    @Query("SELECT * FROM ports ORDER BY Name")
+    public abstract List<PortEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertAll(List<UserEntity> users);
+    public abstract long insert(PortEntity port);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertAll(List<PortEntity> ports);
 
     @Update
-    public abstract void update(UserEntity user);
+    public abstract void update(PortEntity port);
 
     @Delete
-    public abstract void delete(UserEntity user);
+    public abstract void delete(PortEntity port);
 
-    @Query("DELETE FROM users")
+    @Query("DELETE FROM ports")
     public abstract void deleteAll();
 }

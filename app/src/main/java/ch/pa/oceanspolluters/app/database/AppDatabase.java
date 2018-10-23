@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import ch.pa.oceanspolluters.app.database.dao.PortDao;
 import ch.pa.oceanspolluters.app.database.dao.UserDao;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
@@ -26,9 +27,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
 
-    private static final String DATABASE_NAME = "oceans-polluters-databaseV1.4";
+    private static final String DATABASE_NAME = "oceans-polluters-database";
 
     public abstract UserDao userDao();
+    public abstract PortDao portDao();
+
 
     //Singleton database
     public static AppDatabase getInstance(final Context appContext) {
@@ -61,11 +64,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static void initializeBaseData(final AppDatabase database) {
         Executors.newSingleThreadExecutor().execute(() -> {
             database.runInTransaction(() -> {
-                database.userDao().deleteAll();
-
-                // Generate the data for pre-population
-                List<UserEntity> users = DataGenerator.generateUsers();
-                database.userDao().insertAll(users);
+                DataGenerator.generateBaseData(database);
             });
         });
     }

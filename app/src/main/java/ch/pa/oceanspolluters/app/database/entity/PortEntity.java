@@ -12,17 +12,19 @@ public class PortEntity implements Port {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
-
     private String name;
+
+    public PortEntity() {
+    }
 
     @Ignore
     public PortEntity(@NonNull Port port) {
         name = port.getName();
     }
 
-    public PortEntity(String name, int id) {
+    @Ignore
+    public PortEntity(String name) {
         this.name = name;
-        this.id = id;
     }
 
     @Override

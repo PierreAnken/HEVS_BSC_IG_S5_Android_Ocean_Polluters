@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
         mPassword = (EditText)findViewById(R.id.password);
 
-
         new LoadUsersTask().execute();
 
         ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
@@ -57,7 +56,15 @@ public class LoginActivity extends AppCompatActivity{
                 attemptLogin();
             }
         });
+
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        //we disconnect user if connected
+        ((BaseApp)getApplication()).disconnectUser();
+    }
+
     private class LoadUsersTask extends AsyncTask<Void, Void, String[]> {
 
         @Override
@@ -67,7 +74,7 @@ public class LoginActivity extends AppCompatActivity{
             String[] userNames = new  String[users.size()+1];
             userNames[0] = "- Select User -";
             for(int i = 1; i<userNames.length; i++){
-                userNames[i] = (users.get(i-1).getFirstname() +" "+users.get(i-1).getLastname());
+                userNames[i] = users.get(i-1).getName();
             }
 
             return userNames;
@@ -127,8 +134,8 @@ public class LoginActivity extends AppCompatActivity{
 
                 for(int i = 0; i<users.size(); i++){
 
-                    if ((users.get(i).getFirstname() +" "+users.get(i).getLastname()).equals(credentials[0]) && Integer.toString(users.get(i).getPassword()).equals(credentials[1])) {
-                        BaseApp.setCurrentUser(users.get(i));
+                    if (users.get(i).getName().equals(credentials[0]) && Integer.toString(users.get(i).getPassword()).equals(credentials[1])) {
+                        ((BaseApp)getApplication()).connectUser(users.get(i));
                         return users.get(i).getRoleId();
                     }
                 }
@@ -139,7 +146,6 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Integer userRoleId) {
             if(userRoleId >= 0){
-                ((BaseApp)getApplication()).displayShortToast("Login success");
 
                 if(userRoleId == Roles.Administrator.id()){
                      startActivity(new Intent(getApplicationContext(), AdministratorHomeActivity.class));

@@ -16,8 +16,7 @@ public class UserEntity implements User {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
-    private String firstname;
-    private String lastname;
+    private String name;
     private int password;
 
     @ColumnInfo(name = "role_id")
@@ -29,18 +28,15 @@ public class UserEntity implements User {
     @Ignore
     public UserEntity(@NonNull User user) {
         id = user.getId();
-        firstname = user.getFirstname();
-        lastname = user.getLastname();
+        name = user.getName();
         password = user.getPassword();
         roleId = user.getRoleId();
     }
     @Ignore
-    public UserEntity(int id, String firstname, String lastname, int password, int roleId) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public UserEntity( String name, int password, int roleId) {
+        this.name = name;
         this.password = password;
         this.roleId = roleId;
-        this.id = id;
     }
 
     @Override
@@ -50,21 +46,12 @@ public class UserEntity implements User {
     public void setId(Integer id){ this.id = id;}
 
     @Override
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    @Override
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
