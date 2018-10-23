@@ -18,7 +18,7 @@ import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 @Dao
 public abstract class ContainerDao {
 
-    @Query("SELECT * FROM ships WHERE id = :id")
+    @Query("SELECT * FROM containers WHERE id = :id")
     public abstract ContainerEntity getById(int id);
 
     @Query("SELECT * FROM containers")

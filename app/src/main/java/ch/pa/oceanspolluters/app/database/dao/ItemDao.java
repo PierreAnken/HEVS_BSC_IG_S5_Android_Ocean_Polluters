@@ -18,7 +18,7 @@ public abstract class ItemDao {
     @Query("SELECT * FROM items WHERE id = :id")
     public abstract ItemEntity getById(int id);
 
-    @Query("SELECT * FROM ports ORDER BY Name")
+    @Query("SELECT * FROM items")
     public abstract List<ItemEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

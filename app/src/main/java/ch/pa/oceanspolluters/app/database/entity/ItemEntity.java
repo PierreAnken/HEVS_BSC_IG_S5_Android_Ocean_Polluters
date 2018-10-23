@@ -42,7 +42,7 @@ public class ItemEntity implements Item {
         containerId = getContainerId();
     }
 
-    public ItemEntity(int itemTypeId, float weightKg, int id, int containerId) {
+    public ItemEntity(int itemTypeId, float weightKg, int containerId) {
         this.itemTypeId = itemTypeId;
         this.weightKg = weightKg;
         this.containerId = containerId;

@@ -40,7 +40,6 @@ public class ContainerEntity implements Container {
 
     @ColumnInfo(name = "ship_id")
     private int shipId;
-
     private boolean loaded;
 
     @Ignore
@@ -50,7 +49,7 @@ public class ContainerEntity implements Container {
         loaded = container.getLoaded();
     }
 
-    public ContainerEntity(String dockPosition, int shipId, boolean loaded, int id) {
+    public ContainerEntity(String dockPosition, int shipId, boolean loaded) {
         this.dockPosition = dockPosition;
         this.shipId = shipId;
         this.loaded = loaded;

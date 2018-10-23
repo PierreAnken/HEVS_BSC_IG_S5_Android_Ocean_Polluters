@@ -6,9 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.dao.UserDao;
+import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
+import ch.pa.oceanspolluters.app.util.ItemTypes;
 import ch.pa.oceanspolluters.app.util.Roles;
 
 /**
@@ -30,7 +33,6 @@ public class DataGenerator {
 
         db.userDao().insertAll(users);
         List<UserEntity> usersWithId = db.userDao().getAll();
-
 
         //init ports
         db.portDao().deleteAll();
@@ -65,8 +67,51 @@ public class DataGenerator {
         ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(4).getId(), calendar.getTime().toString()));
 
         db.shipDao().insertAll(ships);
+        List<ShipEntity> shipsWithId = db.shipDao().getAll();
+
+        //init containers
+        db.containerDao().deleteAll();
+        List<ContainerEntity> containers = new ArrayList<>();
+
+        //we add 200 containers randomly to ships
+        for(int i = 0; i<200; i++){
+
+            int shipId = (int)Math.floor(Math.random()*shipsWithId.size()+1);
+            boolean loaded = Math.random()>0.3;
+
+            char[] alphabetNumber = "abcdefghijklmnopqrstuvwxyz01234567890".toUpperCase().toCharArray();
+            String dockPosition = "";
+            for(int j = 0; j<8; j++)
+                dockPosition+= alphabetNumber[(int)Math.floor(Math.random()*alphabetNumber.length+1)];
+
+            containers.add(new ContainerEntity(dockPosition,shipId,loaded));
+
+        }
+        db.containerDao().insertAll(containers);
+        List<ContainerEntity> containersWithId = db.containerDao().getAll();
+
+        //init items
+        db.itemDao().deleteAll();
+        List<ItemEntity> items = new ArrayList<>();
 
 
+        //for each container
+        for(int i = 0; i<containersWithId.size(); i++){
+
+            //we add 5 - 50 random items to container
+            int numberItem = (int)Math.floor(Math.random()*45+5);
+            for(int j = 0; j<numberItem; j++){
+
+                ItemTypes[] typesId = ItemTypes.values();
+                int type = typesId[(int)Math.floor(Math.random()*typesId.length+1)].id();
+
+                float weight = (float)Math.random()*50;
+
+                ItemEntity item = new ItemEntity(type, weight, (int)containersWithId.get(i).getId());
+            }
+        }
+
+        db.itemDao().insertAll(items);
     }
 
 }
