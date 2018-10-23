@@ -14,7 +14,7 @@ import ch.pa.oceanspolluters.app.model.User;
 public class UserEntity implements User {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer id = null;
 
     private String name;
     private int password;
@@ -27,7 +27,6 @@ public class UserEntity implements User {
     }
     @Ignore
     public UserEntity(@NonNull User user) {
-        id = user.getId();
         name = user.getName();
         password = user.getPassword();
         roleId = user.getRoleId();

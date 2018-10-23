@@ -37,7 +37,7 @@ import ch.pa.oceanspolluters.app.model.Ship;
 public class ShipEntity implements Ship {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer id = null;
 
     private String name;
 
@@ -61,7 +61,6 @@ public class ShipEntity implements Ship {
         departureDate = ship.getDepartureDate();
         maxLoadKg = ship.getMaxLoadKg();
         name = ship.getName();
-        id = ship.getId();
     }
 
     public ShipEntity(String name, float maxLoadKg) {

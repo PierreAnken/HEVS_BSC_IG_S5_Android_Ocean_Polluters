@@ -24,7 +24,7 @@ import ch.pa.oceanspolluters.app.model.Item;
 public class ItemEntity implements Item {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer id = null;
     private String name;
 
     @ColumnInfo(name = "container_id")
@@ -37,14 +37,12 @@ public class ItemEntity implements Item {
     public ItemEntity(@NonNull Item item) {
         name = item.getName();
         weightKg = item.getWeightKg();
-        id = item.getId();
         containerId = getContainerId();
     }
 
     public ItemEntity(String name, float weightKg, int id, int containerId) {
         this.name = name;
         this.weightKg = weightKg;
-        this.id = id;
         this.containerId = containerId;
     }
 

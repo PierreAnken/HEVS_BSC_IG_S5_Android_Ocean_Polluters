@@ -11,7 +11,7 @@ import ch.pa.oceanspolluters.app.model.Port;
 public class PortEntity implements Port {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer id = null;
     private String name;
 
     public PortEntity() {

@@ -14,9 +14,10 @@ public class DataGenerator {
 
     public static void generateBaseData(AppDatabase database) {
 
+
+        //init users
         database.userDao().deleteAll();
 
-        //create users
         List<UserEntity> users = new ArrayList<>();
         users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
         users.add(new UserEntity("Docker Roth", 1234, Roles.Docker.id()));
@@ -24,7 +25,12 @@ public class DataGenerator {
         users.add(new UserEntity("Administrator Frank", 1234, Roles.Administrator.id()));
         database.userDao().insertAll(users);
 
-        //create ports
+        List<UserEntity> usersWithId = database.userDao().getAll();
+
+
+        //init ports
+        database.portDao().deleteAll();
+
         List<PortEntity> ports = new ArrayList<>();
         ports.add(new PortEntity("Rotterdam"));
         ports.add(new PortEntity("Anvers"));
@@ -33,7 +39,8 @@ public class DataGenerator {
         ports.add(new PortEntity("Marseille"));
         database.portDao().insertAll(ports);
 
-        //create items
+        List<PortEntity> portsWithId = database.portDao().getAll();
+
 
     }
 

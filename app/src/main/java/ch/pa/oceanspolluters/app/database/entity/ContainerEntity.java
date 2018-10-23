@@ -32,7 +32,7 @@ import ch.pa.oceanspolluters.app.model.Item;
 public class ContainerEntity implements Container {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer id = null;
 
     @ColumnInfo(name = "dock_position")
     private String dockPosition;
@@ -48,14 +48,12 @@ public class ContainerEntity implements Container {
         dockPosition = container.getDockPosition();
         shipId = container.getShipId();
         loaded = container.getLoaded();
-        id = container.getId();
     }
 
     public ContainerEntity(String dockPosition, int shipId, boolean loaded, int id) {
         this.dockPosition = dockPosition;
         this.shipId = shipId;
         this.loaded = loaded;
-        this.id = id;
     }
 
     @Override
