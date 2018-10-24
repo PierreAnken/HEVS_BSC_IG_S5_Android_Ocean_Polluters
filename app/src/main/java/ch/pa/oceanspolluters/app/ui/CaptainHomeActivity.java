@@ -5,12 +5,14 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 public class CaptainHomeActivity extends AppCompatActivity {
 
     private ScrollView mScrollView;
+    private LinearLayout mShipList;
     private List<ShipWithContainer> shipsFromCaptain;
 
     @Override
@@ -35,6 +38,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mScrollView = (ScrollView) findViewById(R.id.captain_ship_list_scroll_view);
+        mShipList = (LinearLayout) findViewById(R.id.captain_ship_list);
 
         new LoadShipsFromCaptain().execute();
     }
@@ -47,18 +51,20 @@ public class CaptainHomeActivity extends AppCompatActivity {
             int captainId = ((BaseApp)getApplication()).getCurrentUser().getId();
             shipsFromCaptain =  AppDatabase.getInstance(getApplicationContext()).shipDao().getShipsFromCaptain(captainId);
 
-
             return true;
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
 
-            View shipListItem = getLayoutInflater().inflate(R.layout.captain_ship_list,null);
-            TextView shipListName = (TextView)findViewById(R.id.svShipName);
+            LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
+                    (getApplicationContext().LAYOUT_INFLATER_SERVICE);
+
             for(ShipWithContainer shipWithContainer: shipsFromCaptain){
-                shipListName.setText(shipWithContainer.ship.getName() + " - "+shipWithContainer.containers.size());
-                mScrollView.addView(shipListItem);
+                View shipListItem = inflater.inflate(R.layout.ship_list_item,null);
+                mShipList.addView(shipListItem);
+                TextView shipName = shipListItem.findViewById(R.id.svShipName);
+                shipName.setText(shipWithContainer.ship.getName() + " - "+shipWithContainer.containers.size());
             }
         }
     }
