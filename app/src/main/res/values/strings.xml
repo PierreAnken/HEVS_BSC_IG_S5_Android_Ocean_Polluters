@@ -7,6 +7,7 @@
     <string name="title_activity_logistic_manager_home">Logistic Manager dashboard</string>
     <string name="title_activity_administrator_home">Administrator dashboard</string>
     <string name="logout">Logout</string>
+    <string name="planning">Planning</string>
 
     <!-- Strings related to login -->
     <string name="sign_in">Sign in</string>
@@ -18,4 +19,10 @@
     <string name="user">User</string>
     <string name="password">Password</string>
     <string name="your_password">Your password</string>
+
+    <!-- Strings related to ship -->
+    <string name="ship">Ship</string>
+    <string name="departure_date">Departure date</string>
+    <string name="destination_port">Destination port</string>
+
 </resources>

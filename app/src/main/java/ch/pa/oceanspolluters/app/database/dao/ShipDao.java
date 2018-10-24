@@ -27,7 +27,12 @@ public abstract class ShipDao {
     public abstract List<ShipEntity> getAll();
 
     @Transaction
-    @Query("SELECT * FROM ships WHERE captain_id = :id_captain")
+    @Query("SELECT * " +
+            "FROM " +
+                "ships s " +
+                "INNER JOIN users u ON s.captain_id = e_user_id " +
+                "INNER JOIN ports p ON s.destination_port_id = p.e_port_id " +
+            "WHERE captain_id = :id_captain")
     public abstract List<ShipWithContainer> getShipsFromCaptain(int id_captain);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

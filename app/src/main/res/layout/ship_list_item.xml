@@ -1,17 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:id="@+id/svShipItem">
+    android:orientation="horizontal"
+    android:id="@+id/svShipItem"
+    android:padding="10dp"
+    >
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/svShipName"
+    //En-têtes
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="test"
-        android:textSize="20sp"
-        android:background="@color/white"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
+
+        //ship name header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ship"
+            />
+
+        //destination port header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/destination_port"/>
+
+        //departure date header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/departure_date"/>
+
+    </LinearLayout>
+
+    //texts
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        //ship name label
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/svShipName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        //destination port label
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/svDestinationPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        //departure date label
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/svDepartureDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>

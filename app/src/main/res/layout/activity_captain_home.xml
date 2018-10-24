@@ -9,6 +9,14 @@ android:orientation="vertical"
 tools:context=".ui.CaptainHomeActivity"
 android:background="@drawable/texture_eau">
 
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:textSize="20sp"
+    android:textAlignment="center"
+    android:background="@color/white"
+    android:text="@string/planning"
+    />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,6 +27,8 @@ android:background="@drawable/texture_eau">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/captain_ship_list" />
+            android:id="@+id/captain_ship_list"
+            android:background="@color/white80"
+            android:textSize="20sp"/>
     </ScrollView>
 </LinearLayout>

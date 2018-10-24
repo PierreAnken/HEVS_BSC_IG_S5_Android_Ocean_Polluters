@@ -60,11 +60,21 @@ public class CaptainHomeActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
                     (getApplicationContext().LAYOUT_INFLATER_SERVICE);
 
+            //we generate for each ship a line with data
             for(ShipWithContainer shipWithContainer: shipsFromCaptain){
+                //get empty layout for ship item
                 View shipListItem = inflater.inflate(R.layout.ship_list_item,null);
                 mShipList.addView(shipListItem);
+
+                //edit ship data
                 TextView shipName = shipListItem.findViewById(R.id.svShipName);
-                shipName.setText(shipWithContainer.ship.getName() + " - "+shipWithContainer.containers.size());
+                shipName.setText(shipWithContainer.ship.getName());
+
+                TextView destinationPort = shipListItem.findViewById(R.id.svDestinationPort);
+                destinationPort.setText(shipWithContainer.port.getName());
+
+                TextView departureDate = shipListItem.findViewById(R.id.svDepartureDate);
+                departureDate.setText(shipWithContainer.ship.getDepartureDate());
             }
         }
     }
