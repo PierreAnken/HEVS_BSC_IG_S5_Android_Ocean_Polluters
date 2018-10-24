@@ -2,21 +2,21 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "85bc1b51cd43b806e29e048cd0a546b0",
+    "identityHash": "8df1e2b1d076c4870c0c461c26105dff",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `password` INTEGER NOT NULL, `role_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_user_id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT, `password` INTEGER NOT NULL, `role_id` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "e_user_id",
             "affinity": "INTEGER",
             "notNull": false
           },
           {
             "fieldPath": "name",
-            "columnName": "name",
+            "columnName": "user_name",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -35,7 +35,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "e_user_id"
           ],
           "autoGenerate": true
         },
@@ -44,11 +44,11 @@
       },
       {
         "tableName": "containers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dock_position` TEXT, `ship_id` INTEGER NOT NULL, `loaded` INTEGER NOT NULL, FOREIGN KEY(`ship_id`) REFERENCES `ships`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_container_id` INTEGER PRIMARY KEY AUTOINCREMENT, `dock_position` TEXT, `ship_id` INTEGER NOT NULL, `loaded` INTEGER NOT NULL, FOREIGN KEY(`ship_id`) REFERENCES `ships`(`e_ship_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "e_container_id",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -73,7 +73,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "e_container_id"
           ],
           "autoGenerate": true
         },
@@ -96,18 +96,18 @@
               "ship_id"
             ],
             "referencedColumns": [
-              "id"
+              "e_ship_id"
             ]
           }
         ]
       },
       {
         "tableName": "items",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `item_type_id` INTEGER NOT NULL, `container_id` INTEGER, `weight_kg` REAL NOT NULL, FOREIGN KEY(`container_id`) REFERENCES `containers`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_id` INTEGER PRIMARY KEY AUTOINCREMENT, `item_type_id` INTEGER NOT NULL, `container_id` INTEGER, `weight_kg` REAL NOT NULL, FOREIGN KEY(`container_id`) REFERENCES `containers`(`e_container_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "e_item_id",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -132,7 +132,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "e_item_id"
           ],
           "autoGenerate": true
         },
@@ -155,31 +155,31 @@
               "container_id"
             ],
             "referencedColumns": [
-              "id"
+              "e_container_id"
             ]
           }
         ]
       },
       {
         "tableName": "ports",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_port_id` INTEGER PRIMARY KEY AUTOINCREMENT, `port_name` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "e_port_id",
             "affinity": "INTEGER",
             "notNull": false
           },
           {
             "fieldPath": "name",
-            "columnName": "name",
+            "columnName": "port_name",
             "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "e_port_id"
           ],
           "autoGenerate": true
         },
@@ -188,23 +188,23 @@
       },
       {
         "tableName": "ships",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `capitain_id` INTEGER NOT NULL, `destination_port_id` INTEGER NOT NULL, `departure_date` TEXT, `max_Load_Kg` REAL NOT NULL, FOREIGN KEY(`capitain_id`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`destination_port_id`) REFERENCES `ports`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_ship_id` INTEGER PRIMARY KEY AUTOINCREMENT, `ship_name` TEXT, `captain_id` INTEGER NOT NULL, `destination_port_id` INTEGER NOT NULL, `departure_date` TEXT, `max_Load_Kg` REAL NOT NULL, FOREIGN KEY(`captain_id`) REFERENCES `users`(`e_user_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`destination_port_id`) REFERENCES `ports`(`e_port_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "e_ship_id",
             "affinity": "INTEGER",
             "notNull": false
           },
           {
             "fieldPath": "name",
-            "columnName": "name",
+            "columnName": "ship_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "captainId",
-            "columnName": "capitain_id",
+            "columnName": "captain_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -229,18 +229,18 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "e_ship_id"
           ],
           "autoGenerate": true
         },
         "indices": [
           {
-            "name": "index_ships_capitain_id",
+            "name": "index_ships_captain_id",
             "unique": false,
             "columnNames": [
-              "capitain_id"
+              "captain_id"
             ],
-            "createSql": "CREATE  INDEX `index_ships_capitain_id` ON `${TABLE_NAME}` (`capitain_id`)"
+            "createSql": "CREATE  INDEX `index_ships_captain_id` ON `${TABLE_NAME}` (`captain_id`)"
           },
           {
             "name": "index_ships_destination_port_id",
@@ -257,10 +257,10 @@
             "onDelete": "SET NULL",
             "onUpdate": "NO ACTION",
             "columns": [
-              "capitain_id"
+              "captain_id"
             ],
             "referencedColumns": [
-              "id"
+              "e_user_id"
             ]
           },
           {
@@ -271,7 +271,7 @@
               "destination_port_id"
             ],
             "referencedColumns": [
-              "id"
+              "e_port_id"
             ]
           }
         ]
@@ -279,7 +279,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"85bc1b51cd43b806e29e048cd0a546b0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8df1e2b1d076c4870c0c461c26105dff\")"
     ]
   }
 }

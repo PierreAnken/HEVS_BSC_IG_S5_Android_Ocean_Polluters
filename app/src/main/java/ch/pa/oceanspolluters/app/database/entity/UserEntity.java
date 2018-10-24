@@ -2,9 +2,7 @@ package ch.pa.oceanspolluters.app.database.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -14,9 +12,13 @@ import ch.pa.oceanspolluters.app.model.User;
 public class UserEntity implements User {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "e_user_id")
     private Integer id = null;
 
+    @ColumnInfo(name = "user_name")
     private String name;
+
+    @ColumnInfo(name = "password")
     private int password;
 
     @ColumnInfo(name = "role_id")

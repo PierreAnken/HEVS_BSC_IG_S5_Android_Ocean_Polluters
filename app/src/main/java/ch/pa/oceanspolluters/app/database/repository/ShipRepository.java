@@ -1,10 +1,13 @@
 package ch.pa.oceanspolluters.app.database.repository;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 
 public class ShipRepository {
     private static ShipRepository sInstance;
@@ -26,6 +29,9 @@ public class ShipRepository {
         return sInstance;
     }
 
+    public List<ShipWithContainer> getShipsFromCaptain(final int id_captain) {
+        return mDatabase.shipDao().getShipsFromCaptain(id_captain);
+    }
     public ShipEntity getShip(final int id) {
         return mDatabase.shipDao().getById(id);
     }

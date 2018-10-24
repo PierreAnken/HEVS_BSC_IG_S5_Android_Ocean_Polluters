@@ -14,10 +14,10 @@ public class ShipWithContainer {
     @Embedded
     public ShipEntity ship;
 
-    @Relation(parentColumn = "id", entityColumn = "ship_id", entity = ContainerEntity.class)
-    public List<ContainerEntity> items;
+    @Relation(parentColumn = "e_ship_id", entityColumn = "ship_id", entity = ContainerEntity.class)
+    public List<ContainerEntity> containers;
 
-    @Relation(parentColumn = "captain_id", entityColumn = "id", entity = UserEntity.class)
+    @Embedded
     public UserEntity captain;
 
 }

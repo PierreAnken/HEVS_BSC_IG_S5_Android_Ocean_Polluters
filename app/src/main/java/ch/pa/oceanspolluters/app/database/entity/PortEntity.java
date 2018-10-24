@@ -1,5 +1,6 @@
 package ch.pa.oceanspolluters.app.database.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
@@ -11,7 +12,11 @@ import ch.pa.oceanspolluters.app.model.Port;
 public class PortEntity implements Port {
 
     @PrimaryKey(autoGenerate = true)
+
+    @ColumnInfo(name = "e_port_id")
     private Integer id = null;
+
+    @ColumnInfo(name = "port_name")
     private String name;
 
     public PortEntity() {

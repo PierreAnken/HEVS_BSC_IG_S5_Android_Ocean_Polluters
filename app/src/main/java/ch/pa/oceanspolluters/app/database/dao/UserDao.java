@@ -18,10 +18,10 @@ import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 @Dao
 public abstract class UserDao {
 
-    @Query("SELECT * FROM users WHERE id = :id")
+    @Query("SELECT * FROM users WHERE e_user_id = :id")
     public abstract UserEntity getById(int id);
 
-    @Query("SELECT * FROM users WHERE name like '%' || :name || '%' limit 1")
+    @Query("SELECT * FROM users WHERE user_name like '%' || :name || '%' limit 1")
     public abstract UserEntity getByName(String name);
 
     @Query("SELECT * FROM users")

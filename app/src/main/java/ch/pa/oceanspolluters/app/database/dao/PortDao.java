@@ -18,10 +18,10 @@ import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 @Dao
 public abstract class PortDao {
 
-    @Query("SELECT * FROM ports WHERE id = :id")
+    @Query("SELECT * FROM ports WHERE e_port_id = :id")
     public abstract PortEntity getById(int id);
 
-    @Query("SELECT * FROM ports ORDER BY Name")
+    @Query("SELECT * FROM ports ORDER BY port_name")
     public abstract List<PortEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

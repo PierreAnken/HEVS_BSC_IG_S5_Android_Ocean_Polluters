@@ -15,7 +15,7 @@ import ch.pa.oceanspolluters.app.database.entity.ItemEntity;;
 @Dao
 public abstract class ItemDao {
 
-    @Query("SELECT * FROM items WHERE id = :id")
+    @Query("SELECT * FROM items WHERE e_item_id = :id")
     public abstract ItemEntity getById(int id);
 
     @Query("SELECT * FROM items")

@@ -19,7 +19,7 @@ import ch.pa.oceanspolluters.app.model.Item;
         foreignKeys =
         @ForeignKey(
                 entity = ShipEntity.class,
-                parentColumns = "id", // remote class
+                parentColumns = "e_ship_id", // remote class
                 childColumns = "ship_id", // local class
                 onDelete = ForeignKey.SET_NULL
         ),
@@ -33,6 +33,7 @@ import ch.pa.oceanspolluters.app.model.Item;
 public class ContainerEntity implements Container {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "e_container_id")
     private Integer id = null;
 
     @ColumnInfo(name = "dock_position")

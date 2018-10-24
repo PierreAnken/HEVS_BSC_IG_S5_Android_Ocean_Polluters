@@ -19,29 +19,31 @@ import ch.pa.oceanspolluters.app.model.Ship;
         foreignKeys = {
                 @ForeignKey(
                         entity = UserEntity.class,
-                        parentColumns = "id", // remote class
-                        childColumns = "capitain_id", // local class
+                        parentColumns = "e_user_id", // remote class
+                        childColumns = "captain_id", // local class
                         onDelete = ForeignKey.SET_NULL
                 ),
                 @ForeignKey(
                         entity = PortEntity.class,
-                        parentColumns = "id", // remote class
+                        parentColumns = "e_port_id", // remote class
                         childColumns = "destination_port_id", // local class
                         onDelete = ForeignKey.SET_NULL
                 )
         },
         indices = {
-                @Index(value = {"capitain_id"}),
+                @Index(value = {"captain_id"}),
                 @Index(value = {"destination_port_id"})}
 )
 public class ShipEntity implements Ship {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "e_ship_id")
     private Integer id = null;
 
+    @ColumnInfo(name = "ship_name")
     private String name;
 
-    @ColumnInfo(name = "capitain_id")
+    @ColumnInfo(name = "captain_id")
     private int captainId;
 
     @ColumnInfo(name = "destination_port_id")
