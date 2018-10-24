@@ -7,12 +7,17 @@ android:layout_height="match_parent"
 android:gravity="center_horizontal"
 android:orientation="vertical"
 tools:context=".ui.DockerHomeActivity"
-    android:background="@drawable/texture_eau">
+android:background="@drawable/texture_eau">
 
 
 <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Test docker home" />
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:textSize="20sp"
+    android:textAlignment="center"
+    android:background="@color/DimGray"
+    android:textColor="@color/WhiteSmoke"
+    android:text="Test docker home"
+    />
 
 </LinearLayout>

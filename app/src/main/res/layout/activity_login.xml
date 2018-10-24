@@ -9,38 +9,17 @@
     android:orientation="vertical"
     tools:context=".ui.LoginActivity"
     android:padding="32dp"
-    android:background="@drawable/texture_eau">
+    android:id="@+id/loginFormLoading">
 
-    <Spinner
-        android:id="@+id/users_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"/>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="32dp">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical">
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:imeOptions="actionUnspecified"
-            android:inputType="numberPassword"
-            android:maxLines="1"
-            android:maxLength="4"
-            android:layout_marginRight="64dp"/>
+        <ImageView
+            android:layout_width="128px"
+            android:layout_height="128px"
+            android:id="@+id/loadingGif" />
 
-    <ImageButton
-        android:id="@+id/login_button"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:src="@drawable/go_in_white"/>
     </LinearLayout>
-
 </LinearLayout>

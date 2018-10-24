@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
@@ -12,14 +13,9 @@ public class BaseApp extends Application {
 
     private static UserEntity currentUser;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        /*init database at startup
-        / otherwise Login Spinner is empty*/
-        AppDatabase.getInstance(this);
-
+    public LayoutInflater getLayoutInflater(){
+        return (LayoutInflater)getApplicationContext().getSystemService
+                (getApplicationContext().LAYOUT_INFLATER_SERVICE);
     }
 
 

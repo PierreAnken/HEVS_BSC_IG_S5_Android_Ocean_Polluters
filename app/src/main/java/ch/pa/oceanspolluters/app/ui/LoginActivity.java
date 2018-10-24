@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -12,7 +13,11 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -39,26 +44,27 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
-        mPassword = (EditText)findViewById(R.id.password);
 
-        new LoadUsersTask().execute();
+        Glide.with(this)
+                .load(R.drawable.loading)
+                .into((ImageView)findViewById(R.id.loadingGif));
 
-        ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
-        mLoginButton.setOnClickListener(new OnClickListener() {
+        // we set a bit of delay to see the loading screen
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                attemptLogin();
+            public void run() {
+                new LoadUsersTask().execute();
             }
-        });
-
+        }, 2000);
     }
     @Override
     public void onResume(){
         super.onResume();
         //we disconnect user if connected
         ((BaseApp)getApplication()).disconnectUser();
+        if(mPassword != null)
+            mPassword.setText(null);
     }
 
     private class LoadUsersTask extends AsyncTask<Void, Void, String[]> {
@@ -78,11 +84,33 @@ public class LoginActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(String[] userNames) {
+
+            //setup loggin form
+            LinearLayout loggingPage = findViewById(R.id.loginFormLoading);
+            View loggingForm = getLayoutInflater().inflate(R.layout.login_form,null);
+
+            loggingPage.removeAllViews();
+            loggingPage.addView(loggingForm);
+            loggingPage.setBackground(getDrawable(R.drawable.texture_eau));
+
+            //setup spinner
             mSpinner = findViewById(R.id.users_spinner);
             ArrayAdapter<String> usersAdapter =
                     new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, userNames);
             usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinner.setAdapter(usersAdapter);
+
+            //setup password
+            mPassword = (EditText)findViewById(R.id.password);
+
+            //setup login listener
+            ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
+            mLoginButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
         }
     }
 
@@ -119,6 +147,8 @@ public class LoginActivity extends AppCompatActivity{
         else{
             if(userName.indexOf('-') < 0)
                 new UserLoginTask().execute(userName,password);
+            else
+                mPassword.setError(getString(R.string.error_user_not_selected));
         }
     }
 
@@ -156,6 +186,8 @@ public class LoginActivity extends AppCompatActivity{
                     startActivity(new Intent(getApplicationContext(), CaptainHomeActivity.class));
                 }
             }
+            else
+                mPassword.setError(getString(R.string.error_bad_password));
         }
     }
 }

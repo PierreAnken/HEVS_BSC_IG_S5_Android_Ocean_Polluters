@@ -7,16 +7,17 @@ android:layout_height="match_parent"
 android:gravity="center_horizontal"
 android:orientation="vertical"
 tools:context=".ui.AdministratorHomeActivity"
-    android:background="@drawable/texture_eau">
+android:background="@drawable/texture_eau">
 
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:textSize="20sp"
-    android:textAlignment="center"
-    android:background="@color/DimGray"
-    android:textColor="@color/WhiteSmoke"
-    android:text="Test Logistic manager home"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:background="@color/DimGray"
+        android:textColor="@color/WhiteSmoke"
+        android:id="@+id/shipName"
+        />
 
 </LinearLayout>
