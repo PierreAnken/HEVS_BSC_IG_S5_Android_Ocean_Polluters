@@ -68,6 +68,9 @@ public class LoginActivity extends AppCompatActivity{
         ((BaseApp)getApplication()).disconnectUser();
         if(mPassword != null)
             mPassword.setText(null);
+        if(mSpinner != null)
+            mSpinner.setSelection(0);
+
     }
 
     private class LoadUsersTask extends AsyncTask<Void, Void,Boolean> {

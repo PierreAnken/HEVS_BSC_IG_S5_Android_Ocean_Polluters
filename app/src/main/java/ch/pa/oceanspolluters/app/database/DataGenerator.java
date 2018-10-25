@@ -73,13 +73,13 @@ public class DataGenerator {
         ships.add(new ShipEntity("MSC Diana",  19462, captain.getId(), portsWithId.get(4).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 186);
-        ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(5).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(3).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 236);
-        ships.add(new ShipEntity("Tihama",  18800, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Tihama",  18800, captain.getId(), portsWithId.get(0).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 203);
-        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
 
         db.shipDao().insertAll(ships);
         List<ShipEntity> shipsWithId = db.shipDao().getAll();
