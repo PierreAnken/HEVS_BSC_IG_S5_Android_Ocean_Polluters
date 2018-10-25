@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.setTitle(getString(R.string.home));
 
         Glide.with(this)
                 .load(R.drawable.loading)
@@ -137,6 +140,8 @@ public class LoginActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;

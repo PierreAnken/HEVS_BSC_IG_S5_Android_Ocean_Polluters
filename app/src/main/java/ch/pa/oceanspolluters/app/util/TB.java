@@ -10,9 +10,12 @@ public class TB {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-        String day = Calendar.DAY_OF_MONTH < 10 ? "0"+Calendar.DAY_OF_MONTH :""+Calendar.DAY_OF_MONTH;
-        String month = Calendar.MONTH < 10 ? "0"+Calendar.MONTH :""+Calendar.MONTH;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
 
-        return day+"/"+month+"/"+cal.get(Calendar.YEAR);
+        String dayS = day < 10 ? "0"+day :""+day;
+        String monthS = month < 10 ? "0"+month :""+month;
+
+        return dayS+"/"+monthS+"/"+cal.get(Calendar.YEAR);
     }
 }
