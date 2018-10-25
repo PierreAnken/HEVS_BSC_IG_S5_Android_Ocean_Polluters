@@ -20,10 +20,12 @@ import android.widget.Spinner;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.AppDatabase;
+import ch.pa.oceanspolluters.app.database.DataGenerator;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.Roles;
 
@@ -51,12 +53,13 @@ public class LoginActivity extends AppCompatActivity{
                 .into((ImageView)findViewById(R.id.loadingGif));
 
         // we set a bit of delay to see the loading screen
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 new LoadUsersTask().execute();
             }
-        }, 2000);
+        }, 2500);
     }
     @Override
     public void onResume(){
@@ -67,23 +70,24 @@ public class LoginActivity extends AppCompatActivity{
             mPassword.setText(null);
     }
 
-    private class LoadUsersTask extends AsyncTask<Void, Void, String[]> {
+    private class LoadUsersTask extends AsyncTask<Void, Void,Boolean> {
 
         @Override
-        protected String[] doInBackground(Void... empty) {
-
+        protected Boolean doInBackground(Void... empty) {
+            System.out.println("PAD asking user list");
             users =  AppDatabase.getInstance(getApplicationContext()).userDao().getAll();
+            System.out.println("PAD received user list");
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+
             String[] userNames = new  String[users.size()+1];
             userNames[0] = "- Select User -";
             for(int i = 1; i<userNames.length; i++){
                 userNames[i] = users.get(i-1).getName();
             }
-
-            return userNames;
-        }
-
-        @Override
-        protected void onPostExecute(String[] userNames) {
 
             //setup loggin form
             LinearLayout loggingPage = findViewById(R.id.loginFormLoading);

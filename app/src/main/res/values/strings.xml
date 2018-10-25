@@ -1,16 +1,20 @@
 <resources>
     <string name="app_name">Oceans Polluters</string>
+
+    <string name="home">Home</string>
+    <string name="company_name">Oceans \nPolluter Inc.</string>
+
+    <!-- View titles and subtitle -->
     <string name="title_activity_parameters">System</string>
     <string name="title_activity_captain_home">Captain dashboard</string>
     <string name="title_activity_docker_home">Docker dashboard</string>
     <string name="title_activity_logistic_manager_home">Logistic Manager dashboard</string>
     <string name="title_activity_administrator_home">Administrator dashboard</string>
     <string name="planning">Planning</string>
-    <string name="home">Home</string>
-    <string name="company_name">Oceans \nPolluter Inc.</string>
-
-    <!-- Strings related to login -->
     <string name="settings">Settings</string>
+    <string name="travel_detail">Travel detail</string>
+
+    <!-- Strings related to form -->
     <string name="error_empty_password">Password is empty</string>
     <string name="error_bad_password">Wrong password</string>
     <string name="error_user_not_selected">No user selected</string>

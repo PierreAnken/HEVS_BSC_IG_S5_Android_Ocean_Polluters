@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
@@ -24,6 +25,7 @@ import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.util.TB;
 
 public class CaptainHomeActivity extends AppCompatActivity {
 
@@ -79,7 +81,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
                 destinationPort.setText(shipWithContainer.port.getName());
 
                 TextView departureDate = shipListItem.findViewById(R.id.svDepartureDate);
-                departureDate.setText(shipWithContainer.ship.getDepartureDate());
+                departureDate.setText(TB.getShortDate(shipWithContainer.ship.getDepartureDate()));
             }
         }
     }

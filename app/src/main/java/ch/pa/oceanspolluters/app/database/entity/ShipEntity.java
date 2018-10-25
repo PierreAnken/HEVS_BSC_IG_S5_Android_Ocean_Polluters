@@ -50,7 +50,7 @@ public class ShipEntity implements Ship {
     private int destinationPortId;
 
     @ColumnInfo(name = "departure_date")
-    private String departureDate;
+    private Date departureDate;
 
     @ColumnInfo(name = "max_Load_Kg")
     private float maxLoadKg;
@@ -65,7 +65,7 @@ public class ShipEntity implements Ship {
         name = ship.getName();
     }
 
-    public ShipEntity(String name, float maxLoadKg, int captainId, int destinationPortId, String departureDate) {
+    public ShipEntity(String name, float maxLoadKg, int captainId, int destinationPortId, Date departureDate) {
         this.name = name;
         this.maxLoadKg = maxLoadKg;
         this.captainId = captainId;
@@ -114,11 +114,11 @@ public class ShipEntity implements Ship {
     }
 
     @Override
-    public String getDepartureDate() {
+    public Date getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(String departureDate) {
+    public void setDepartureDate(Date departureDate) {
         this.departureDate = departureDate;
     }
 

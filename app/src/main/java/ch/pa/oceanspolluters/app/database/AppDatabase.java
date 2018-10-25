@@ -43,7 +43,9 @@ public abstract class AppDatabase extends RoomDatabase {
         if (sInstance == null) {
             synchronized (AppDatabase.class) {
                 if (sInstance == null) {
+                    System.out.println("PAD Database creation start");
                     sInstance = buildDatabase(appContext.getApplicationContext());
+                    System.out.println("PAD Database created");
                 }
             }
         }
@@ -53,15 +55,9 @@ public abstract class AppDatabase extends RoomDatabase {
     //database init
     private static AppDatabase buildDatabase(final Context appContext) {
 
-        return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
-                .addCallback(new Callback() {
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        super.onCreate(db);
-                        AppDatabase database = AppDatabase.getInstance(appContext);
-                        initializeBaseData(database);
-                    }
-                }).build();
+        AppDatabase db = Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME).build();
+        initializeBaseData(db);
+        return db;
     }
 
     public static void initializeBaseData(final AppDatabase database) {

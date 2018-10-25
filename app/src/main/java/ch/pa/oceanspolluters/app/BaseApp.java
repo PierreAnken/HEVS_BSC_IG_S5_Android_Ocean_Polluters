@@ -18,6 +18,11 @@ public class BaseApp extends Application {
                 (getApplicationContext().LAYOUT_INFLATER_SERVICE);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppDatabase.getInstance(getApplicationContext());
+    }
 
     public void connectUser(UserEntity user){
         currentUser = user;

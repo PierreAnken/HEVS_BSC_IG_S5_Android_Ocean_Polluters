@@ -13,7 +13,7 @@ public class CaptainShipDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_captain_ship_detail);
+        setContentView(R.layout.activity_captain_travel_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent shipDetail = getIntent();

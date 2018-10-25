@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8df1e2b1d076c4870c0c461c26105dff",
+    "identityHash": "fe256da607a2f12dbf9a8ad48bdae09b",
     "entities": [
       {
         "tableName": "users",
@@ -188,7 +188,7 @@
       },
       {
         "tableName": "ships",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_ship_id` INTEGER PRIMARY KEY AUTOINCREMENT, `ship_name` TEXT, `captain_id` INTEGER NOT NULL, `destination_port_id` INTEGER NOT NULL, `departure_date` TEXT, `max_Load_Kg` REAL NOT NULL, FOREIGN KEY(`captain_id`) REFERENCES `users`(`e_user_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`destination_port_id`) REFERENCES `ports`(`e_port_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_ship_id` INTEGER PRIMARY KEY AUTOINCREMENT, `ship_name` TEXT, `captain_id` INTEGER NOT NULL, `destination_port_id` INTEGER NOT NULL, `departure_date` INTEGER, `max_Load_Kg` REAL NOT NULL, FOREIGN KEY(`captain_id`) REFERENCES `users`(`e_user_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`destination_port_id`) REFERENCES `ports`(`e_port_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -217,7 +217,7 @@
           {
             "fieldPath": "departureDate",
             "columnName": "departure_date",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -279,7 +279,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8df1e2b1d076c4870c0c461c26105dff\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fe256da607a2f12dbf9a8ad48bdae09b\")"
     ]
   }
 }

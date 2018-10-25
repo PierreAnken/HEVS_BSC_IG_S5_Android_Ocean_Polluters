@@ -19,7 +19,10 @@ import ch.pa.oceanspolluters.app.util.Roles;
  */
 public class DataGenerator {
 
+
     public static void generateBaseData(AppDatabase db) {
+
+        System.out.println("PAD start of random data generation");
 
         //init users
         db.userDao().deleteAll();
@@ -31,7 +34,7 @@ public class DataGenerator {
         users.add(new UserEntity("Administrator Frank", 1234, Roles.Administrator.id()));
 
         db.userDao().insertAll(users);
-        List<UserEntity> usersWithId = db.userDao().getAll();
+
 
         //init ports
         db.portDao().deleteAll();
@@ -54,16 +57,29 @@ public class DataGenerator {
         UserEntity captain = db.userDao().getByName("Captain");
         Calendar calendar = Calendar.getInstance();
 
-        calendar.add(Calendar.DATE, 2);
-        ships.add(new ShipEntity("Manila Maersk",  20568, captain.getId(), portsWithId.get(0).getId(), calendar.getTime().toString()));
-        calendar.add(Calendar.DATE, 5);
-        ships.add(new ShipEntity("Ever Given",  20338, captain.getId(), portsWithId.get(1).getId(), calendar.getTime().toString()));
-        calendar.add(Calendar.DATE, 6);
-        ships.add(new ShipEntity("MSC Mirjam",  19462, captain.getId(), portsWithId.get(2).getId(), calendar.getTime().toString()));
-        calendar.add(Calendar.DATE, 23);
-        ships.add(new ShipEntity("Al Nefud",  18800, captain.getId(), portsWithId.get(3).getId(), calendar.getTime().toString()));
-        calendar.add(Calendar.DATE, 14);
-        ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(4).getId(), calendar.getTime().toString()));
+        calendar.add(Calendar.HOUR, 6);
+        ships.add(new ShipEntity("Manila Maersk",  20568, captain.getId(), portsWithId.get(0).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 125);
+        ships.add(new ShipEntity("Ever Given",  20338, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 132);
+        ships.add(new ShipEntity("MSC Mirjam",  19462, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 224);
+        ships.add(new ShipEntity("Al Nefud",  18800, captain.getId(), portsWithId.get(3).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 131);
+        ships.add(new ShipEntity("MSC Diana",  19462, captain.getId(), portsWithId.get(4).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 186);
+        ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(5).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 236);
+        ships.add(new ShipEntity("Tihama",  18800, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 203);
+        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
 
         db.shipDao().insertAll(ships);
         List<ShipEntity> shipsWithId = db.shipDao().getAll();
@@ -111,6 +127,7 @@ public class DataGenerator {
         }
 
         db.itemDao().insertAll(items);
+        System.out.println("PAD end of random data generation");
     }
 
 }

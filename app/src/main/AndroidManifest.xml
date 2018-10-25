@@ -28,7 +28,7 @@
             android:parentActivityName="ui.LoginActivity">
         </activity>
         <activity android:name=".ui.CaptainShipDetailActivity"
-            android:label="@string/ship_detail"
+            android:label="@string/travel_detail"
             android:parentActivityName="ui.CaptainHomeActivity">
         </activity>
         <activity android:name=".ui.AdministratorHomeActivity"
