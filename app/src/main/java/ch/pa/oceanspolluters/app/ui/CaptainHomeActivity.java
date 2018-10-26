@@ -1,89 +1,73 @@
 package ch.pa.oceanspolluters.app.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AppDatabase;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
+import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.TB;
+import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class CaptainHomeActivity extends AppCompatActivity {
 
-    private ScrollView mScrollView;
-    private LinearLayout mShipList;
-    private List<ShipWithContainer> shipsFromCaptain;
+    private static final String TAG = "CaptainActivity";
+
+    private List<ShipWithContainer> mShipsWithContainer;
+    private RecyclerAdapter<ShipWithContainer> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_captain_home);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mScrollView = (ScrollView) findViewById(R.id.captain_ship_list_scroll_view);
-        mShipList = (LinearLayout) findViewById(R.id.captain_ship_list);
+        RecyclerView recyclerView = findViewById(R.id.captainShipsRecyclerView);
 
-        new LoadShipsFromCaptain().execute();
-    }
+        mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Log.d(TAG, "clicked position:" + position);
+                Log.d(TAG, "clicked on: " + mShipsWithContainer.get(position).ship.getName());
 
-    private class LoadShipsFromCaptain extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... empty) {
-
-            int captainId = ((BaseApp)getApplication()).getCurrentUser().getId();
-            shipsFromCaptain =  AppDatabase.getInstance(getApplicationContext()).shipDao().getShipsFromCaptain(captainId);
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-
-            //we generate for each ship a line with data
-            for(ShipWithContainer shipWithContainer: shipsFromCaptain){
-
-                //get empty layout for ship item
-                View shipListItem = getLayoutInflater().inflate(R.layout.ship_list_item,null);
-                mShipList.addView(shipListItem);
-                shipListItem.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent shipDetail = new Intent(getApplicationContext(), CaptainShipDetailActivity.class);
-                        shipDetail.putExtra("shipName",shipWithContainer.ship.getName());
-                        startActivity(shipDetail);
-                    }
-                });
-
-                //edit ship data
-                TextView shipName = shipListItem.findViewById(R.id.svShipName);
-                shipName.setText(shipWithContainer.ship.getName());
-
-                TextView destinationPort = shipListItem.findViewById(R.id.svDestinationPort);
-                destinationPort.setText(shipWithContainer.port.getName());
-
-                TextView departureDate = shipListItem.findViewById(R.id.svDepartureDate);
-                departureDate.setText(TB.getShortDate(shipWithContainer.ship.getDepartureDate()));
+                Intent shipDetail = new Intent(getApplicationContext(), CaptainShipDetailActivity.class);
+                shipDetail.putExtra("shipName",mShipsWithContainer.get(position).ship.getName());
+                startActivity(shipDetail);
             }
-        }
+
+            @Override
+            public void onItemLongClick(View v, int position) {
+            }
+        });
+
+        // use a linear layout manager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+
+        //get ships from captain
+        int idCaptain = ((BaseApp)getApplication()).getCurrentUser().getId();
+        mShipsWithContainer = new ArrayList<>();
+
+        ShipListViewModel.Factory factory = new ShipListViewModel.Factory(getApplication(), idCaptain);
+        ShipListViewModel mShipsFromCaptain = ViewModelProviders.of(this, factory).get(ShipListViewModel.class);
+        mShipsFromCaptain.getCaptainShips().observe(this, shipsWithContainer -> {
+            if (shipsWithContainer != null) {
+                mShipsWithContainer = shipsWithContainer;
+                mAdapter.setData(mShipsWithContainer);
+            }
+        });
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ch.pa.oceanspolluters.app.database;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,7 +84,7 @@ public class DataGenerator {
         ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
 
         db.shipDao().insertAll(ships);
-        List<ShipEntity> shipsWithId = db.shipDao().getAll();
+        LiveData<List<ShipEntity>> shipsWithId = db.shipDao().getAll();
 
         //init containers
         db.containerDao().deleteAll();
@@ -91,7 +93,7 @@ public class DataGenerator {
         //we add 200 containers randomly to ships
         for(int i = 0; i<200; i++){
 
-            int shipId = (int)Math.floor(Math.random()*shipsWithId.size()+1);
+            int shipId = (int)Math.floor(Math.random()*shipsWithId.getValue().size()+1);
             boolean loaded = Math.random()>0.3;
 
             char[] alphabetNumber = "abcdefghijklmnopqrstuvwxyz01234567890".toUpperCase().toCharArray();

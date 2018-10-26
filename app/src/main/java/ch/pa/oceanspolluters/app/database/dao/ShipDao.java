@@ -1,5 +1,6 @@
 package ch.pa.oceanspolluters.app.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -21,10 +22,10 @@ import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 public abstract class ShipDao {
 
     @Query("SELECT * FROM ships WHERE e_ship_id = :id")
-    public abstract ShipEntity getById(int id);
+    public abstract LiveData<ShipEntity> getById(int id);
 
     @Query("SELECT * FROM ships ORDER BY ship_name")
-    public abstract List<ShipEntity> getAll();
+    public abstract LiveData<List<ShipEntity>> getAll();
 
     @Transaction
     @Query("SELECT * " +
@@ -33,7 +34,7 @@ public abstract class ShipDao {
                 "INNER JOIN users u ON s.captain_id = e_user_id " +
                 "INNER JOIN ports p ON s.destination_port_id = p.e_port_id " +
             "WHERE captain_id = :id_captain")
-    public abstract List<ShipWithContainer> getShipsFromCaptain(int id_captain);
+    public abstract LiveData<List<ShipWithContainer>> getShipsFromCaptain(int id_captain);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(ShipEntity ship);

@@ -1,0 +1,94 @@
+package ch.pa.oceanspolluters.app.viewmodel;
+
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.util.List;
+
+import ch.pa.oceanspolluters.app.BaseApp;
+import ch.pa.oceanspolluters.app.database.async.UpdateShip;
+import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.database.repository.ShipRepository;
+import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
+
+
+public class ShipViewModel extends AndroidViewModel {
+
+    private static final String TAG = "ShipViewModel";
+
+    private ShipRepository mRepository;
+
+    // MediatorLiveData can observe other LiveData objects and react on their emissions.
+    private final MediatorLiveData<ShipEntity> mObservableShip;
+
+    public ShipViewModel(@NonNull Application application,
+                         final int shipId, ShipRepository shipRepository) {
+        super(application);
+
+        mRepository = shipRepository;
+
+        mObservableShip = new MediatorLiveData<>();
+        // set by default null, until we get data from the database.
+        mObservableShip.setValue(null);
+
+        LiveData<ShipEntity> ship = mRepository.getShip(shipId);
+
+        // observe the changes of the ship entity from the database and forward them
+        mObservableShip.addSource(ship, mObservableShip::setValue);
+    }
+
+    /**
+     * A creator is used to inject the account id into the ViewModel
+     */
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+
+        @NonNull
+        private final Application mApplication;
+
+        private final Integer mShipId;
+
+        private final ShipRepository mRepository;
+
+        public Factory(@NonNull Application application, int shipId) {
+            mApplication = application;
+            mShipId = shipId;
+            mRepository = ((BaseApp) application).getShipRepository();
+        }
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new ShipViewModel(mApplication, mShipId, mRepository);
+        }
+    }
+
+    /**
+     * Expose the LiveData ShipEntity query so the UI can observe it.
+     */
+    public LiveData<ShipEntity> getShip() {
+        return mObservableShip;
+    }
+
+    public void updateShip(ShipEntity ship, OnAsyncEventListener callback) {
+        new UpdateShip(getApplication(), new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+                Log.d(TAG, "updateShip: success");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                callback.onFailure(e);
+                Log.d(TAG, "updateShip: failure", e);
+            }
+        });
+    }
+}

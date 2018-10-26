@@ -29,14 +29,14 @@ public class ShipRepository {
         return sInstance;
     }
 
-    public List<ShipWithContainer> getShipsFromCaptain(final int id_captain) {
+    public LiveData<List<ShipWithContainer>> getShipsFromCaptain(final int id_captain) {
         return mDatabase.shipDao().getShipsFromCaptain(id_captain);
     }
-    public ShipEntity getShip(final int id) {
+    public LiveData<ShipEntity> getShip(final int id) {
         return mDatabase.shipDao().getById(id);
     }
 
-    public List<ShipEntity> getShips() {
+    public LiveData<List<ShipEntity>> getShips() {
         return mDatabase.shipDao().getAll();
     }
 
