@@ -9,8 +9,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.List;
-
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.async.UpdateShip;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
@@ -26,7 +24,7 @@ public class ShipViewModel extends AndroidViewModel {
     private ShipRepository mRepository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<ShipEntity> mObservableShip;
+    private final MediatorLiveData<ShipWithContainer> mObservableShip;
 
     public ShipViewModel(@NonNull Application application,
                          final int shipId, ShipRepository shipRepository) {
@@ -38,7 +36,7 @@ public class ShipViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableShip.setValue(null);
 
-        LiveData<ShipEntity> ship = mRepository.getShip(shipId);
+        LiveData<ShipWithContainer> ship = mRepository.getShip(shipId);
 
         // observe the changes of the ship entity from the database and forward them
         mObservableShip.addSource(ship, mObservableShip::setValue);
@@ -72,7 +70,7 @@ public class ShipViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ShipEntity query so the UI can observe it.
      */
-    public LiveData<ShipEntity> getShip() {
+    public LiveData<ShipWithContainer> getShip() {
         return mObservableShip;
     }
 

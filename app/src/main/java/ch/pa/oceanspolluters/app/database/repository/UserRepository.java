@@ -1,7 +1,5 @@
 package ch.pa.oceanspolluters.app.database.repository;
 
-import android.arch.lifecycle.LiveData;
-
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
 public class PortRepository {
     private static PortRepository sInstance;

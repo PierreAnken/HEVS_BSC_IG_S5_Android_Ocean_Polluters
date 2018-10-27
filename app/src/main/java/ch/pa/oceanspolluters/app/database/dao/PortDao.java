@@ -10,7 +10,6 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
 /**
  * https://developer.android.com/topic/libraries/architecture/room.html#no-object-references

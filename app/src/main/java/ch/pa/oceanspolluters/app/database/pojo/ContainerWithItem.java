@@ -14,6 +14,6 @@ public class ContainerWithItem {
     @Embedded
     public ContainerEntity container;
 
-    @Relation(parentColumn = "id", entityColumn = "container_id", entity = ItemEntity.class)
+    @Relation(parentColumn = "e_container_id", entityColumn = "container_id", entity = ItemEntity.class)
     public List<ItemEntity> items;
 }

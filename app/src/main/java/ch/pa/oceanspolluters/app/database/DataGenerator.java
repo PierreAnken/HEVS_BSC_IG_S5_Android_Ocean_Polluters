@@ -4,15 +4,15 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import ch.pa.oceanspolluters.app.database.dao.UserDao;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
+import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.ItemTypes;
 import ch.pa.oceanspolluters.app.util.Roles;
 
@@ -84,7 +84,7 @@ public class DataGenerator {
         ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
 
         db.shipDao().insertAll(ships);
-        LiveData<List<ShipEntity>> shipsWithId = db.shipDao().getAll();
+        LiveData<List<ShipWithContainer>> shipsWithId = db.shipDao().getAll();
 
         //init containers
         db.containerDao().deleteAll();
@@ -105,7 +105,7 @@ public class DataGenerator {
 
         }
         db.containerDao().insertAll(containers);
-        List<ContainerEntity> containersWithId = db.containerDao().getAll();
+        LiveData<List<ContainerWithItem>> containersWithId = db.containerDao().getAll();
 
         //init items
         db.itemDao().deleteAll();
@@ -113,7 +113,7 @@ public class DataGenerator {
 
 
         //for each container
-        for(int i = 0; i<containersWithId.size(); i++){
+        for(int i = 0; i<containersWithId.getValue().size(); i++){
 
             //we add 5 - 50 random items to container
             int numberItem = (int)Math.floor(Math.random()*45+5);
@@ -124,7 +124,7 @@ public class DataGenerator {
 
                 float weight = (float)Math.random()*50;
 
-                ItemEntity item = new ItemEntity(type, weight, (int)containersWithId.get(i).getId());
+                ItemEntity item = new ItemEntity(type, weight, (int)containersWithId.getValue().get(i).container.getId());
             }
         }
 

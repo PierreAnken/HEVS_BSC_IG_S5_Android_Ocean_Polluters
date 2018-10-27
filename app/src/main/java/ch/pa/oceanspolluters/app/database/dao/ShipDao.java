@@ -11,7 +11,6 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 
@@ -21,11 +20,21 @@ import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 @Dao
 public abstract class ShipDao {
 
-    @Query("SELECT * FROM ships WHERE e_ship_id = :id")
-    public abstract LiveData<ShipEntity> getById(int id);
+    @Transaction
+    @Query("SELECT * " +
+            "FROM " +
+            "ships s " +
+            "INNER JOIN containers c ON c.ship_id = ship_id " +
+            "WHERE ship_id = :shipId")
+    public abstract LiveData<ShipWithContainer> getById(int shipId);
 
-    @Query("SELECT * FROM ships ORDER BY ship_name")
-    public abstract LiveData<List<ShipEntity>> getAll();
+    @Transaction
+    @Query("SELECT * " +
+            "FROM " +
+            "ships s " +
+            "INNER JOIN users u ON s.captain_id = e_user_id " +
+            "INNER JOIN ports p ON s.destination_port_id = p.e_port_id ")
+    public abstract LiveData<List<ShipWithContainer>> getAll();
 
     @Transaction
     @Query("SELECT * " +

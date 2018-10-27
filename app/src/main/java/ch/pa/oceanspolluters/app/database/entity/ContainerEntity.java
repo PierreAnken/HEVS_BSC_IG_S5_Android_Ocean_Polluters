@@ -6,14 +6,9 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Relation;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.pa.oceanspolluters.app.model.Container;
-import ch.pa.oceanspolluters.app.model.Item;
 
 @Entity(tableName = "containers",
         foreignKeys =

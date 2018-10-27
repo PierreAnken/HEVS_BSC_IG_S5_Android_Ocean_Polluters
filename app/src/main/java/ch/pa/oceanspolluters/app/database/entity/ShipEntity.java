@@ -8,10 +8,8 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-import ch.pa.oceanspolluters.app.model.Container;
 import ch.pa.oceanspolluters.app.model.Ship;
 
 

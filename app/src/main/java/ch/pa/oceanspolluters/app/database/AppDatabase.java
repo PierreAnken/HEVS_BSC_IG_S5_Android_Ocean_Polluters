@@ -1,7 +1,5 @@
 package ch.pa.oceanspolluters.app.database;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -10,7 +8,6 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 
 import ch.pa.oceanspolluters.app.database.dao.ContainerDao;

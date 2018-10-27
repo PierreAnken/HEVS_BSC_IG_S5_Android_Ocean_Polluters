@@ -4,7 +4,6 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
 public class ItemRepository {
     private static ItemRepository sInstance;

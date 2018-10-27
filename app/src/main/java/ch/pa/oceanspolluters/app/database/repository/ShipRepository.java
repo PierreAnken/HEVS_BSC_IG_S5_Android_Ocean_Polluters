@@ -5,7 +5,6 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
-import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 
@@ -32,11 +31,11 @@ public class ShipRepository {
     public LiveData<List<ShipWithContainer>> getShipsFromCaptain(final int id_captain) {
         return mDatabase.shipDao().getShipsFromCaptain(id_captain);
     }
-    public LiveData<ShipEntity> getShip(final int id) {
+    public LiveData<ShipWithContainer> getShip(final int id) {
         return mDatabase.shipDao().getById(id);
     }
 
-    public LiveData<List<ShipEntity>> getShips() {
+    public LiveData<List<ShipWithContainer>> getShips() {
         return mDatabase.shipDao().getAll();
     }
 
