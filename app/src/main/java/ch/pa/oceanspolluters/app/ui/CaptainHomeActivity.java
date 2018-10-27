@@ -41,7 +41,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
                 Log.d(TAG, "clicked on: " + mShipsWithContainer.get(position).ship.getName());
 
                 Intent shipDetail = new Intent(getApplicationContext(), CaptainShipDetailActivity.class);
-                shipDetail.putExtra("shipName",mShipsWithContainer.get(position).ship.getName());
+                shipDetail.putExtra("shipId",mShipsWithContainer.get(position).ship.getId());
                 startActivity(shipDetail);
             }
 

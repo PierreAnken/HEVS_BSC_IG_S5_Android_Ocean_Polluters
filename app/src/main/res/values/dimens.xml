@@ -1,3 +1,4 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <string name="title_inside_view">20sp</string>
+
 </resources>

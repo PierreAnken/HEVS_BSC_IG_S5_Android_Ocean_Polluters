@@ -26,5 +26,6 @@
     <string name="departure_date">Departure date</string>
     <string name="destination_port">Destination port</string>
     <string name="ship_detail">Ship detail</string>
+    <string name="general_information">General informations</string>
 
 </resources>
