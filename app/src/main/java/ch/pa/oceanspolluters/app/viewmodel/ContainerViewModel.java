@@ -45,7 +45,7 @@ public class ContainerViewModel extends AndroidViewModel {
     /**
      * A creator is used to inject the account id into the ViewModel
      */
-    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+    public static class FactoryContainer extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
         private final Application mApplication;
@@ -54,7 +54,7 @@ public class ContainerViewModel extends AndroidViewModel {
 
         private final ContainerRepository mRepository;
 
-        public Factory(@NonNull Application application, int containerId) {
+        public FactoryContainer(@NonNull Application application, int containerId) {
             mApplication = application;
             mContainerId = containerId;
             mRepository = ((BaseApp) application).getContainerRepository();

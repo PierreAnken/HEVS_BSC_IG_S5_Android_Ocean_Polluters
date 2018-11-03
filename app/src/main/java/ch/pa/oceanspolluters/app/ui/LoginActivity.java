@@ -1,5 +1,7 @@
 package ch.pa.oceanspolluters.app.ui;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +28,10 @@ import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.Roles;
+import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
+import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
+import ch.pa.oceanspolluters.app.viewmodel.UserListViewModel;
+import ch.pa.oceanspolluters.app.viewmodel.UserViewModel;
 
 /**
  * A login screen that offers login via email/password.
@@ -39,6 +45,7 @@ public class LoginActivity extends AppCompatActivity{
     private EditText mPassword;
     private Spinner mSpinner;
     private List<UserEntity> users;
+    private ArrayAdapter<String> usersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +60,21 @@ public class LoginActivity extends AppCompatActivity{
 
         // we set a bit of delay to see the loading screen
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new LoadUsersTask().execute();
+        UserListViewModel.FactoryUsers factory = new UserListViewModel.FactoryUsers(getApplication());
+        UserListViewModel mUsers = ViewModelProviders.of(this, factory).get(UserListViewModel.class);
+        mUsers.getUsers().observe(this, usersList -> {
+            if (usersList != null) {
+                users = usersList;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        generateLoginPage();
+                    }
+                }, 2500);
             }
-        }, 2500);
+        });
+
     }
     @Override
     public void onResume(){
@@ -72,52 +88,39 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
-    private class LoadUsersTask extends AsyncTask<Void, Void,Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... empty) {
-            System.out.println("PAD asking user list");
-            users =  AppDatabase.getInstance(getApplicationContext()).userDao().getAll();
-            System.out.println("PAD received user list");
-            return true;
+    private void generateLoginPage(){
+        String[] userNames = new  String[users.size()+1];
+        userNames[0] = "- Select User -";
+        for(int i = 1; i<userNames.length; i++){
+            userNames[i] = users.get(i-1).getName();
         }
 
-        @Override
-        protected void onPostExecute(Boolean success) {
+        //setup loggin form
+        LinearLayout loggingPage = findViewById(R.id.loginFormLoading);
+        View loggingForm = getLayoutInflater().inflate(R.layout.login_form,null);
 
-            String[] userNames = new  String[users.size()+1];
-            userNames[0] = "- Select User -";
-            for(int i = 1; i<userNames.length; i++){
-                userNames[i] = users.get(i-1).getName();
+        loggingPage.removeAllViews();
+        loggingPage.addView(loggingForm);
+        loggingPage.setBackground(getDrawable(R.drawable.texture_eau));
+
+        //setup spinner
+        mSpinner = findViewById(R.id.users_spinner);
+        usersAdapter =
+                new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, userNames);
+        usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(usersAdapter);
+
+        //setup password
+        mPassword = (EditText)findViewById(R.id.password);
+
+        //setup login listener
+        ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
+        mLoginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
             }
-
-            //setup loggin form
-            LinearLayout loggingPage = findViewById(R.id.loginFormLoading);
-            View loggingForm = getLayoutInflater().inflate(R.layout.login_form,null);
-
-            loggingPage.removeAllViews();
-            loggingPage.addView(loggingForm);
-            loggingPage.setBackground(getDrawable(R.drawable.texture_eau));
-
-            //setup spinner
-            mSpinner = findViewById(R.id.users_spinner);
-            ArrayAdapter<String> usersAdapter =
-                    new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, userNames);
-            usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mSpinner.setAdapter(usersAdapter);
-
-            //setup password
-            mPassword = (EditText)findViewById(R.id.password);
-
-            //setup login listener
-            ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
-            mLoginButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    attemptLogin();
-                }
-            });
-        }
+        });
     }
 
     @Override
@@ -136,7 +139,6 @@ public class LoginActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     private void attemptLogin() {
         if (mAuthTask != null) {

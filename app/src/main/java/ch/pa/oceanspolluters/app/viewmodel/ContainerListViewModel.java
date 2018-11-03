@@ -35,17 +35,17 @@ public class ContainerListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableContainers.setValue(null);
 
-        LiveData<List<ContainerWithItem>> sontainersFull = containerRepository.getByShipId(shipId);
+        LiveData<List<ContainerWithItem>> ContainersFull = containerRepository.getByShipId(shipId);
                 
         // observe the changes of the entities from the database and forward them
-        mObservableContainers.addSource(sontainersFull, mObservableContainers::setValue);
+        mObservableContainers.addSource(ContainersFull, mObservableContainers::setValue);
         
     }
 
     /**
      * A creator is used to inject the sontainer id into the ViewModel
      */
-    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+    public static class FactoryContainers extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
         private final Application mApplication;
@@ -55,7 +55,7 @@ public class ContainerListViewModel extends AndroidViewModel {
         private final ContainerRepository mContainerRepository;
 
 
-        public Factory(@NonNull Application application, int captainId) {
+        public FactoryContainers(@NonNull Application application, int captainId) {
             mApplication = application;
             mId = captainId;
             mContainerRepository = ((BaseApp) application).getContainerRepository();

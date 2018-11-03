@@ -1,5 +1,6 @@
 package ch.pa.oceanspolluters.app.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -18,10 +19,10 @@ import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 public abstract class PortDao {
 
     @Query("SELECT * FROM ports WHERE e_port_id = :id")
-    public abstract PortEntity getById(int id);
+    public abstract LiveData<PortEntity> getById(int id);
 
     @Query("SELECT * FROM ports ORDER BY port_name")
-    public abstract List<PortEntity> getAll();
+    public abstract LiveData<List<PortEntity>> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(PortEntity port);

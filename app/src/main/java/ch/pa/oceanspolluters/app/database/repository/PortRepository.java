@@ -1,5 +1,7 @@
 package ch.pa.oceanspolluters.app.database.repository;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
@@ -25,11 +27,11 @@ public class PortRepository {
         return sInstance;
     }
 
-    public PortEntity getPort(final int id) {
+    public LiveData<PortEntity> getPort(final int id) {
         return mDatabase.portDao().getById(id);
     }
 
-    public List<PortEntity> getPorts() {
+    public LiveData<List<PortEntity>> getPorts() {
         return mDatabase.portDao().getAll();
     }
 

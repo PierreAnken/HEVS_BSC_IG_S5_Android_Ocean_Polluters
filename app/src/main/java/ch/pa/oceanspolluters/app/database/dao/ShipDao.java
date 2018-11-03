@@ -24,7 +24,7 @@ public abstract class ShipDao {
     @Query("SELECT * " +
             "FROM " +
             "ships s " +
-            "INNER JOIN containers c ON c.ship_id = ship_id " +
+            "LEFT JOIN containers c ON c.ship_id = ship_id " +
             "WHERE ship_id = :shipId")
     public abstract LiveData<ShipWithContainer> getById(int shipId);
 
@@ -32,16 +32,16 @@ public abstract class ShipDao {
     @Query("SELECT * " +
             "FROM " +
             "ships s " +
-            "INNER JOIN users u ON s.captain_id = e_user_id " +
-            "INNER JOIN ports p ON s.destination_port_id = p.e_port_id ")
+            "LEFT JOIN users u ON s.captain_id = e_user_id " +
+            "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id ")
     public abstract LiveData<List<ShipWithContainer>> getAll();
 
     @Transaction
     @Query("SELECT * " +
             "FROM " +
                 "ships s " +
-                "INNER JOIN users u ON s.captain_id = e_user_id " +
-                "INNER JOIN ports p ON s.destination_port_id = p.e_port_id " +
+                "LEFT JOIN users u ON s.captain_id = e_user_id " +
+                "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id " +
             "WHERE captain_id = :id_captain")
     public abstract LiveData<List<ShipWithContainer>> getShipsFromCaptain(int id_captain);
 

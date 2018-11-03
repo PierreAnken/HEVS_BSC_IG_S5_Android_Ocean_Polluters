@@ -45,7 +45,7 @@ public class ShipViewModel extends AndroidViewModel {
     /**
      * A creator is used to inject the account id into the ViewModel
      */
-    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+    public static class FactoryShip extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
         private final Application mApplication;
@@ -54,7 +54,7 @@ public class ShipViewModel extends AndroidViewModel {
 
         private final ShipRepository mRepository;
 
-        public Factory(@NonNull Application application, int shipId) {
+        public FactoryShip(@NonNull Application application, int shipId) {
             mApplication = application;
             mShipId = shipId;
             mRepository = ((BaseApp) application).getShipRepository();

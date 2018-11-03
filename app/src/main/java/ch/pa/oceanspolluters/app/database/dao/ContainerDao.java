@@ -13,7 +13,6 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
-import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 
 ;
 
@@ -25,7 +24,7 @@ public abstract class ContainerDao {
     @Query("SELECT * " +
             "FROM " +
             "containers s " +
-            "INNER JOIN items i ON s.e_container_id = e_container_id ")
+            "LEFT JOIN items i ON s.e_container_id = e_container_id ")
     public abstract LiveData<List<ContainerWithItem>> getAll();
 
 
@@ -33,7 +32,7 @@ public abstract class ContainerDao {
     @Query("SELECT * " +
             "FROM " +
             "containers s " +
-            "INNER JOIN items i ON s.e_container_id = e_container_id " +
+            "LEFT JOIN items i ON s.e_container_id = e_container_id " +
             "WHERE container_id = :id_container")
     public abstract LiveData<ContainerWithItem> getById(int id_container);
 
@@ -41,7 +40,7 @@ public abstract class ContainerDao {
     @Query("SELECT * " +
             "FROM " +
             "containers s " +
-            "INNER JOIN items i ON s.e_container_id = e_container_id " +
+            "LEFT JOIN items i ON s.e_container_id = e_container_id " +
             "WHERE ship_id = :id_ship")
     public abstract LiveData<List<ContainerWithItem>> getByShipId(int id_ship);
 

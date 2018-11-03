@@ -1,5 +1,7 @@
 package ch.pa.oceanspolluters.app.database.repository;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
@@ -25,15 +27,15 @@ public class UserRepository {
         return sInstance;
     }
 
-    public UserEntity getUser(final int id) {
+    public LiveData<UserEntity> getUser(final int id) {
         return mDatabase.userDao().getById(id);
     }
 
-    public UserEntity getByName(String name) {
+    public LiveData<UserEntity> getByName(String name) {
         return mDatabase.userDao().getByName(name);
     };
 
-    public List<UserEntity> getUsers() {
+    public LiveData<List<UserEntity>> getUsers() {
         return mDatabase.userDao().getAll();
     }
 

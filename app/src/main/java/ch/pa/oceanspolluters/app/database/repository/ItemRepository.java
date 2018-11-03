@@ -1,5 +1,7 @@
 package ch.pa.oceanspolluters.app.database.repository;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
@@ -25,12 +27,12 @@ public class ItemRepository {
         return sInstance;
     }
 
-    public ItemEntity getItem(final int id) {
+    public LiveData<ItemEntity> getItem(final int id) {
         return mDatabase.itemDao().getById(id);
     }
 
-    public List<ItemEntity> getItems() {
-        return mDatabase.itemDao().getAll();
+    public LiveData<List<ItemEntity>> getItemsFromContainer(int containerId) {
+        return mDatabase.itemDao().getItemsFromContainer(containerId);
     }
 
     public void insert(final ItemEntity item) {

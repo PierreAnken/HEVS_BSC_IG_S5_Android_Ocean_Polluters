@@ -1,5 +1,6 @@
 package ch.pa.oceanspolluters.app.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -16,10 +17,10 @@ import ch.pa.oceanspolluters.app.database.entity.ItemEntity;;
 public abstract class ItemDao {
 
     @Query("SELECT * FROM items WHERE e_item_id = :id")
-    public abstract ItemEntity getById(int id);
+    public abstract LiveData<ItemEntity> getById(int id);
 
-    @Query("SELECT * FROM items")
-    public abstract List<ItemEntity> getAll();
+    @Query("SELECT * FROM items WHERE container_id = :containerId")
+    public abstract LiveData<List<ItemEntity>> getItemsFromContainer(int containerId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(ItemEntity port);

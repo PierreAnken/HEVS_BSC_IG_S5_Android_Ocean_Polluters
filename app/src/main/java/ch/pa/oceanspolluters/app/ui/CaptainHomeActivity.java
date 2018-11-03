@@ -50,16 +50,15 @@ public class CaptainHomeActivity extends AppCompatActivity {
             }
         });
 
-        // use a linear layout manager
+        // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
 
         //get ships from captain
         int idCaptain = ((BaseApp)getApplication()).getCurrentUser().getId();
         mShipsWithContainer = new ArrayList<>();
 
-        ShipListViewModel.Factory factory = new ShipListViewModel.Factory(getApplication(), idCaptain);
+        ShipListViewModel.FactoryShips factory = new ShipListViewModel.FactoryShips(getApplication(), idCaptain);
         ShipListViewModel mShipsFromCaptain = ViewModelProviders.of(this, factory).get(ShipListViewModel.class);
         mShipsFromCaptain.getCaptainShips().observe(this, shipsWithContainer -> {
             if (shipsWithContainer != null) {
