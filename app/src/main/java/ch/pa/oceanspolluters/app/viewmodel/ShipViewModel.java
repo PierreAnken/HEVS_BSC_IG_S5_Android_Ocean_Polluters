@@ -36,7 +36,7 @@ public class ShipViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableShip.setValue(null);
 
-        LiveData<ShipWithContainer> ship = mRepository.getShip(shipId);
+        LiveData<ShipWithContainer> ship = mRepository.getShipLD(shipId);
 
         // observe the changes of the ship entity from the database and forward them
         mObservableShip.addSource(ship, mObservableShip::setValue);

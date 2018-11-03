@@ -34,7 +34,7 @@ public class PortListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservablePorts.setValue(null);
 
-        LiveData<List<PortEntity>> Ports = PortRepository.getPorts();
+        LiveData<List<PortEntity>> Ports = PortRepository.getPortsLD();
                 
         // observe the changes of the entities from the database and forward them
         mObservablePorts.addSource(Ports, mObservablePorts::setValue);

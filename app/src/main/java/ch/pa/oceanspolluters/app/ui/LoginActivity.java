@@ -60,21 +60,20 @@ public class LoginActivity extends AppCompatActivity{
 
         // we set a bit of delay to see the loading screen
 
-        UserListViewModel.FactoryUsers factory = new UserListViewModel.FactoryUsers(getApplication());
-        UserListViewModel mUsers = ViewModelProviders.of(this, factory).get(UserListViewModel.class);
+        UserListViewModel.FactoryUsers factoryUsers = new UserListViewModel.FactoryUsers(getApplication());
+        UserListViewModel mUsers = ViewModelProviders.of(this, factoryUsers).get(UserListViewModel.class);
         mUsers.getUsers().observe(this, usersList -> {
             if (usersList != null) {
                 users = usersList;
-
+                generateLoginPage();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        generateLoginPage();
+
                     }
                 }, 2500);
             }
         });
-
     }
     @Override
     public void onResume(){
@@ -90,7 +89,12 @@ public class LoginActivity extends AppCompatActivity{
 
     private void generateLoginPage(){
         String[] userNames = new  String[users.size()+1];
-        userNames[0] = "- Select User -";
+        if(userNames.length == 1){
+            userNames[0] = "- No user found -";
+        }
+        else{
+            userNames[0] = "- Select User -";
+        }
         for(int i = 1; i<userNames.length; i++){
             userNames[i] = users.get(i-1).getName();
         }

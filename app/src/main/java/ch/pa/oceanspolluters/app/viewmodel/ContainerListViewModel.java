@@ -35,7 +35,7 @@ public class ContainerListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableContainers.setValue(null);
 
-        LiveData<List<ContainerWithItem>> ContainersFull = containerRepository.getByShipId(shipId);
+        LiveData<List<ContainerWithItem>> ContainersFull = containerRepository.getByShipIdLD(shipId);
                 
         // observe the changes of the entities from the database and forward them
         mObservableContainers.addSource(ContainersFull, mObservableContainers::setValue);

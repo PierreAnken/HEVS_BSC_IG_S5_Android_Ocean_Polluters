@@ -17,10 +17,10 @@ import ch.pa.oceanspolluters.app.database.entity.ItemEntity;;
 public abstract class ItemDao {
 
     @Query("SELECT * FROM items WHERE e_item_id = :id")
-    public abstract LiveData<ItemEntity> getById(int id);
+    public abstract LiveData<ItemEntity> getByIdLD(int id);
 
     @Query("SELECT * FROM items WHERE container_id = :containerId")
-    public abstract LiveData<List<ItemEntity>> getItemsFromContainer(int containerId);
+    public abstract LiveData<List<ItemEntity>> getItemsFromContainerLD(int containerId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(ItemEntity port);

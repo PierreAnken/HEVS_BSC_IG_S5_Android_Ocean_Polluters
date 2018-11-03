@@ -28,15 +28,15 @@ public class ShipRepository {
         return sInstance;
     }
 
-    public LiveData<List<ShipWithContainer>> getShipsFromCaptain(final int id_captain) {
-        return mDatabase.shipDao().getShipsFromCaptain(id_captain);
+    public LiveData<List<ShipWithContainer>> getShipsFromCaptainLD(final int id_captain) {
+        return mDatabase.shipDao().getShipsFromCaptainLD(id_captain);
     }
-    public LiveData<ShipWithContainer> getShip(final int id) {
-        return mDatabase.shipDao().getById(id);
+    public LiveData<ShipWithContainer> getShipLD(final int id) {
+        return mDatabase.shipDao().getByIdLD(id);
     }
 
-    public LiveData<List<ShipWithContainer>> getShips() {
-        return mDatabase.shipDao().getAll();
+    public LiveData<List<ShipWithContainer>> getShipsLD() {
+        return mDatabase.shipDao().getAllLD();
     }
 
     public void insert(final ShipEntity ship) {

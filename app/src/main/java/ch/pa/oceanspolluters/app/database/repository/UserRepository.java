@@ -27,16 +27,16 @@ public class UserRepository {
         return sInstance;
     }
 
-    public LiveData<UserEntity> getUser(final int id) {
-        return mDatabase.userDao().getById(id);
+    public LiveData<UserEntity> getUserLD(final int id) {
+        return mDatabase.userDao().getByIdLD(id);
     }
 
-    public LiveData<UserEntity> getByName(String name) {
-        return mDatabase.userDao().getByName(name);
+    public LiveData<UserEntity> getByNameLD(String name) {
+        return mDatabase.userDao().getByNameLD(name);
     };
 
-    public LiveData<List<UserEntity>> getUsers() {
-        return mDatabase.userDao().getAll();
+    public LiveData<List<UserEntity>> getUsersLD() {
+        return mDatabase.userDao().getAllLD();
     }
 
     public void insert(final UserEntity user) {

@@ -19,13 +19,22 @@ import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 public abstract class UserDao {
 
     @Query("SELECT * FROM users WHERE e_user_id = :id")
-    public abstract LiveData<UserEntity> getById(int id);
+    public abstract LiveData<UserEntity> getByIdLD(int id);
 
     @Query("SELECT * FROM users WHERE user_name like '%' || :name || '%' limit 1")
-    public abstract LiveData<UserEntity> getByName(String name);
+    public abstract LiveData<UserEntity> getByNameLD(String name);;
 
     @Query("SELECT * FROM users")
-    public abstract LiveData<List<UserEntity>> getAll();
+    public abstract LiveData<List<UserEntity>> getAllLD();
+
+    @Query("SELECT * FROM users WHERE e_user_id = :id")
+    public abstract UserEntity getById(int id);
+
+    @Query("SELECT * FROM users WHERE user_name like '%' || :name || '%' limit 1")
+    public abstract UserEntity getByName(String name);;
+
+    @Query("SELECT * FROM users")
+    public abstract List<UserEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(UserEntity user);

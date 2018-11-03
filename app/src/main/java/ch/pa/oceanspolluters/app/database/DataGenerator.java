@@ -49,42 +49,42 @@ public class DataGenerator {
         ports.add(new PortEntity("Marseille"));
 
         db.portDao().insertAll(ports);
-        LiveData<List<PortEntity>> portsWithId = db.portDao().getAll();
 
+        List<PortEntity> portsWithId = db.portDao().getAll();
 
         //init ships
         db.shipDao().deleteAll();
         List<ShipEntity> ships = new ArrayList<>();
 
-        LiveData<UserEntity> captain = db.userDao().getByName("Captain");
+        UserEntity captain = db.userDao().getByName("Captain");
         Calendar calendar = Calendar.getInstance();
 
         calendar.add(Calendar.HOUR, 6);
-        ships.add(new ShipEntity("Manila Maersk",  20568, captain.getValue().getId(), portsWithId.getValue().get(0).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Manila Maersk",  20568, captain.getId(), portsWithId.get(0).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 125);
-        ships.add(new ShipEntity("Ever Given",  20338, captain.getValue().getId(), portsWithId.getValue().get(1).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Ever Given",  20338, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 132);
-        ships.add(new ShipEntity("MSC Mirjam",  19462, captain.getValue().getId(), portsWithId.getValue().get(2).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("MSC Mirjam",  19462, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 224);
-        ships.add(new ShipEntity("Al Nefud",  18800, captain.getValue().getId(), portsWithId.getValue().get(3).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Al Nefud",  18800, captain.getId(), portsWithId.get(3).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 131);
-        ships.add(new ShipEntity("MSC Diana",  19462, captain.getValue().getId(), portsWithId.getValue().get(4).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("MSC Diana",  19462, captain.getId(), portsWithId.get(4).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 186);
-        ships.add(new ShipEntity("YM Wellness",  14080, captain.getValue().getId(), portsWithId.getValue().get(3).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(3).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 236);
-        ships.add(new ShipEntity("Tihama",  18800, captain.getValue().getId(), portsWithId.getValue().get(0).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Tihama",  18800, captain.getId(), portsWithId.get(0).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 203);
-        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getValue().getId(), portsWithId.getValue().get(1).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
 
         db.shipDao().insertAll(ships);
-        LiveData<List<ShipWithContainer>> shipsWithId = db.shipDao().getAll();
+        List<ShipWithContainer> shipsWithId = db.shipDao().getAll();
 
         //init containers
         db.containerDao().deleteAll();
@@ -93,7 +93,7 @@ public class DataGenerator {
         //we add 200 containers randomly to ships
         for(int i = 0; i<200; i++){
 
-            int shipId = (int)Math.floor(Math.random()*shipsWithId.getValue().size()+1);
+            int shipId = (int)Math.floor(Math.random()*shipsWithId.size()+1);
             boolean loaded = Math.random()>0.3;
 
             char[] alphabetNumber = "abcdefghijklmnopqrstuvwxyz01234567890".toUpperCase().toCharArray();
@@ -105,7 +105,7 @@ public class DataGenerator {
 
         }
         db.containerDao().insertAll(containers);
-        LiveData<List<ContainerWithItem>> containersWithId = db.containerDao().getAll();
+        List<ContainerWithItem> containersWithId = db.containerDao().getAll();
 
         //init items
         db.itemDao().deleteAll();
@@ -113,7 +113,7 @@ public class DataGenerator {
 
 
         //for each container
-        for(int i = 0; i<containersWithId.getValue().size(); i++){
+        for(int i = 0; i<containersWithId.size(); i++){
 
             //we add 5 - 50 random items to container
             int numberItem = (int)Math.floor(Math.random()*45+5);
@@ -124,7 +124,7 @@ public class DataGenerator {
 
                 float weight = (float)Math.random()*50;
 
-                ItemEntity item = new ItemEntity(type, weight, (int)containersWithId.getValue().get(i).container.getId());
+                ItemEntity item = new ItemEntity(type, weight, (int)containersWithId.get(i).container.getId());
             }
         }
 

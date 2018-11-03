@@ -26,7 +26,7 @@ public abstract class ShipDao {
             "ships s " +
             "LEFT JOIN containers c ON c.ship_id = ship_id " +
             "WHERE ship_id = :shipId")
-    public abstract LiveData<ShipWithContainer> getById(int shipId);
+    public abstract LiveData<ShipWithContainer> getByIdLD(int shipId);
 
     @Transaction
     @Query("SELECT * " +
@@ -34,7 +34,14 @@ public abstract class ShipDao {
             "ships s " +
             "LEFT JOIN users u ON s.captain_id = e_user_id " +
             "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id ")
-    public abstract LiveData<List<ShipWithContainer>> getAll();
+    public abstract LiveData<List<ShipWithContainer>> getAllLD();
+
+    @Query("SELECT * " +
+            "FROM " +
+            "ships s " +
+            "LEFT JOIN users u ON s.captain_id = e_user_id " +
+            "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id ")
+    public abstract List<ShipWithContainer> getAll();
 
     @Transaction
     @Query("SELECT * " +
@@ -43,7 +50,7 @@ public abstract class ShipDao {
                 "LEFT JOIN users u ON s.captain_id = e_user_id " +
                 "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id " +
             "WHERE captain_id = :id_captain")
-    public abstract LiveData<List<ShipWithContainer>> getShipsFromCaptain(int id_captain);
+    public abstract LiveData<List<ShipWithContainer>> getShipsFromCaptainLD(int id_captain);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(ShipEntity ship);

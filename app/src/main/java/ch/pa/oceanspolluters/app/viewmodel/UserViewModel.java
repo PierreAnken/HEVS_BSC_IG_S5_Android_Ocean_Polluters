@@ -35,7 +35,7 @@ public class UserViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableUser.setValue(null);
 
-        LiveData<UserEntity> user = mRepository.getUser(userId);
+        LiveData<UserEntity> user = mRepository.getUserLD(userId);
 
         // observe the changes of the user entity from the database and forward them
         mObservableUser.addSource(user, mObservableUser::setValue);

@@ -27,12 +27,12 @@ public class PortRepository {
         return sInstance;
     }
 
-    public LiveData<PortEntity> getPort(final int id) {
-        return mDatabase.portDao().getById(id);
+    public LiveData<PortEntity> getPortLD(final int id) {
+        return mDatabase.portDao().getByIdLD(id);
     }
 
-    public LiveData<List<PortEntity>> getPorts() {
-        return mDatabase.portDao().getAll();
+    public LiveData<List<PortEntity>> getPortsLD() {
+        return mDatabase.portDao().getAllLD();
     }
 
     public void insert(final PortEntity port) {

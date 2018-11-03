@@ -27,12 +27,12 @@ public class ItemRepository {
         return sInstance;
     }
 
-    public LiveData<ItemEntity> getItem(final int id) {
-        return mDatabase.itemDao().getById(id);
+    public LiveData<ItemEntity> getItemLD(final int id) {
+        return mDatabase.itemDao().getByIdLD(id);
     }
 
-    public LiveData<List<ItemEntity>> getItemsFromContainer(int containerId) {
-        return mDatabase.itemDao().getItemsFromContainer(containerId);
+    public LiveData<List<ItemEntity>> getItemsFromContainerLD(int containerId) {
+        return mDatabase.itemDao().getItemsFromContainerLD(containerId);
     }
 
     public void insert(final ItemEntity item) {
