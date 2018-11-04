@@ -27,5 +27,8 @@
     <string name="destination_port">Destination port</string>
     <string name="ship_detail">Ship detail</string>
     <string name="general_information">General informations</string>
+    <string name="loading_status">Loading status</string>
+    <string name="container_loaded">Containers loaded</string>
+    <string name="total_weight">Total weight</string>
 
 </resources>

@@ -37,11 +37,12 @@ public class CaptainHomeActivity extends AppCompatActivity {
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Log.d(TAG, "clicked position:" + position);
-                Log.d(TAG, "clicked on: " + mShipsWithContainer.get(position).ship.getName());
+                Log.d(TAG, "PA_Debug clicked position:" + position);
+                Log.d(TAG, "PA_Debug clicked on: " + mShipsWithContainer.get(position).ship.getName());
 
                 Intent shipDetail = new Intent(getApplicationContext(), CaptainShipDetailActivity.class);
                 shipDetail.putExtra("shipId",mShipsWithContainer.get(position).ship.getId().toString());
+                Log.d(TAG, "PA_Debug ship id:" + mShipsWithContainer.get(position).ship.getId().toString());
                 startActivity(shipDetail);
             }
 

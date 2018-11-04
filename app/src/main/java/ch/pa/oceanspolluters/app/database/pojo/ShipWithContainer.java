@@ -6,6 +6,7 @@ import android.arch.persistence.room.Relation;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
@@ -15,12 +16,23 @@ public class ShipWithContainer {
     public ShipEntity ship;
 
     @Relation(parentColumn = "e_ship_id", entityColumn = "ship_id", entity = ContainerEntity.class)
-    public List<ContainerEntity> containers;
+    public List<ContainerWithItem> containers;
 
     @Embedded
     public UserEntity captain;
 
     @Embedded
     public PortEntity port;
+
+    public int getWeight(){
+        int weight = 0;
+        if(containers != null){
+            for (ContainerWithItem container: containers
+                    ) {
+                weight+= container.getWeight();
+            }
+        }
+        return weight;
+    }
 
 }

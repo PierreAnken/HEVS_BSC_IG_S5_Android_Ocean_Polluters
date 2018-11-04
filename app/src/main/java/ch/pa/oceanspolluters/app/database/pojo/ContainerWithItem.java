@@ -14,4 +14,15 @@ public class ContainerWithItem {
 
     @Relation(parentColumn = "e_container_id", entityColumn = "container_id", entity = ItemEntity.class)
     public List<ItemEntity> items;
+
+    public int getWeight(){
+        int weight = 0;
+        if(items != null){
+            for (ItemEntity item: items
+                 ) {
+                weight+= item.getWeightKg();
+            }
+        }
+        return weight;
+    }
 }

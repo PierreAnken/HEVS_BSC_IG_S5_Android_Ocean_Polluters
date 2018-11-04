@@ -27,7 +27,7 @@ public abstract class ShipDao {
             "LEFT JOIN containers c ON c.ship_id = ship_id " +
             "LEFT JOIN users u ON s.captain_id = e_user_id " +
             "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id "+
-            "WHERE ship_id = :shipId")
+            "WHERE s.e_ship_id = :shipId")
     public abstract LiveData<ShipWithContainer> getByIdLD(int shipId);
 
     @Transaction

@@ -10,6 +10,7 @@ tools:context=".ui.CaptainShipDetailActivity"
 android:background="@drawable/texture_eau">
 
 
+
     //general informations header
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -17,12 +18,13 @@ android:background="@drawable/texture_eau">
         android:text="@string/general_information"
         android:textSize="@dimen/title_inside_view"/>
 
-
     //general informations data
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         style="@style/border_white_style">
+
 
         //En-têtes
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -78,6 +80,71 @@ android:background="@drawable/texture_eau">
                 android:id="@+id/t_departure_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    //loading status
+
+    //loading status
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loading_status"
+        android:textSize="@dimen/title_inside_view"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/border_white_style">
+
+
+
+        //En-têtes
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+
+            //containers status
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/container_loaded"
+                />
+
+            //weight
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/total_weight"/>
+
+
+        </LinearLayout>
+
+        //texts
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            //ship name label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/t_container_loaded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            //destination port label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/t_total_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
         </LinearLayout>
     </LinearLayout>
 

@@ -31,7 +31,7 @@ public class ShipRepository {
     public LiveData<List<ShipWithContainer>> getShipsFromCaptainLD(final int id_captain) {
         return mDatabase.shipDao().getShipsFromCaptainLD(id_captain);
     }
-    public LiveData<ShipWithContainer> getShipLD(final int id) {
+    public LiveData<ShipWithContainer> getShipByIdLD(final int id) {
         return mDatabase.shipDao().getByIdLD(id);
     }
 
