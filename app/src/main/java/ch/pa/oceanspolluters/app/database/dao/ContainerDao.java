@@ -39,7 +39,7 @@ public abstract class ContainerDao {
             "FROM " +
             "containers s " +
             "LEFT JOIN items i ON s.e_container_id = e_container_id " +
-            "WHERE container_id = :id_container")
+            "WHERE s.e_container_id = :id_container")
     public abstract LiveData<ContainerWithItem> getByIdLD(int id_container);
 
     @Transaction
@@ -47,7 +47,7 @@ public abstract class ContainerDao {
             "FROM " +
             "containers s " +
             "LEFT JOIN items i ON s.e_container_id = e_container_id " +
-            "WHERE ship_id = :id_ship")
+            "WHERE s.ship_id = :id_ship")
     public abstract LiveData<List<ContainerWithItem>> getByShipIdLD(int id_ship);
 
 

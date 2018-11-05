@@ -2,7 +2,9 @@ package ch.pa.oceanspolluters.app.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -65,8 +67,13 @@ public class CaptainShipDetailActivity extends AppCompatActivity {
                 }
             }
             ((TextView)findViewById(R.id.t_container_loaded)).setText(containerLoaded+"/"+shipContainers);
-            ((TextView)findViewById(R.id.t_total_weight)).setText(totalLoadedWeight+"/"+mShip.ship.getMaxLoadKg());
 
+            TextView weightInfo = (TextView)findViewById(R.id.t_total_weight);
+            weightInfo.setText(totalLoadedWeight+"/"+mShip.ship.getMaxLoadKg()+ " kg");
+
+            if(totalLoadedWeight > mShip.ship.getMaxLoadKg()){
+                weightInfo.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package ch.pa.oceanspolluters.app.database;
 
 import android.arch.lifecycle.LiveData;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,10 +22,11 @@ import ch.pa.oceanspolluters.app.util.Roles;
  */
 public class DataGenerator {
 
+    private static final String TAG = "DataGenerator";
 
     public static void generateBaseData(AppDatabase db) {
 
-        System.out.println("PAD start of random data generation");
+        Log.d(TAG, "PA_Debug start of random data generation");
 
         //init users
         db.userDao().deleteAll();
@@ -124,12 +126,13 @@ public class DataGenerator {
 
                 float weight = (float)Math.random()*50;
 
-                ItemEntity item = new ItemEntity(type, weight, (int)containersWithId.get(i).container.getId());
+                ItemEntity item = new ItemEntity(type, weight, containersWithId.get(i).container.getId());
+                items.add(item);
             }
         }
 
         db.itemDao().insertAll(items);
-        System.out.println("PAD end of random data generation");
+        Log.d(TAG, "PA_Debug end of random data generation");
     }
 
 }
