@@ -18,12 +18,56 @@ android:background="@drawable/texture_eau">
     android:textColor="@color/WhiteSmoke"
     android:text="@string/planning"
     />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        style="@style/border_white_style"
+        android:layout_margin="10dp" >
+
+        //ship name header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/ship"
+            android:textStyle="bold"
+            />
+
+        //destination port header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/destination"
+            android:textStyle="bold"/>
+
+        //departure date header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1.2"
+            android:layout_height="wrap_content"
+            android:text="@string/departure"
+            android:textStyle="bold"/>
+        //icon look
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1.4"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center_vertical"/>
+
+
+    </LinearLayout>
+
+
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/captainShipsRecyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_margin="10dp" />
 </LinearLayout>

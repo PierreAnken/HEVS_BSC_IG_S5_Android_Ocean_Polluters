@@ -68,7 +68,7 @@ public class CaptainShipDetailActivity extends AppCompatActivity {
             }
             ((TextView)findViewById(R.id.t_container_loaded)).setText(containerLoaded+"/"+shipContainers);
 
-            TextView weightInfo = (TextView)findViewById(R.id.t_total_weight);
+            TextView weightInfo = findViewById(R.id.t_total_weight);
             weightInfo.setText(totalLoadedWeight+"/"+mShip.ship.getMaxLoadKg()+ " kg");
 
             if(totalLoadedWeight > mShip.ship.getMaxLoadKg()){

@@ -30,5 +30,7 @@
     <string name="loading_status">Loading status</string>
     <string name="container_loaded">Containers loaded</string>
     <string name="total_weight">Total weight</string>
+    <string name="departure">Departure</string>
+    <string name="destination">Destination</string>
 
 </resources>
