@@ -32,5 +32,9 @@
     <string name="total_weight">Total weight</string>
     <string name="departure">Departure</string>
     <string name="destination">Destination</string>
+    <string name="ship_details">Ship details</string>
+    <string name="add">add</string>
+    <string name="ship_edit">Ship edition</string>
+    <string name="ship_add">Ship add</string>
 
 </resources>

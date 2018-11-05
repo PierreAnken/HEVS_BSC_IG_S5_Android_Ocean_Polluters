@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -38,16 +39,21 @@ public class CaptainHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                Log.d(TAG, "PA_Debug clicked on: " + mShipsWithContainer.get(position).ship.getName());
 
-                Intent shipDetail = new Intent(getApplicationContext(), CaptainShipDetailActivity.class);
+                Intent shipDetail = new Intent(getApplicationContext(), CaptainShipViewActivity.class);
                 shipDetail.putExtra("shipId",mShipsWithContainer.get(position).ship.getId().toString());
-                Log.d(TAG, "PA_Debug ship id:" + mShipsWithContainer.get(position).ship.getId().toString());
+                Log.d(TAG, "PA_Debug ship id to view:" + mShipsWithContainer.get(position).ship.getId().toString());
                 startActivity(shipDetail);
             }
 
             @Override
             public void onItemLongClick(View v, int position) {
+                Log.d(TAG, "PA_Debug long clicked position:" + position);
+
+                Intent shipAddEdit = new Intent(getApplicationContext(), CaptainShipAddEditActivity.class);
+                shipAddEdit.putExtra("shipId",mShipsWithContainer.get(position).ship.getId().toString());
+                Log.d(TAG, "PA_Debug ship id to edit:" + mShipsWithContainer.get(position).ship.getId().toString());
+                startActivity(shipAddEdit);
             }
         });
 
@@ -71,8 +77,18 @@ public class CaptainHomeActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.add:
+                Log.d(TAG, "PA_Debug captain want to add a ship");
+                startActivity(new Intent(getApplicationContext(), CaptainShipAddEditActivity.class));
+                return true;
             case android.R.id.home:
                 this.finish();
                 return true;

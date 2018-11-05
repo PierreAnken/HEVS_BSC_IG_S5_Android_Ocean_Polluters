@@ -28,8 +28,11 @@
             android:label="@string/title_activity_captain_home"
             android:parentActivityName="ui.LoginActivity">
         </activity>
-        <activity android:name=".ui.CaptainShipDetailActivity"
-            android:label="@string/travel_detail"
+        <activity android:name=".ui.CaptainShipViewActivity"
+            android:label="@string/ship_details"
+            android:parentActivityName="ui.CaptainHomeActivity">
+        </activity>
+        <activity android:name=".ui.CaptainShipAddEditActivity"
             android:parentActivityName="ui.CaptainHomeActivity">
         </activity>
         <activity android:name=".ui.AdministratorHomeActivity"

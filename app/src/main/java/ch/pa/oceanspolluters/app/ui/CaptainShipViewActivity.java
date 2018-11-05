@@ -2,7 +2,6 @@ package ch.pa.oceanspolluters.app.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,23 +10,22 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
-public class CaptainShipDetailActivity extends AppCompatActivity {
+public class CaptainShipViewActivity extends AppCompatActivity {
 
     private ShipWithContainer mShip;
     private ShipViewModel mViewModel;
 
-    private static final String TAG = "CaptainShipDetailAct";
+    private static final String TAG = "CaptainShipView";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_captain_travel_detail);
+        setContentView(R.layout.activity_captain_ship_view);
 
         Intent shipDetail = getIntent();
         int shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));

@@ -42,6 +42,7 @@ android:background="@drawable/texture_eau">
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/destination"
+            android:layout_marginLeft="10dp"
             android:textStyle="bold"/>
 
         //departure date header
