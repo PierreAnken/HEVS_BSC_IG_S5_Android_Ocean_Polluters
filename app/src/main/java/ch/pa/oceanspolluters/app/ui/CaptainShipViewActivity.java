@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -74,10 +75,21 @@ public class CaptainShipViewActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.edit:
+                Intent shipAddEdit = new Intent(getApplicationContext(), CaptainShipAddEditActivity.class);
+                shipAddEdit.putExtra("shipId",mShip.ship.getId().toString());
+                Log.d(TAG, "PA_Debug ship sent as intent to edit "+mShip.ship.getId());
+                startActivity(shipAddEdit);
+                return true;
             case android.R.id.home:
                 this.finish();
                 return true;

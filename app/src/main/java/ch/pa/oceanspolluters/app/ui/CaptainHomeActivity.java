@@ -19,6 +19,7 @@ import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.ViewMode;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class CaptainHomeActivity extends AppCompatActivity {
@@ -39,23 +40,17 @@ public class CaptainHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-
-                Intent shipDetail = new Intent(getApplicationContext(), CaptainShipViewActivity.class);
-                shipDetail.putExtra("shipId",mShipsWithContainer.get(position).ship.getId().toString());
-                Log.d(TAG, "PA_Debug ship id to view:" + mShipsWithContainer.get(position).ship.getId().toString());
-                startActivity(shipDetail);
+                DisplayShip(ViewMode.View, mShipsWithContainer.get(position).ship.getId());
             }
 
             @Override
             public void onItemLongClick(View v, int position) {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
-
-                Intent shipAddEdit = new Intent(getApplicationContext(), CaptainShipAddEditActivity.class);
-                shipAddEdit.putExtra("shipId",mShipsWithContainer.get(position).ship.getId().toString());
-                Log.d(TAG, "PA_Debug ship id to edit:" + mShipsWithContainer.get(position).ship.getId().toString());
-                startActivity(shipAddEdit);
+                DisplayShip(ViewMode.Edit, mShipsWithContainer.get(position).ship.getId());
             }
         });
+
+
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -76,6 +71,20 @@ public class CaptainHomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
+    private void DisplayShip(ViewMode mode, int shipId){
+
+        Intent shipView;
+
+        if(mode == ViewMode.View)
+            shipView = new Intent(getApplicationContext(), CaptainShipViewActivity.class);
+        else
+            shipView = new Intent(getApplicationContext(), CaptainShipAddEditActivity.class);
+
+        shipView.putExtra("shipId",Integer.toString(shipId));
+        Log.d(TAG, "PA_Debug ship id to edit:" + Integer.toString(shipId));
+        startActivity(shipView);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add, menu);
@@ -86,8 +95,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                Log.d(TAG, "PA_Debug captain want to add a ship");
-                startActivity(new Intent(getApplicationContext(), CaptainShipAddEditActivity.class));
+                DisplayShip(ViewMode.Edit, -1);
                 return true;
             case android.R.id.home:
                 this.finish();

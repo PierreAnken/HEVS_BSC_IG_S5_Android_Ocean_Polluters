@@ -36,5 +36,6 @@
     <string name="add">add</string>
     <string name="ship_edit">Ship edition</string>
     <string name="ship_add">Ship add</string>
+    <string name="edit">edit</string>
 
 </resources>
