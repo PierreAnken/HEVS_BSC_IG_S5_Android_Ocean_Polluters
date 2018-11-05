@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity{
         //setup spinner
         mSpinner = findViewById(R.id.users_spinner);
         usersAdapter =
-                new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, userNames);
+                new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
         usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(usersAdapter);
 

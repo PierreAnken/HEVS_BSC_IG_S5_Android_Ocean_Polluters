@@ -28,7 +28,6 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_captain_ship_add_edit);
 
-
         Intent shipDetail = getIntent();
         int shipId = shipDetail.getStringExtra("shipId") != null ? Integer.parseInt(shipDetail.getStringExtra("shipId")): 0;
 
@@ -56,8 +55,8 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         if(mShip != null){
             ((EditText)findViewById(R.id.ae_ship_name)).setText(mShip.ship.getName());
             //((EditText)findViewById(R.id.ae_destination_port)).setText(mShip.port.getName());
+            //TODO : generate spinner with ports
             ((EditText)findViewById(R.id.ae_departure_date)).setText(TB.getShortDate(mShip.ship.getDepartureDate()));
-
         }
     }
 
