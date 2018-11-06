@@ -7,7 +7,7 @@ import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 
-public class UpdateShip extends AsyncTask<ShipEntity, Void, Void> {
+public class SaveShip extends AsyncTask<ShipEntity, Void, Void> {
 
     private static final String TAG = "UpdateShip";
 
@@ -15,7 +15,7 @@ public class UpdateShip extends AsyncTask<ShipEntity, Void, Void> {
     private OnAsyncEventListener mCallBack;
     private Exception mException;
 
-    public UpdateShip(Application application, OnAsyncEventListener callback) {
+    public SaveShip(Application application, OnAsyncEventListener callback) {
         mApplication = application;
         mCallBack = callback;
     }
@@ -23,9 +23,16 @@ public class UpdateShip extends AsyncTask<ShipEntity, Void, Void> {
     @Override
     protected Void doInBackground(ShipEntity... params) {
         try {
-            for (ShipEntity ship : params)
+            for (ShipEntity ship : params){
+
+                if(ship == null){
                 ((BaseApp) mApplication).getShipRepository()
-                        .update(ship);
+                        .insert(ship);
+                }else{
+                    ((BaseApp) mApplication).getShipRepository()
+                            .update(ship);
+                }
+            }
         } catch (Exception e) {
             mException = e;
         }

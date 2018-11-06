@@ -51,7 +51,7 @@ public class PortListViewModel extends AndroidViewModel {
         private final PortRepository mPortRepository;
 
 
-        public FactoryPorts(@NonNull Application application, int containerId) {
+        public FactoryPorts(@NonNull Application application) {
             mApplication = application;
             mPortRepository = ((BaseApp) application).getPortRepository();
         }
