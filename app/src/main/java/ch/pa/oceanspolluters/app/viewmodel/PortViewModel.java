@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.async.UpdatePort;
+import ch.pa.oceanspolluters.app.database.async.SavePort;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.repository.PortRepository;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
@@ -74,7 +74,7 @@ public class PortViewModel extends AndroidViewModel {
     }
 
     public void updatePort(PortEntity user, OnAsyncEventListener callback) {
-        new UpdatePort(getApplication(), new OnAsyncEventListener() {
+        new SavePort(getApplication(), new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
                 callback.onSuccess();

@@ -10,4 +10,8 @@ public class TB {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return simpleDateFormat.format(date);
     }
+
+    public static SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("dd-MM-yyyy");
+    }
 }

@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.async.UpdateUser;
+import ch.pa.oceanspolluters.app.database.async.SaveUser;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.repository.UserRepository;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
@@ -74,7 +74,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void updateUser(UserEntity user, OnAsyncEventListener callback) {
-        new UpdateUser(getApplication(), new OnAsyncEventListener() {
+        new SaveUser(getApplication(), new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
                 callback.onSuccess();

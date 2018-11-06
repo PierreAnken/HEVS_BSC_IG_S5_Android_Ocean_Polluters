@@ -2,20 +2,21 @@ package ch.pa.oceanspolluters.app.database.async;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 
-public class UpdatePort extends AsyncTask<PortEntity, Void, Void> {
+public class SavePort extends AsyncTask<PortEntity, Void, Void> {
 
-    private static final String TAG = "UpdatePort";
+    private static final String TAG = "SavePort";
 
     private Application mApplication;
     private OnAsyncEventListener mCallBack;
     private Exception mException;
 
-    public UpdatePort(Application application, OnAsyncEventListener callback) {
+    public SavePort(Application application, OnAsyncEventListener callback) {
         mApplication = application;
         mCallBack = callback;
     }
@@ -23,9 +24,17 @@ public class UpdatePort extends AsyncTask<PortEntity, Void, Void> {
     @Override
     protected Void doInBackground(PortEntity... params) {
         try {
-            for (PortEntity port : params)
-                ((BaseApp) mApplication).getPortRepository()
-                        .update(port);
+            for (PortEntity port : params) {
+                if (port.getId() == null) {
+                    ((BaseApp) mApplication).getPortRepository()
+                            .insert(port);
+                    Log.d(TAG, "PA_Debug insert: " + port.getName());
+                } else {
+                    ((BaseApp) mApplication).getPortRepository()
+                            .update(port);
+                    Log.d(TAG, "PA_Debug update: " + port.getName());
+                }
+            }
         } catch (Exception e) {
             mException = e;
         }

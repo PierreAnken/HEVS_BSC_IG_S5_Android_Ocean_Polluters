@@ -1,6 +1,7 @@
 package ch.pa.oceanspolluters.app.database.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.util.Log;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 
 public class ShipRepository {
+    private static final String TAG = "ShipRepository";
     private static ShipRepository sInstance;
 
     private final AppDatabase mDatabase;
@@ -41,6 +43,7 @@ public class ShipRepository {
 
     public void insert(final ShipEntity ship) {
         mDatabase.shipDao().insert(ship);
+        Log.d(TAG, "PA_Debug saveShip: " + ship.getName());
     }
 
     public void update(final ShipEntity ship) {

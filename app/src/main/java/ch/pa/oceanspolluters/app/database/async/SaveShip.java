@@ -2,6 +2,7 @@ package ch.pa.oceanspolluters.app.database.async;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
@@ -25,12 +26,14 @@ public class SaveShip extends AsyncTask<ShipEntity, Void, Void> {
         try {
             for (ShipEntity ship : params){
 
-                if(ship == null){
+                if (ship.getId() == null) {
                 ((BaseApp) mApplication).getShipRepository()
                         .insert(ship);
+                    Log.d(TAG, "PA_Debug insertShip: " + ship.getName());
                 }else{
                     ((BaseApp) mApplication).getShipRepository()
                             .update(ship);
+                    Log.d(TAG, "PA_Debug updateShip: " + ship.getName());
                 }
             }
         } catch (Exception e) {

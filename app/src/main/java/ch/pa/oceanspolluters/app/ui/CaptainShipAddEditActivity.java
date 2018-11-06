@@ -2,10 +2,7 @@ package ch.pa.oceanspolluters.app.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.net.ParseException;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,26 +11,19 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.async.SaveShip;
-import ch.pa.oceanspolluters.app.database.dao.ShipDao;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
-import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.database.repository.ShipRepository;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.viewmodel.PortListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.PortViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class CaptainShipAddEditActivity extends AppCompatActivity {
@@ -45,6 +35,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
     private List<PortEntity> mPorts;
 
     private EditText shipName;
+    private EditText maxWeight;
     private EditText departureDate;
     private Spinner ports;
 
@@ -66,6 +57,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         shipName = findViewById(R.id.ae_ship_name);
         departureDate = findViewById(R.id.ae_departure_date);
         ports = findViewById(R.id.ae_destination_port_spinner);
+        maxWeight = findViewById(R.id.ae_max_weight);
 
         Log.d(TAG, "PA_Debug received ship id from intent:" + shipId);
 
@@ -97,10 +89,19 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         shipName.setError(null);
         departureDate.setError(null);
+        maxWeight.setError(null);
+
         Date convertedDate = new Date();
 
         String shipNameS = shipName.getText().toString();
         String departureDateS = departureDate.getText().toString();
+
+        float maxWeightF = Float.parseFloat(maxWeight.getText().toString());
+
+        if (maxWeightF < 1) {
+            valid = false;
+            maxWeight.setError("Invalid ship max weight");
+        }
 
         if(TextUtils.isEmpty(shipNameS)){
             valid = false;
@@ -112,8 +113,6 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
             departureDate.setError("Departure date cannot be empty");
         }
         else{
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-
 
             if(convertedDate.after(new Date() )){
                 valid = false;
@@ -121,11 +120,11 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
             }
 
             try {
-                convertedDate = dateFormat.parse(departureDateS);
+                convertedDate = TB.getDateFormat().parse(departureDateS);
 
             } catch (java.text.ParseException e) {
                 valid = false;
-                departureDate.setError("Invalid date format : MM.dd.yyyy");
+                departureDate.setError("Invalid date format : " + TB.getDateFormat().toString());
             }
         }
 
@@ -134,12 +133,13 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
             ShipEntity ship;
 
             if (mShip == null) {
-                ship = new ShipEntity(shipNameS, 25000f, 0, ports.getSelectedItemPosition(), convertedDate);
+                ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), ports.getSelectedItemPosition(), convertedDate);
             } else {
-                mShip.ship.setName(shipNameS);
-                mShip.ship.setDepartureDate(convertedDate);
-                mShip.ship.setDestinationPortId(ports.getSelectedItemPosition());
                 ship = mShip.ship;
+                ship.setName(shipNameS);
+                ship.setMaxLoadKg(maxWeightF);
+                ship.setDepartureDate(convertedDate);
+                ship.setDestinationPortId(ports.getSelectedItemPosition());
             }
 
             new SaveShip(getApplication(), new OnAsyncEventListener() {
@@ -156,8 +156,6 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
                 }
             }).execute(ship);
-
-
         }
     }
 
@@ -166,8 +164,9 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
     private void updateView(){
         Log.d(TAG, "PA_Debug updateView");
         if(mShip != null){
-            ((EditText)findViewById(R.id.ae_ship_name)).setText(mShip.ship.getName());
-            ((EditText)findViewById(R.id.ae_departure_date)).setText(TB.getShortDate(mShip.ship.getDepartureDate()));
+            shipName.setText(mShip.ship.getName());
+            departureDate.setText(TB.getShortDate(mShip.ship.getDepartureDate()));
+            maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
         }
 
         if(mPorts != null){

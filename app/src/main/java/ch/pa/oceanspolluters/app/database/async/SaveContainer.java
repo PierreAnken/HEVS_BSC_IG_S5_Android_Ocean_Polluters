@@ -2,20 +2,21 @@ package ch.pa.oceanspolluters.app.database.async;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 
-public class UpdateContainer extends AsyncTask<ContainerEntity, Void, Void> {
+public class SaveContainer extends AsyncTask<ContainerEntity, Void, Void> {
 
-    private static final String TAG = "UpdateContainer";
+    private static final String TAG = "SaveContainer";
 
     private Application mApplication;
     private OnAsyncEventListener mCallBack;
     private Exception mException;
 
-    public UpdateContainer(Application application, OnAsyncEventListener callback) {
+    public SaveContainer(Application application, OnAsyncEventListener callback) {
         mApplication = application;
         mCallBack = callback;
     }
@@ -23,9 +24,18 @@ public class UpdateContainer extends AsyncTask<ContainerEntity, Void, Void> {
     @Override
     protected Void doInBackground(ContainerEntity... params) {
         try {
-            for (ContainerEntity container : params)
-                ((BaseApp) mApplication).getContainerRepository()
-                        .update(container);
+            for (ContainerEntity container : params) {
+
+                if (container.getId() == null) {
+                    ((BaseApp) mApplication).getContainerRepository()
+                            .insert(container);
+                    Log.d(TAG, "PA_Debug insert: " + container.getDockPosition());
+                } else {
+                    ((BaseApp) mApplication).getContainerRepository()
+                            .update(container);
+                    Log.d(TAG, "PA_Debug update: " + container.getDockPosition());
+                }
+            }
         } catch (Exception e) {
             mException = e;
         }

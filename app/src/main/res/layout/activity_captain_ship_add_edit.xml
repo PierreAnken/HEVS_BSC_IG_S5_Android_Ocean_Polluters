@@ -72,6 +72,7 @@ android:background="@drawable/texture_eau"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
+
         </LinearLayout>
 
 
@@ -98,6 +99,33 @@ android:background="@drawable/texture_eau"
                 />
 
         </LinearLayout>
+
+        //ship max weight
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            //max weight header
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/max_weight" />
+
+            //max weight label
+
+            <EditText xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ae_max_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/ShipAEerrorMsg"

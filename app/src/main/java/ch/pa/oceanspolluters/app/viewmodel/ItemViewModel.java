@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.async.UpdateItem;
+import ch.pa.oceanspolluters.app.database.async.SaveItem;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
@@ -74,7 +74,7 @@ public class ItemViewModel extends AndroidViewModel {
     }
 
     public void updateItem(ItemEntity item, OnAsyncEventListener callback) {
-        new UpdateItem(getApplication(), new OnAsyncEventListener() {
+        new SaveItem(getApplication(), new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
                 callback.onSuccess();

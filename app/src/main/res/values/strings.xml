@@ -38,5 +38,6 @@
     <string name="ship_add">Ship add</string>
     <string name="edit">edit</string>
     <string name="ok">Save</string>
+    <string name="max_weight">Max weight (kg)</string>
 
 </resources>
