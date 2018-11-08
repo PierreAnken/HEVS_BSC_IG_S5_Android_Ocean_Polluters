@@ -10,11 +10,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.async.SaveShip;
-import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.database.repository.ShipRepository;
-import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 
 
 public class ShipViewModel extends AndroidViewModel {
@@ -74,19 +71,4 @@ public class ShipViewModel extends AndroidViewModel {
         return mObservableShip;
     }
 
-    public void updateShip(ShipEntity ship, OnAsyncEventListener callback) {
-        new SaveShip(getApplication(), new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                callback.onSuccess();
-                Log.d(TAG, "saveShip: success");
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                callback.onFailure(e);
-                Log.d(TAG, "saveShip: failure", e);
-            }
-        });
-    }
-}
+  }

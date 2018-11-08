@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.async.SaveContainer;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.repository.ContainerRepository;
@@ -74,19 +73,4 @@ public class ContainerViewModel extends AndroidViewModel {
         return mObservableContainer;
     }
 
-    public void updateContainer(ContainerEntity container, OnAsyncEventListener callback) {
-        new SaveContainer(getApplication(), new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                callback.onSuccess();
-                Log.d(TAG, "updateContainer: success");
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                callback.onFailure(e);
-                Log.d(TAG, "updateContainer: failure", e);
-            }
-        });
-    }
 }

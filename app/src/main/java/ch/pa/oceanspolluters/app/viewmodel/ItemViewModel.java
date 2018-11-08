@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.async.SaveItem;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
@@ -73,19 +72,4 @@ public class ItemViewModel extends AndroidViewModel {
         return mObservableItem;
     }
 
-    public void updateItem(ItemEntity item, OnAsyncEventListener callback) {
-        new SaveItem(getApplication(), new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                callback.onSuccess();
-                Log.d(TAG, "updateItem: success");
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                callback.onFailure(e);
-                Log.d(TAG, "updateItem: failure", e);
-            }
-        });
-    }
 }

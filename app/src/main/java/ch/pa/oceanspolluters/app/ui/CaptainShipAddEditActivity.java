@@ -17,11 +17,12 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.async.SaveShip;
+import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.viewmodel.PortListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
@@ -142,7 +143,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 ship.setDestinationPortId(ports.getSelectedItemPosition());
             }
 
-            new SaveShip(getApplication(), new OnAsyncEventListener() {
+            new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "PA_Debug updateShip: success");
@@ -155,7 +156,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                     finish();
 
                 }
-            }).execute(ship);
+            }).execute(new Object[]{ship, OperationMode.Save});
         }
     }
 

@@ -19,7 +19,7 @@ import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
-import ch.pa.oceanspolluters.app.util.ViewMode;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class CaptainHomeActivity extends AppCompatActivity {
@@ -40,13 +40,13 @@ public class CaptainHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                DisplayShip(ViewMode.View, mShipsWithContainer.get(position).ship.getId());
+                DisplayShip(OperationMode.View, mShipsWithContainer.get(position).ship.getId());
             }
 
             @Override
             public void onItemLongClick(View v, int position) {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
-                DisplayShip(ViewMode.Edit, mShipsWithContainer.get(position).ship.getId());
+                DisplayShip(OperationMode.Edit, mShipsWithContainer.get(position).ship.getId());
             }
         });
 
@@ -71,11 +71,11 @@ public class CaptainHomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void DisplayShip(ViewMode mode, int shipId){
+    private void DisplayShip(OperationMode mode, int shipId){
 
         Intent shipView;
 
-        if(mode == ViewMode.View)
+        if(mode == OperationMode.View)
             shipView = new Intent(getApplicationContext(), CaptainShipViewActivity.class);
         else
             shipView = new Intent(getApplicationContext(), CaptainShipAddEditActivity.class);
@@ -95,7 +95,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                DisplayShip(ViewMode.Edit, -1);
+                DisplayShip(OperationMode.Edit, -1);
                 return true;
             case android.R.id.home:
                 this.finish();
