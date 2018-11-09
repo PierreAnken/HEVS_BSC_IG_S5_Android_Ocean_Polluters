@@ -9,7 +9,6 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.model.Container;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 
 @Entity(tableName = "containers",
         foreignKeys =

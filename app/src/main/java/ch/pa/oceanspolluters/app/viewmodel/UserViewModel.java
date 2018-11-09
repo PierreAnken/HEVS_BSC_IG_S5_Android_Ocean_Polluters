@@ -7,12 +7,10 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.repository.UserRepository;
-import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 
 
 public class UserViewModel extends AndroidViewModel {

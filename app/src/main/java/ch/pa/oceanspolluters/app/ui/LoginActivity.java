@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,13 +24,9 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.Roles;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.UserListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.UserViewModel;
 
 /**
  * A login screen that offers login via email/password.

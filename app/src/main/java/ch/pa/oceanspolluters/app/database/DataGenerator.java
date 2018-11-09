@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.database;
 
-import android.arch.lifecycle.LiveData;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -102,23 +101,22 @@ public class DataGenerator {
             char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
             char[] numbers = "0123456789".toCharArray();
 
-
-            String dockPosition = "";
-            String containerName = "";
+            StringBuilder dockPosition = new StringBuilder();
+            StringBuilder containerName = new StringBuilder();
 
             for(int j = 0; j<8; j++){
-                containerName+= alphabet[(int)Math.floor(Math.random()*alphabet.length)];
+                containerName.append(alphabet[(int)Math.floor(Math.random()*alphabet.length)]);
 
                 if(j == 3)
-                    dockPosition += alphabet[(int)Math.floor(Math.random()*alphabet.length)];
+                    dockPosition.append(alphabet[(int)Math.floor(Math.random()*alphabet.length)]);
                 else if(j < 5){
 
-                    dockPosition += numbers[(int)Math.floor(Math.random()*numbers.length)];
+                    dockPosition.append(numbers[(int)Math.floor(Math.random()*numbers.length)]);
                 }
 
             }
 
-            containers.add(new ContainerEntity(containerName,dockPosition,shipId,loaded));
+            containers.add(new ContainerEntity(containerName.toString(),dockPosition.toString(),shipId,loaded));
 
         }
         db.containerDao().insertAll(containers);
