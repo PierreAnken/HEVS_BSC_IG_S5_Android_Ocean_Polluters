@@ -1,22 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:gravity="center_horizontal"
-android:orientation="vertical"
-tools:context=".ui.AdministratorHomeActivity"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.LogisticManagerHomeActivity"
     android:background="@drawable/texture_eau">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:background="@color/DimGray"
+        android:textColor="@color/WhiteSmoke"
+        android:text="@string/Containers"
+        />
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:textSize="20sp"
-    android:textAlignment="center"
-    android:background="@color/DimGray"
-    android:textColor="@color/WhiteSmoke"
-    android:text="Test Logistic manager home"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        style="@style/border_white_style"
+        android:layout_margin="10dp" >
 
+        // container name header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/container_name"
+            android:textStyle="bold"
+            />
+
+        // container weight header
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:text="@string/container_weight"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/lmContainersRecyclerView"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp" />
 </LinearLayout>

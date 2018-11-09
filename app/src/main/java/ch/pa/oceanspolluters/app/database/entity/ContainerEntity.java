@@ -71,11 +71,11 @@ public class ContainerEntity extends BaseEntity implements Container {
     }
 
     @Override
-    public String getContainerName (){
+    public String getName (){
         return name;
     }
 
-    public void setContainerName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

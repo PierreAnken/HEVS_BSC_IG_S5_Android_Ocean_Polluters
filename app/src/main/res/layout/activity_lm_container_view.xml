@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center_horizontal"
+android:orientation="vertical"
+tools:context=".ui.LogisticsManagerContainerViewActivity"
+android:background="@drawable/texture_eau"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    // border
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        style="@style/border_white_style">
+
+        // title general infos
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/general_information"
+            android:textSize="@dimen/title_inside_view"
+            android:layout_marginBottom="10dp"/>
+
+        // ship name
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            // ship name label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ship"
+                />
+
+            // ship name
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/container_ship_name"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        // dock position
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            // dock position label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dock_position"/>
+
+            // dock position
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/container_dock_position"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        // container name
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            // container name label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/container_name"/>
+
+            // container name
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/container_name"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        // title content
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/content"
+            android:textSize="@dimen/title_inside_view"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"/>
+
+        // items
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            // items label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/items" />
+
+            // items
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/container_items_quantity_weight"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        //weight status
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            //weight label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/total_weight" />
+
+            //weight
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/t_total_weight"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

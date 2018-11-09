@@ -12,36 +12,29 @@
         android:layout_height="match_parent"
         style="@style/border_white_style">
 
-        //texts
+        // texts
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            //ship name label
+            // container name label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/svShipName"
+                android:id="@+id/clContainerName"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"/>
-            //destination port label
+
+            // container weight label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/svDestinationPort"
+                android:id="@+id/clContainerWeight"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"/>
-
-            //departure date label
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/svDepartureDate"
-                android:layout_width="match_parent"
-                android:layout_weight="1.2"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_marginStart="10dp"/>
 
         </LinearLayout>
     </LinearLayout>

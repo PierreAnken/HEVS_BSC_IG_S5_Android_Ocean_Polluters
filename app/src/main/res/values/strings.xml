@@ -39,5 +39,12 @@
     <string name="edit">edit</string>
     <string name="ok">Save</string>
     <string name="max_weight">Max weight (kg)</string>
+    <string name="search">Search</string>
+    <string name="Containers">Containers</string>
+    <string name="container_name">Name</string>
+    <string name="container_weight">Weight</string>
+    <string name="dock_position">Position</string>
+    <string name="content">Content</string>
+    <string name="items">Items</string>
 
 </resources>

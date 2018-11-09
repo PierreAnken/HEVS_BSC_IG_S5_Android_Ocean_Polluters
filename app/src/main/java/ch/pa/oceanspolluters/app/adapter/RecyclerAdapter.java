@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ch.pa.oceanspolluters.app.R;
+import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 
@@ -46,7 +47,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         //layout depend on object type
         Class oClass = mData.get(0).getClass();
 
-        if(oClass.equals(ShipWithContainer.class)){
+        if (oClass.equals(ShipWithContainer.class)){
 
             //create item list object
             LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
@@ -67,6 +68,26 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             });
             return viewHolderShipList;
         }
+        else if (oClass.equals(ContainerWithItem.class)){
+
+            // create item list object
+            LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.container_list_item, parent, false);
+
+            ArrayList<TextView> texts = new ArrayList<TextView>();
+
+            texts.add(containerListItem.findViewById(R.id.clContainerName));
+            texts.add(containerListItem.findViewById(R.id.clContainerWeight));
+
+            final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
+
+            containerListItem.setOnClickListener(view -> mListener.onItemClick(view, viewHolderContainerList.getAdapterPosition()));
+            containerListItem.setOnLongClickListener(view -> {
+                mListener.onItemLongClick(view, viewHolderContainerList.getAdapterPosition());
+                return true;
+            });
+            return viewHolderContainerList;
+        }
 
         return new ViewHolder(null,null);
     }
@@ -82,6 +103,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             String departureDate = simpleDateFormat.format(((ShipWithContainer) item).ship.getDepartureDate());
             holder.mListText.get(2).setText(departureDate);
         }
+        else if (item.getClass().equals(ContainerWithItem.class)){
+            holder.mListText.get(0).setText(((ContainerWithItem) item).container.getName());
+            holder.mListText.get(1).setText(((ContainerWithItem) item).getWeight());
+        }
+
     }
 
     @Override
@@ -115,19 +141,32 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
                         return ((ShipWithContainer) mData.get(oldItemPosition)).ship.getId().equals(((ShipWithContainer) mData.get(newItemPosition)).ship.getId());
                     }
+                    else if (mData instanceof ContainerWithItem) {
+
+                        return ((ContainerWithItem) mData.get(oldItemPosition)).container.getId().equals(((ContainerWithItem) mData.get(newItemPosition)).container.getId());
+                    }
+
                     return false;
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     if (mData instanceof ShipWithContainer) {
-                        ShipWithContainer newAccount = (ShipWithContainer) data.get(newItemPosition);
-                        ShipWithContainer oldAccount = (ShipWithContainer) mData.get(newItemPosition);
-                        return newAccount.ship.getId().equals(oldAccount.ship.getId())
-                                && Objects.equals(newAccount.containers, oldAccount.containers)
-                                && Objects.equals(newAccount.port, oldAccount.port)
-                                && newAccount.captain.equals(oldAccount.captain);
+                        ShipWithContainer newShip = (ShipWithContainer) data.get(newItemPosition);
+                        ShipWithContainer oldShip = (ShipWithContainer) mData.get(newItemPosition);
+                        return newShip.ship.getId().equals(oldShip.ship.getId())
+                                && Objects.equals(newShip.containers, oldShip.containers)
+                                && Objects.equals(newShip.port, oldShip.port)
+                                && newShip.captain.equals(oldShip.captain);
                     }
+                    else if (mData instanceof ContainerWithItem) {
+                        ContainerWithItem newContainer = (ContainerWithItem) data.get(newItemPosition);
+                        ContainerWithItem oldContainer = (ContainerWithItem) mData.get(newItemPosition);
+                        return newContainer.container.getId().equals(oldContainer.container.getId())
+                                && Objects.equals(newContainer.container, oldContainer.container)
+                                && Objects.equals(newContainer.items, oldContainer.items);
+                    }
+
                     return false;
                 }
             });
