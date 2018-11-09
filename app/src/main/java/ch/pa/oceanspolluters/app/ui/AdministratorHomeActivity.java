@@ -8,6 +8,8 @@ import ch.pa.oceanspolluters.app.R;
 
 public class AdministratorHomeActivity extends AppCompatActivity {
 
+    private static final String TAG = "AdministratorActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
