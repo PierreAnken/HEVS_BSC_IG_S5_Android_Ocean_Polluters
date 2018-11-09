@@ -9,6 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.model.Container;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 
 @Entity(tableName = "containers",
         foreignKeys =
@@ -25,7 +26,7 @@ import ch.pa.oceanspolluters.app.model.Container;
                 )}
 )
 
-public class ContainerEntity implements Container {
+public class ContainerEntity extends BaseEntity implements Container {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "e_container_id")
@@ -37,6 +38,8 @@ public class ContainerEntity implements Container {
     @ColumnInfo(name = "ship_id")
     private int shipId;
     private boolean loaded;
+
+
 
     @Ignore
     public ContainerEntity(@NonNull Container container) {

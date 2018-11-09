@@ -32,7 +32,7 @@ import ch.pa.oceanspolluters.app.model.Ship;
                 @Index(value = {"captain_id"}),
                 @Index(value = {"destination_port_id"})}
 )
-public class ShipEntity implements Ship {
+public class ShipEntity extends BaseEntity implements Ship {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "e_ship_id")

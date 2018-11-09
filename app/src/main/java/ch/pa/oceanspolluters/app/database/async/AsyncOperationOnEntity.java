@@ -4,10 +4,8 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
-
-import java.lang.reflect.Array;
-
 import ch.pa.oceanspolluters.app.BaseApp;
+import ch.pa.oceanspolluters.app.database.entity.BaseEntity;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
@@ -16,7 +14,7 @@ import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 
-public class AsyncOperationOnEntity extends AsyncTask<Object[], Void, Void> {
+public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
 
     private static final String TAG = "AsyncOperationOnEntity";
 
@@ -30,13 +28,12 @@ public class AsyncOperationOnEntity extends AsyncTask<Object[], Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Object[]... params) {
+    protected Void doInBackground(BaseEntity... params) {
         try {
+            BaseEntity entity = params[0];
+            OperationMode mode = entity.getOperationMode();
 
-            OperationMode mode = (OperationMode)params[0][1];
-            Object entity = params[0][0];
-
-            Log.d(TAG, "PA_Debug asynch: " + entity.getClass().toString()+" "+mode.toString());
+            Log.d(TAG, "PA_Debug asynch: " + entity.getClass().toString()+" "+entity.getOperationMode().toString());
 
 
             if(entity.getClass() == ShipEntity.class){

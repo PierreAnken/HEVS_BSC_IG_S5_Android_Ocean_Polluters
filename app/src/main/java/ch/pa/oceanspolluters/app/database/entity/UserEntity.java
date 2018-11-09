@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import ch.pa.oceanspolluters.app.model.User;
 
 @Entity(tableName = "users")
-public class UserEntity implements User {
+public class UserEntity extends BaseEntity implements User {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "e_user_id")

@@ -142,6 +142,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 ship.setDepartureDate(convertedDate);
                 ship.setDestinationPortId(ports.getSelectedItemPosition());
             }
+            ship.setOperationMode(OperationMode.Save);
 
             new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
@@ -154,9 +155,8 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 public void onFailure(Exception e) {
                     Log.d(TAG, "PA_Debug updateShip: failure", e);
                     finish();
-
                 }
-            }).execute(new Object[]{ship, OperationMode.Save});
+            }).execute(ship);
         }
     }
 

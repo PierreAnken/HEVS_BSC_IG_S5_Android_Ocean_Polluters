@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import ch.pa.oceanspolluters.app.model.Port;
 
 @Entity(tableName = "ports")
-public class PortEntity implements Port {
+public class PortEntity extends BaseEntity implements Port {
 
     @PrimaryKey(autoGenerate = true)
 

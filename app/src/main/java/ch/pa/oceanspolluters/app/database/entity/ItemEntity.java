@@ -21,7 +21,7 @@ import ch.pa.oceanspolluters.app.model.Item;
         },
         indices = {
                 @Index(value = {"container_id"})})
-public class ItemEntity implements Item {
+public class ItemEntity extends BaseEntity implements Item {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "e_item_id")
