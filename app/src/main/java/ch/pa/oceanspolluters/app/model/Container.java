@@ -5,4 +5,5 @@ public interface Container {
     String getDockPosition();
     int getShipId();
     boolean getLoaded();
+    String getContainerName();
 }

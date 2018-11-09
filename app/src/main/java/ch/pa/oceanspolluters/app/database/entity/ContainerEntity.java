@@ -35,11 +35,12 @@ public class ContainerEntity extends BaseEntity implements Container {
     @ColumnInfo(name = "dock_position")
     private String dockPosition;
 
+    @ColumnInfo(name = "ame")
+    private String name;
+
     @ColumnInfo(name = "ship_id")
     private int shipId;
     private boolean loaded;
-
-
 
     @Ignore
     public ContainerEntity(@NonNull Container container) {
@@ -48,10 +49,11 @@ public class ContainerEntity extends BaseEntity implements Container {
         loaded = container.getLoaded();
     }
 
-    public ContainerEntity(String dockPosition, int shipId, boolean loaded) {
+    public ContainerEntity(String name, String dockPosition, int shipId, boolean loaded) {
         this.dockPosition = dockPosition;
         this.shipId = shipId;
         this.loaded = loaded;
+        this.name = name;
     }
 
     @Override
@@ -67,6 +69,15 @@ public class ContainerEntity extends BaseEntity implements Container {
 
     public void setDockPosition(String dockPosition) {
         this.dockPosition = dockPosition;
+    }
+
+    @Override
+    public String getContainerName (){
+        return name;
+    }
+
+    public void setContainerName(String name) {
+        this.name = name;
     }
 
     @Override

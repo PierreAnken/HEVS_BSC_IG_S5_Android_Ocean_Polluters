@@ -98,12 +98,27 @@ public class DataGenerator {
             int shipId = (int)Math.floor(Math.random()*shipsWithId.size()+1);
             boolean loaded = Math.random()>0.3;
 
-            char[] alphabetNumber = "abcdefghijklmnopqrstuvwxyz01234567890".toUpperCase().toCharArray();
-            String dockPosition = "";
-            for(int j = 0; j<8; j++)
-                dockPosition+= alphabetNumber[(int)Math.floor(Math.random()*alphabetNumber.length)];
 
-            containers.add(new ContainerEntity(dockPosition,shipId,loaded));
+            char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+            char[] numbers = "0123456789".toCharArray();
+
+
+            String dockPosition = "";
+            String containerName = "";
+
+            for(int j = 0; j<8; j++){
+                containerName+= alphabet[(int)Math.floor(Math.random()*alphabet.length)];
+
+                if(j == 3)
+                    dockPosition += alphabet[(int)Math.floor(Math.random()*alphabet.length)];
+                else if(j < 5){
+
+                    dockPosition += numbers[(int)Math.floor(Math.random()*numbers.length)];
+                }
+
+            }
+
+            containers.add(new ContainerEntity(containerName,dockPosition,shipId,loaded));
 
         }
         db.containerDao().insertAll(containers);
