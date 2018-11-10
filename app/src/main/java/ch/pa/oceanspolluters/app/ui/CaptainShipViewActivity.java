@@ -50,6 +50,16 @@ public class CaptainShipViewActivity extends AppCompatActivity {
 
             }
         });
+
+        //add delete button
+        LinearLayout shipViewPage = findViewById(R.id.cap_ship_detail);
+        View deleteButton = getLayoutInflater().inflate(R.layout.delete_button_red, null);
+        shipViewPage.addView(deleteButton);
+        deleteButton.setOnClickListener(
+                view -> {
+                    confirmDelete();
+                }
+        );
     }
 
     private void updateView(){
@@ -82,15 +92,6 @@ public class CaptainShipViewActivity extends AppCompatActivity {
                 weightInfo.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
             }
 
-            //add delete button
-            LinearLayout shipViewPage = findViewById(R.id.cap_ship_detail);
-            View deleteButton = getLayoutInflater().inflate(R.layout.delete_button_red, null);
-            shipViewPage.addView(deleteButton);
-            deleteButton.setOnClickListener(
-                    view -> {
-                        confirmDelete();
-                    }
-            );
         }
     }
     @Override
