@@ -7,6 +7,7 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class ContainerListViewModel extends AndroidViewModel {
 
         if (shipId < 0) {
             ContainersFull = containerRepository.getContainersLD();
+
         } else {
             ContainersFull = containerRepository.getByShipIdLD(shipId);
         }

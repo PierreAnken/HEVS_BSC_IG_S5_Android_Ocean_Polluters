@@ -23,34 +23,32 @@ public abstract class ContainerDao {
     @Transaction
     @Query("SELECT * " +
             "FROM " +
-            "containers s " +
-            "LEFT JOIN items i ON s.e_container_id = e_container_id ")
+            "containers c " +
+            "ORDER BY c.name")
     public abstract LiveData<List<ContainerWithItem>> getAllLD();
 
     @Transaction
     @Query("SELECT * " +
             "FROM " +
-            "containers s " +
-            "LEFT JOIN items i ON s.e_container_id = e_container_id ")
+            "containers c " +
+            "ORDER BY c.name")
     public abstract List<ContainerWithItem> getAll();
 
     @Transaction
     @Query("SELECT * " +
             "FROM " +
-            "containers s " +
-            "LEFT JOIN items i ON s.e_container_id = e_container_id " +
-            "WHERE s.e_container_id = :id_container")
+            "containers c " +
+            "WHERE c.e_container_id = :id_container " +
+            "ORDER BY c.name")
     public abstract LiveData<ContainerWithItem> getByIdLD(int id_container);
 
     @Transaction
     @Query("SELECT * " +
             "FROM " +
-            "containers s " +
-            "LEFT JOIN items i ON s.e_container_id = e_container_id " +
-            "WHERE s.ship_id = :id_ship")
+            "containers c " +
+            "WHERE c.ship_id = :id_ship " +
+            "ORDER BY c.name")
     public abstract LiveData<List<ContainerWithItem>> getByShipIdLD(int id_ship);
-
-
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -58,6 +56,7 @@ public abstract class ContainerDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertAll(List<ContainerEntity> containers);
+
 
     @Update
     public abstract void update(ContainerEntity container);

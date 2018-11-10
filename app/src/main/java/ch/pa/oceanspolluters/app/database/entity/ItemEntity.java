@@ -11,16 +11,17 @@ import android.support.annotation.NonNull;
 import ch.pa.oceanspolluters.app.model.Item;
 
 @Entity(tableName = "items",
-        foreignKeys = {
-                @ForeignKey(
-                        entity = ContainerEntity.class,
-                        parentColumns = "e_container_id", // remote class
-                        childColumns = "container_id", // local class
-                        onDelete = ForeignKey.SET_NULL
-                )
-        },
+        foreignKeys =
+            @ForeignKey(
+                    entity = ContainerEntity.class,
+                    parentColumns = "e_container_id", // remote class
+                    childColumns = "container_id", // local class
+                    onDelete = ForeignKey.SET_NULL
+            )
+        ,
         indices = {
-                @Index(value = {"container_id"})})
+                @Index(value = {"container_id"})
+        })
 public class ItemEntity extends BaseEntity implements Item {
 
     @PrimaryKey(autoGenerate = true)

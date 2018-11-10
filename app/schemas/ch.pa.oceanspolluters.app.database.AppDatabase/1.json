@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3a44ca6df2cbd662e9cfea0cacc3d2c9",
+    "identityHash": "4ed710e6d1de2b05e5aced9d19ee1de5",
     "entities": [
       {
         "tableName": "users",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "containers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_container_id` INTEGER PRIMARY KEY AUTOINCREMENT, `dock_position` TEXT, `ame` TEXT, `ship_id` INTEGER NOT NULL, `loaded` INTEGER NOT NULL, FOREIGN KEY(`ship_id`) REFERENCES `ships`(`e_ship_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_container_id` INTEGER PRIMARY KEY AUTOINCREMENT, `dock_position` TEXT, `name` TEXT, `ship_id` INTEGER NOT NULL, `loaded` INTEGER NOT NULL, FOREIGN KEY(`ship_id`) REFERENCES `ships`(`e_ship_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,7 +60,7 @@
           },
           {
             "fieldPath": "name",
-            "columnName": "ame",
+            "columnName": "name",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -285,7 +285,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3a44ca6df2cbd662e9cfea0cacc3d2c9\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4ed710e6d1de2b05e5aced9d19ee1de5\")"
     ]
   }
 }

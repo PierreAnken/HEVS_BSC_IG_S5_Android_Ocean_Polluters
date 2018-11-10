@@ -34,7 +34,7 @@ public class ContainerEntity extends BaseEntity implements Container {
     @ColumnInfo(name = "dock_position")
     private String dockPosition;
 
-    @ColumnInfo(name = "ame")
+    @ColumnInfo(name = "name")
     private String name;
 
     @ColumnInfo(name = "ship_id")

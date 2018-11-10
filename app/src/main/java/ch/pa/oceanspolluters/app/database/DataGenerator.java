@@ -91,12 +91,11 @@ public class DataGenerator {
         db.containerDao().deleteAll();
         List<ContainerEntity> containers = new ArrayList<>();
 
-        //we add 200 containers randomly to ships
-        for(int i = 0; i<200; i++){
+        //we add 30 containers randomly to ships
+        for(int i = 0; i<100; i++){
 
             int shipId = (int)Math.floor(Math.random()*shipsWithId.size()+1);
             boolean loaded = Math.random()>0.3;
-
 
             char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
             char[] numbers = "0123456789".toCharArray();
@@ -107,15 +106,13 @@ public class DataGenerator {
             for(int j = 0; j<8; j++){
                 containerName.append(alphabet[(int)Math.floor(Math.random()*alphabet.length)]);
 
-                if(j == 3)
+                if(j == 2)
                     dockPosition.append(alphabet[(int)Math.floor(Math.random()*alphabet.length)]);
-                else if(j < 5){
-
+                else if(j < 4){
                     dockPosition.append(numbers[(int)Math.floor(Math.random()*numbers.length)]);
                 }
 
             }
-
             containers.add(new ContainerEntity(containerName.toString(),dockPosition.toString(),shipId,loaded));
 
         }
@@ -126,25 +123,27 @@ public class DataGenerator {
         db.itemDao().deleteAll();
         List<ItemEntity> items = new ArrayList<>();
 
-
         //for each container
         for(int i = 0; i<containersWithId.size(); i++){
 
-            //we add 5 - 50 random items to container
-            int numberItem = (int)Math.floor(Math.random()*45+5);
-            for(int j = 0; j<numberItem; j++){
+            //we add 3 - 10 random items to container
+            int numberItem = 5;
 
+            for(int j = 0; j<numberItem; j++){
                 ItemTypes[] typesId = ItemTypes.values();
                 int type = typesId[(int)Math.floor(Math.random()*typesId.length)].id();
 
                 float weight = (float)Math.random()*50;
 
                 ItemEntity item = new ItemEntity(type, weight, containersWithId.get(i).container.getId());
+
                 items.add(item);
             }
         }
 
-        db.itemDao().insertAll(items);
+       db.itemDao().insertAll(items);
+
+
         Log.d(TAG, "PA_Debug end of random data generation");
     }
 

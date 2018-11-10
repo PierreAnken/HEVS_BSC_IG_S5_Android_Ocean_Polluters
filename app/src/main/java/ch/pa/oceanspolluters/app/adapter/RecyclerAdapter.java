@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ch.pa.oceanspolluters.app.R;
+import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
@@ -105,7 +106,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
         else if (item.getClass().equals(ContainerWithItem.class)){
             holder.mListText.get(0).setText(((ContainerWithItem) item).container.getName());
-            holder.mListText.get(1).setText(((ContainerWithItem) item).getWeight());
+            int weight = ((ContainerWithItem) item).getWeight();
+            holder.mListText.get(1).setText(weight+" kg");
         }
 
     }
@@ -142,8 +144,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                         return ((ShipWithContainer) mData.get(oldItemPosition)).ship.getId().equals(((ShipWithContainer) mData.get(newItemPosition)).ship.getId());
                     }
                     else if (mData instanceof ContainerWithItem) {
+                        ContainerEntity oldContainerEntity = ((ContainerWithItem) mData.get(oldItemPosition)).container;
+                        ContainerEntity newContainerEntity = ((ContainerWithItem) mData.get(newItemPosition)).container;
 
-                        return ((ContainerWithItem) mData.get(oldItemPosition)).container.getId().equals(((ContainerWithItem) mData.get(newItemPosition)).container.getId());
+                        return (oldContainerEntity.getId().equals(newContainerEntity.getId()));
                     }
 
                     return false;
@@ -153,7 +157,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     if (mData instanceof ShipWithContainer) {
                         ShipWithContainer newShip = (ShipWithContainer) data.get(newItemPosition);
-                        ShipWithContainer oldShip = (ShipWithContainer) mData.get(newItemPosition);
+                        ShipWithContainer oldShip = (ShipWithContainer) mData.get(oldItemPosition);
                         return newShip.ship.getId().equals(oldShip.ship.getId())
                                 && Objects.equals(newShip.containers, oldShip.containers)
                                 && Objects.equals(newShip.port, oldShip.port)
@@ -161,7 +165,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                     }
                     else if (mData instanceof ContainerWithItem) {
                         ContainerWithItem newContainer = (ContainerWithItem) data.get(newItemPosition);
-                        ContainerWithItem oldContainer = (ContainerWithItem) mData.get(newItemPosition);
+                        ContainerWithItem oldContainer = (ContainerWithItem) mData.get(oldItemPosition);
                         return newContainer.container.getId().equals(oldContainer.container.getId())
                                 && Objects.equals(newContainer.container, oldContainer.container)
                                 && Objects.equals(newContainer.items, oldContainer.items);
