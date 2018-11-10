@@ -102,12 +102,16 @@ public class LoginActivity extends AppCompatActivity{
         loggingPage.addView(loggingForm);
         loggingPage.setBackground(getDrawable(R.drawable.texture_eau));
 
-        //setup spinner
+        // setup spinner for user selection
         mSpinner = findViewById(R.id.users_spinner);
         usersAdapter =
                 new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
         usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(usersAdapter);
+
+        // setup spinner for language selection
+//        mSpinner = findViewById(R.id.language_chooser);
+
 
         //setup password
         mPassword = (EditText)findViewById(R.id.password);

@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.Date;
 import java.util.List;
@@ -18,145 +20,121 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.model.Container;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.TB;
+import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.PortListViewModel;
+import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity {
 
-    private ShipWithContainer mShip;
-    private ShipViewModel mShipModel;
-    private PortListViewModel mPortsModel;
-    private ArrayAdapter<String> portsAdapter;
-    private List<PortEntity> mPorts;
+    private ContainerWithItem mContainerWithItem;
+    private ContainerViewModel mContainerViewModel;
+    private ShipListViewModel mShipListModel;
+    private ArrayAdapter<String> shipAdapter;
+    private List<ShipWithContainer> mShips;
 
-    private EditText shipName;
-    private EditText maxWeight;
-    private EditText departureDate;
-    private Spinner ports;
+    private EditText dockPosition;
+    private EditText containerName;
+    private Spinner shipNames;
+    private ToggleButton loadingStatus;
 
-    private static final String TAG = "lmContainerAddEditActivity";
+    private static final String TAG = "lmContainerAddEditAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logistic_manager_home);
+        setContentView(R.layout.activity_lm_container_add_edit);
 
-        Intent shipDetail = getIntent();
-        int shipId = shipDetail.getStringExtra("shipId") != null ? Integer.parseInt(shipDetail.getStringExtra("shipId")): 0;
+        Intent containerDetail = getIntent();
+        int containerId = containerDetail.getStringExtra("containerId") != null ? Integer.parseInt(containerDetail.getStringExtra("containerId")): 0;
 
-        if(shipId > 0)
-            setTitle(getString(R.string.ship_edit));
+        if(containerId > 0)
+            setTitle(getString(R.string.container_edit));
         else
-            setTitle(getString(R.string.ship_add));
+            setTitle(getString(R.string.container_add));
 
-        shipName = findViewById(R.id.ae_ship_name);
-        departureDate = findViewById(R.id.ae_departure_date);
-        ports = findViewById(R.id.ae_destination_port_spinner);
-        maxWeight = findViewById(R.id.ae_max_weight);
+        dockPosition = findViewById(R.id.ae_lm_dock_position);
+        containerName = findViewById(R.id.ae_lm_container_name);
+        shipNames = findViewById(R.id.ae_lm_ship_name_spinner);
+        loadingStatus = findViewById(R.id.ae_lm_loaded_status);
 
-        Log.d(TAG, "PA_Debug received ship id from intent:" + shipId);
+        Log.d(TAG, "PA_Debug received container id from intent:" + containerId);
 
-        //get ship and display it in form
-        ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
-        mShipModel.getShip().observe(this, ship -> {
-            if (ship != null) {
-                mShip = ship;
-                Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
+        //get container and display it in form
+        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
+        mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
+        mContainerViewModel.getContainer().observe(this, container -> {
+            if (container != null) {
+                mContainerWithItem = container;
+                Log.d(TAG, "PA_Debug container id from factory:" + container.container.getId());
                 updateView();
             }
         });
 
         //get port list
-        PortListViewModel.FactoryPorts factoryPorts = new PortListViewModel.FactoryPorts(getApplication());
-        mPortsModel = ViewModelProviders.of(this, factoryPorts).get(PortListViewModel.class);
-        mPortsModel.getPorts().observe(this, ports -> {
-            if (ports != null) {
-                mPorts = ports;
+        ShipListViewModel.FactoryShips factoryShips = new ShipListViewModel.FactoryShips(getApplication(),-1);
+        mShipListModel = ViewModelProviders.of(this, factoryShips).get(ShipListViewModel.class);
+        mShipListModel.getShips().observe(this, ships -> {
+            if (ships != null) {
+                mShips = ships;
                 updateView();
             }
         });
 
     }
 
-    private void saveShip(){
+    private void saveContainer(){
         boolean valid = true;
 
-        shipName.setError(null);
-        departureDate.setError(null);
-        maxWeight.setError(null);
+        containerName.setError(null);
+        dockPosition.setError(null);
 
-        Date convertedDate = new Date();
+        String containerNameS = containerName.getText().toString();
+        String dockPositionS = dockPosition.getText().toString();
+        Boolean loaded = loadingStatus.isChecked();
+        Integer shipId = (int)shipNames.getSelectedItemId();
 
-        String shipNameS = shipName.getText().toString();
-        String departureDateS = departureDate.getText().toString();
-
-        float maxWeightF = Float.parseFloat(maxWeight.getText().toString());
-
-        if (maxWeightF < 1) {
+        if(TextUtils.isEmpty(containerNameS)){
             valid = false;
-            maxWeight.setError("Invalid ship max weight");
+            containerName.setError(getString(R.string.error_empty_container));
         }
 
-        if(TextUtils.isEmpty(shipNameS)){
+        if(TextUtils.isEmpty(dockPositionS) && !loaded){
             valid = false;
-            shipName.setError("Ship name cannot be empty");
-        }
-
-        if(TextUtils.isEmpty(departureDateS)){
-            valid = false;
-            departureDate.setError("Departure date cannot be empty");
-        }
-        else{
-
-            if(convertedDate.after(new Date() )){
-                valid = false;
-                departureDate.setError("Date must be > today");
-            }
-
-            try {
-                convertedDate = TB.getDateFormat().parse(departureDateS);
-
-            } catch (java.text.ParseException e) {
-                valid = false;
-                departureDate.setError("Invalid date format : " + TB.getDateFormat().toString());
-            }
+            dockPosition.setError(getString(R.string.error_empty_dock_position));
         }
 
         if(valid){
 
-            ShipEntity ship;
+            ContainerEntity container = new ContainerEntity(containerNameS, dockPositionS, shipId, loaded);
 
-            if (mShip == null) {
-                ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), ports.getSelectedItemPosition(), convertedDate);
-            } else {
-                ship = mShip.ship;
-                ship.setName(shipNameS);
-                ship.setMaxLoadKg(maxWeightF);
-                ship.setDepartureDate(convertedDate);
-                ship.setDestinationPortId(ports.getSelectedItemPosition());
+            if (mContainerWithItem != null) {
+                container.setId(mContainerWithItem.container.getId());
             }
-            ship.setOperationMode(OperationMode.Save);
+            container.setOperationMode(OperationMode.Save);
 
             new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
                 public void onSuccess() {
-                    Log.d(TAG, "PA_Debug updateShip: success");
+                    Log.d(TAG, "PA_Debug updateContainer: success");
                     finish();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Log.d(TAG, "PA_Debug updateShip: failure", e);
+                    Log.d(TAG, "PA_Debug updateContainer: failure", e);
                     finish();
                 }
-            }).execute(ship);
+            }).execute(container);
         }
     }
 
@@ -164,32 +142,23 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
 
     private void updateView(){
         Log.d(TAG, "PA_Debug updateView");
-        if(mShip != null){
-            shipName.setText(mShip.ship.getName());
-            departureDate.setText(TB.getShortDate(mShip.ship.getDepartureDate()));
-            maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
-        }
 
-        if(mPorts != null){
-            Log.d(TAG, "PA_Debug update port list: ship is null? "+(mShip == null));
-            int selectionId = 0;
-            String[] portsNames = new  String[mPorts.size()];
+        if(mShips != null){
+            String[] shipsNames = new String[mShips.size()];
 
-            for(int i = 0; i<portsNames.length; i++){
-                portsNames[i] = mPorts.get(i).getName();
-                if(mShip != null){
-                    if(mPorts.get(i).getId() == mShip.port.getId()){
-                        selectionId = i;
-                    }
-                }
+            for(int i = 0; i<shipsNames.length; i++){
+                shipsNames[i] = mShips.get(i).ship.getName();
             }
 
-            portsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, portsNames);
-            portsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            ports.setAdapter(portsAdapter);
-            ports.setSelection(selectionId);
-
-            Log.d(TAG, "PA_Debug update port list: selectionId? "+selectionId);
+            shipAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, shipsNames);
+            shipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            shipNames.setAdapter(shipAdapter);
+        }
+        if(mContainerWithItem != null){
+            containerName.setText(mContainerWithItem.container.getName());
+            dockPosition.setText(mContainerWithItem.container.getDockPosition());
+            loadingStatus.setChecked(mContainerWithItem.container.getLoaded());
+            shipNames.setSelection(mContainerWithItem.container.getShipId());
         }
     }
 
@@ -197,7 +166,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                saveShip();
+                saveContainer();
                 return true;
             case android.R.id.home:
                 this.finish();

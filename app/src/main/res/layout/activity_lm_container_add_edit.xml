@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:gravity="center_horizontal"
-android:orientation="vertical"
-tools:context=".ui.CaptainShipViewActivity"
-android:background="@drawable/texture_eau"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.LogisticsManagerContainerAddEditActivity"
+    android:background="@drawable/texture_eau"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    //border
+    // border
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         style="@style/border_white_style">
 
-        //title general infos
+        // title general infos
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ship_detail"
+            android:text="@string/general_information"
             android:textSize="@dimen/title_inside_view"
             android:layout_marginBottom="10dp"/>
 
-        //ship name
+        // ship name
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //ship name header
+            // ship name label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,9 +41,32 @@ android:background="@drawable/texture_eau"
                 android:text="@string/ship"
                 />
 
-            //ship name label
+            // ship name
+            <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ae_lm_ship_name_spinner"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        // dock position
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            // dock position label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dock_position"/>
+
+            // dock position
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_ship_name"
+                android:id="@+id/ae_lm_dock_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,90 +74,53 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //destination port
+        // container name
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //destination port header
+            // container name label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/destination_port"/>
+                android:text="@string/container_name"/>
 
-            //destination port label
-            <Spinner
-                android:id="@+id/ae_destination_port_spinner"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-
-        </LinearLayout>
-
-
-        //departure date
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            //departure date header
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/departure_date"/>
-
-            //departure date label
+            // container name
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_departure_date"
-                android:layout_weight="1"
+                android:id="@+id/ae_lm_container_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="datetime"
-                />
+                android:layout_weight="1"
+                android:inputType="text" />
 
         </LinearLayout>
 
-        //ship max weight
-
+        // container loaded
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //max weight header
-
+            // loaded status label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/max_weight" />
+                android:text="@string/container_loaded"/>
 
-            //max weight label
-
-            <EditText xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_max_weight"
+            // container loaded toggle button
+            <ToggleButton
+                android:id="@+id/ae_lm_loaded_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="number" />
+                android:textOn="@string/loaded_true"
+                android:textOff="@string/loaded_false"/>
 
         </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/ShipAEerrorMsg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/Red"
-            android:visibility="invisible"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

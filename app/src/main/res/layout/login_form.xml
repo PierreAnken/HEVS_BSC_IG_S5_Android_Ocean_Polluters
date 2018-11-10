@@ -46,4 +46,9 @@
             android:src="@drawable/ic_lock_24dp" />
     </LinearLayout>
 
+<!--     <Spinner
+        android:id="@+id/language_chooser"
+        android:layout_marginTop="32dp"
+        style="@style/spinner_style"/> -->
+
 </LinearLayout>
