@@ -35,7 +35,13 @@ public class ShipListViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableCaptainShips.setValue(null);
 
-        LiveData<List<ShipWithContainer>> shipsFull = shipRepository.getShipsFromCaptainLD(captainId);
+        LiveData<List<ShipWithContainer>> shipsFull;
+        if(captainId >= 0){
+            shipsFull = shipRepository.getShipsFromCaptainLD(captainId);
+        }
+        else{
+            shipsFull = shipRepository.getShipsLD();
+        }
                 
         // observe the changes of the entities from the database and forward them
         mObservableCaptainShips.addSource(shipsFull, mObservableCaptainShips::setValue);
@@ -71,7 +77,7 @@ public class ShipListViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ShipShips query so the UI can observe it.
      */
-    public LiveData<List<ShipWithContainer>> getCaptainShips() {
+    public LiveData<List<ShipWithContainer>> getShips() {
         return mObservableCaptainShips;
     }
 }

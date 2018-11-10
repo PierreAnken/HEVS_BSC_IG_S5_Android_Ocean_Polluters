@@ -37,6 +37,7 @@ public abstract class ShipDao {
             "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id ")
     public abstract LiveData<List<ShipWithContainer>> getAllLD();
 
+    @Transaction
     @Query("SELECT * " +
             "FROM " +
             "ships s " +

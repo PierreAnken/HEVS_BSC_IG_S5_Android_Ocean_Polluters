@@ -62,7 +62,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
 
         ShipListViewModel.FactoryShips factory = new ShipListViewModel.FactoryShips(getApplication(), idCaptain);
         ShipListViewModel mShipsFromCaptain = ViewModelProviders.of(this, factory).get(ShipListViewModel.class);
-        mShipsFromCaptain.getCaptainShips().observe(this, shipsWithContainer -> {
+        mShipsFromCaptain.getShips().observe(this, shipsWithContainer -> {
             if (shipsWithContainer != null) {
                 mShipsWithContainer = shipsWithContainer;
                 mAdapter.setData(mShipsWithContainer);

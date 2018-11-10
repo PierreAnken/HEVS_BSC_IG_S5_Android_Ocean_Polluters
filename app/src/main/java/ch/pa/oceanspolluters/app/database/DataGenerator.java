@@ -127,7 +127,7 @@ public class DataGenerator {
         for(int i = 0; i<containersWithId.size(); i++){
 
             //we add 3 - 10 random items to container
-            int numberItem = 5;
+            int numberItem = (int)Math.floor(Math.random()*7+3);
 
             for(int j = 0; j<numberItem; j++){
                 ItemTypes[] typesId = ItemTypes.values();
