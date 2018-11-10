@@ -16,7 +16,7 @@ import ch.pa.oceanspolluters.app.model.Container;
                 entity = ShipEntity.class,
                 parentColumns = "e_ship_id", // remote class
                 childColumns = "ship_id", // local class
-                onDelete = ForeignKey.SET_NULL
+                onDelete = ForeignKey.CASCADE
         ),
 
         indices = {

@@ -1,6 +1,8 @@
 package ch.pa.oceanspolluters.app.ui;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -10,9 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
+import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
@@ -78,7 +84,47 @@ public class CaptainShipViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
+        if(mShip != null){
+            getMenuInflater().inflate(R.menu.menu_delete, menu);
+        }
         return true;
+    }
+
+    private void confirmDelete(){
+
+        Log.d(TAG, "PA_Debug sure delete ship?");
+
+        DialogInterface.OnClickListener dialogDelete = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    mShip.ship.setOperationMode(OperationMode.Delete);
+
+                    new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d(TAG, "PA_Debug delete ship: success");
+                            ((BaseApp)getApplication()).displayShortToast(getString(R.string.operationSuccess));
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.d(TAG, "PA_Debug delete ship: failure", e);
+                            ((BaseApp)getApplication()).displayShortToast(getString(R.string.operationFailled));
+                        }
+                    }).execute(mShip.ship);
+
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CaptainShipViewActivity.this);
+        builder.setMessage(getString(R.string.sureDeleteShip)).setPositiveButton(getString(R.string.yes), dialogDelete)
+                .setNegativeButton(getString(R.string.no), dialogDelete).show();
     }
 
     @Override
@@ -89,6 +135,9 @@ public class CaptainShipViewActivity extends AppCompatActivity {
                 shipAddEdit.putExtra("shipId",mShip.ship.getId().toString());
                 Log.d(TAG, "PA_Debug ship sent as intent to edit "+mShip.ship.getId());
                 startActivity(shipAddEdit);
+                return true;
+            case R.id.delete:
+                confirmDelete();
                 return true;
             case android.R.id.home:
                 this.finish();

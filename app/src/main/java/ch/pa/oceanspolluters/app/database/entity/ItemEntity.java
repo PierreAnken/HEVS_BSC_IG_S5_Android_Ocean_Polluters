@@ -16,7 +16,7 @@ import ch.pa.oceanspolluters.app.model.Item;
                     entity = ContainerEntity.class,
                     parentColumns = "e_container_id", // remote class
                     childColumns = "container_id", // local class
-                    onDelete = ForeignKey.SET_NULL
+                    onDelete = ForeignKey.CASCADE
             )
         ,
         indices = {

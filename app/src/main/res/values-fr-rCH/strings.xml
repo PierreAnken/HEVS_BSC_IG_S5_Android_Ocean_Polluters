@@ -37,4 +37,9 @@
     <string name="error_empty_container">Container name cannot be empty</string>
     <string name="loaded_false">At dock</string>
     <string name="error_empty_dock_position">Dock position cannot be empty</string>
+    <string name="delete">Delete</string>
+    <string name="sureDeleteShip">Do you really want to delete this ship and all its containers?</string>
+    <string name="yes">Yes</string>
+    <string name="operationFailled">Operation failled, please try again</string>
+    <string name="operationSuccess">Operation successfully completed</string>
 </resources>

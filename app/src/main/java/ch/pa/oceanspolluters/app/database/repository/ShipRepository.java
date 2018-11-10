@@ -51,6 +51,8 @@ public class ShipRepository {
     }
 
     public void delete(final ShipEntity ship) {
+
+        Log.d(TAG, "PA_Debug deleteShip: " + ship.getName());
         mDatabase.shipDao().delete(ship);
     }
 
