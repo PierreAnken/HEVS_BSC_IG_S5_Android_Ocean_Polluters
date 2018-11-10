@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ch.pa.oceanspolluters.app.BaseApp;
@@ -36,7 +38,6 @@ public class CaptainShipViewActivity extends AppCompatActivity {
 
         Intent shipDetail = getIntent();
         int shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));
-        Log.d(TAG, "PA_Debug received ship id from intent:" + shipId);
 
         //get ship and display it
         ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), shipId);
@@ -46,6 +47,7 @@ public class CaptainShipViewActivity extends AppCompatActivity {
                 mShip = ship;
                 Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
                 updateView();
+
             }
         });
     }
@@ -79,6 +81,16 @@ public class CaptainShipViewActivity extends AppCompatActivity {
             if(totalLoadedWeight > mShip.ship.getMaxLoadKg()){
                 weightInfo.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.Red));
             }
+
+            //add delete button
+            LinearLayout shipViewPage = findViewById(R.id.cap_ship_detail);
+            View deleteButton = getLayoutInflater().inflate(R.layout.delete_button_red, null);
+            shipViewPage.addView(deleteButton);
+            deleteButton.setOnClickListener(
+                    view -> {
+                        confirmDelete();
+                    }
+            );
         }
     }
     @Override

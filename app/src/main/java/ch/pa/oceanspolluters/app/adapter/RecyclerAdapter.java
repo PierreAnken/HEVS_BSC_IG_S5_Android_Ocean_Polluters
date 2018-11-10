@@ -52,7 +52,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             //create item list object
             LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.ship_list_item, parent, false);
+                    .inflate(R.layout.list_ship_line, parent, false);
 
             ArrayList<TextView> texts = new ArrayList<TextView>();
 
@@ -73,7 +73,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             // create item list object
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.container_list_item, parent, false);
+                    .inflate(R.layout.list_container_line, parent, false);
 
             ArrayList<TextView> texts = new ArrayList<TextView>();
 

@@ -17,10 +17,12 @@ android:background="@drawable/texture_eau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/cap_ship_detail"
         style="@style/border_white_style">
 
         //title general infos
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/general_information"
@@ -34,7 +36,8 @@ android:background="@drawable/texture_eau"
             android:orientation="horizontal">
 
             //ship name header
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -42,7 +45,8 @@ android:background="@drawable/texture_eau"
                 />
 
             //ship name label
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:id="@+id/t_ship_name"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -57,14 +61,16 @@ android:background="@drawable/texture_eau"
             android:orientation="horizontal">
 
             //destination port header
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/destination_port"/>
 
             //destination port label
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:id="@+id/t_destination_port"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -80,14 +86,16 @@ android:background="@drawable/texture_eau"
             android:orientation="horizontal">
 
             //departure date header
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/departure_date"/>
 
             //departure date label
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:id="@+id/t_departure_date"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -96,7 +104,8 @@ android:background="@drawable/texture_eau"
         </LinearLayout>
 
         //title loading status
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/loading_status"
@@ -111,13 +120,14 @@ android:background="@drawable/texture_eau"
             android:orientation="horizontal">
 
             //containers status
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/container_loaded" />
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            <TextView 
                 android:id="@+id/t_container_loaded"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -132,14 +142,16 @@ android:background="@drawable/texture_eau"
             android:orientation="horizontal">
 
             //weight label
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/total_weight" />
 
             //weight
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <TextView
                 android:id="@+id/t_total_weight"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -148,5 +160,4 @@ android:background="@drawable/texture_eau"
         </LinearLayout>
 
     </LinearLayout>
-
 </LinearLayout>
