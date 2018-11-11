@@ -16,6 +16,7 @@
         android:textAlignment="center"
         android:background="@color/DimGray"
         android:textColor="@color/WhiteSmoke"
+        android:id="@+id/docker_container_list_title"
         android:text="@string/ship"
         />
 
@@ -42,11 +43,12 @@
                 android:text="@string/code"/>
 
             // code name
+
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/v_docker_container_code_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"  />
+                android:layout_weight="1" />
         </LinearLayout>
 
         // Position infos
@@ -63,6 +65,7 @@
                 android:text="@string/dock_position"/>
 
             // next departure
+
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/v_docker_container_dock_position"
                 android:layout_width="match_parent"
@@ -84,6 +87,7 @@
                 android:text="@string/loading_status"/>
 
             // status value
+
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/v_docker_ship_container_loading_status"
                 android:layout_width="match_parent"
@@ -95,7 +99,7 @@
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/dockerShipsRecyclerView"
+        android:id="@+id/dockerShipContainersRecyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
