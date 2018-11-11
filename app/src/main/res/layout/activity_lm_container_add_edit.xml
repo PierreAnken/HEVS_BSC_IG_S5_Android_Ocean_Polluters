@@ -42,6 +42,7 @@
                 />
 
             // ship name
+
             <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_lm_ship_name_spinner"
                 style="@style/spinner_style"
