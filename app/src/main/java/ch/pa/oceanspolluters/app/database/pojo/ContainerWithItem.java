@@ -8,6 +8,7 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 
 public class ContainerWithItem {
 

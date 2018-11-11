@@ -59,4 +59,5 @@
     <string name="no">No</string>
     <string name="operationFailled">Operation failled, please try again</string>
     <string name="operationSuccess">Operation successfully completed</string>
+    <string name="code">Code</string>
 </resources>

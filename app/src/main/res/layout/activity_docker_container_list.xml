@@ -16,7 +16,7 @@
         android:textAlignment="center"
         android:background="@color/DimGray"
         android:textColor="@color/WhiteSmoke"
-        android:text="@string/next_ship_departures"
+        android:text="@string/ship"
         />
 
     <LinearLayout
@@ -28,62 +28,64 @@
         android:id="@+id/docker_ship_list"
         android:textSize="20sp">
 
-        // Ship infos
+        // Code infos
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // ship label
+            // code label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/ship"/>
+                android:text="@string/code"/>
 
-            // ship name
+            // code name
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/v_docker_ship_name"
+                android:id="@+id/v_docker_container_code_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"  />
         </LinearLayout>
 
-        // Departure infos
+        // Position infos
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            // next departure label
+
+            // position label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/departure"/>
+                android:text="@string/dock_position"/>
 
             // next departure
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/v_docker_ship_departure"
+                android:id="@+id/v_docker_container_dock_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
 
-        // Loading infos
+        // Status infos
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            // loading label
+
+            // status label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/loading_status"/>
 
-            // containers left to loading
+            // status value
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/v_docker_ship_containers_to_load"
+                android:id="@+id/v_docker_ship_container_loading_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

@@ -3,35 +3,26 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.model.Container;
-import ch.pa.oceanspolluters.app.util.TB;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
+import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
-public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
+public class DockerShipContainerViewActivity extends AppCompatActivity {
 
     private ContainerWithItem mContainerWithItem;
-    private ContainerViewModel mContainerViewModel;
-    private ShipViewModel mShipModel;
+    private ContainerListViewModel mContainerListViewModel;
 
     private ShipListViewModel mShipListModel;
     private ArrayAdapter<String> shipAdapter;
@@ -43,24 +34,24 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
     private ToggleButton loadingStatus;
     private TextView items;
 
-    private static final String TAG = "lmContainerViewAct";
+    private static final String TAG = "dockerShipContViewAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lm_container_view);
+        setContentView(R.layout.activity_docker_container_list);
 
         Intent containerDetail = getIntent();
         int containerId = Integer.parseInt(containerDetail.getStringExtra("containerId"));
         Log.d(TAG, "PA_Debug received container id from intent:" + containerId);
 
         // get container and display it
-        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
-        mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
-        mContainerViewModel.getContainer().observe(this, cont -> {
+        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId);
+        mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
+        mContainerListViewModel.getContainers().observe(this, cont -> {
             if (cont != null) {
-                mContainerWithItem = cont;
-                Log.d(TAG, "PA_Debug container id from factory:" + cont.container.getId());
+                mContainerWithItem = (ContainerWithItem) cont;
+                Log.d(TAG, "PA_Debug container id from factory:" + ((ContainerWithItem) cont).container.getId());
                 updateView();
             }
         });
@@ -85,17 +76,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
             containerName.setText(mContainerWithItem.container.getName());
             dockPosition.setText(mContainerWithItem.container.getDockPosition());
             loadingStatus.setChecked(mContainerWithItem.container.getLoaded());
-
-            //get ship name from ship id
-            ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), mContainerWithItem.container.getShipId());
-            mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
-            mShipModel.getShip().observe(this, ship -> {
-                if (ship != null) {
-                    Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
-                    shipNames.setText(ship.ship.getName());
-                }
-            });
-
+            shipNames.setText(Integer.toString(mContainerWithItem.container.getShipId()));
         }
 
             items = findViewById(R.id.container_items_quantity_weight);

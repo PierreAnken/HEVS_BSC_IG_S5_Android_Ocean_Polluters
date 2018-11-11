@@ -50,8 +50,6 @@ public class CaptainHomeActivity extends AppCompatActivity {
             }
         });
 
-
-
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
