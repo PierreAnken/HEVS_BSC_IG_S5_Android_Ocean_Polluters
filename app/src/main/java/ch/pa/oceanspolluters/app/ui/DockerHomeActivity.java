@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
@@ -46,7 +47,7 @@ public class DockerHomeActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View v, int position) {
-                Log.d(TAG, "PA_Debug long clicked position:" + position);
+//                Log.d(TAG, "PA_Debug long clicked position:" + position);
 //                DisplayShips(OperationMode.Edit, mShipsWithContainer.get(position).ship.getId());
             }
         });
@@ -56,10 +57,9 @@ public class DockerHomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         //get ships for docker
-        int idDocker = ((BaseApp)getApplication()).getCurrentUser().getId();
         mShipsWithContainer = new ArrayList<>();
 
-        ShipListViewModel.FactoryShips factory = new ShipListViewModel.FactoryShips(getApplication(), idDocker);
+        ShipListViewModel.FactoryShips factory = new ShipListViewModel.FactoryShips(getApplication(), -1);
         ShipListViewModel mShipsFromDocker = ViewModelProviders.of(this, factory).get(ShipListViewModel.class);
         mShipsFromDocker.getShips().observe(this, shipsWithContainer -> {
             if (shipsWithContainer != null) {

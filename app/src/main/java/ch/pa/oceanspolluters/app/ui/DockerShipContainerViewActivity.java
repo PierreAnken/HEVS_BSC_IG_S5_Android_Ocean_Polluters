@@ -42,15 +42,15 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_docker_container_list);
 
         Intent containerDetail = getIntent();
-        int containerId = Integer.parseInt(containerDetail.getStringExtra("containerId"));
-        Log.d(TAG, "PA_Debug received container id from intent:" + containerId);
+        int shipId = Integer.parseInt(containerDetail.getStringExtra("shipId"));
+        Log.d(TAG, "PA_Debug received container id from intent:" + shipId);
 
         // get container and display it
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId);
+        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), shipId);
         mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
         mContainerListViewModel.getContainers().observe(this, cont -> {
             if (cont != null) {
-                mContainerWithItem = (ContainerWithItem) cont;
+                mContainerWithItem = cont;
                 Log.d(TAG, "PA_Debug container id from factory:" + ((ContainerWithItem) cont).container.getId());
                 updateView();
             }

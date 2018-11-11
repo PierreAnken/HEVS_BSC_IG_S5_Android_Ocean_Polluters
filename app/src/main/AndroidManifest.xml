@@ -51,6 +51,10 @@
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.LogisticManagerHomeActivity">
         </activity>
+        <activity android:name=".ui.DockerShipContainerViewActivity"
+            android:label="@string/title_activity_logistic_manager_container_detail"
+            android:parentActivityName="ui.DockerHomeActivity">
+        </activity>
     </application>
 
 </manifest>
