@@ -138,8 +138,6 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
         }
     }
 
-
-
     private void updateView(){
         Log.d(TAG, "PA_Debug updateView");
 

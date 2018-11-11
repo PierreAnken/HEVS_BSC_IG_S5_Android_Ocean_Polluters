@@ -28,7 +28,7 @@
     <string name="ship_detail">Ship detail</string>
     <string name="general_information">General informations</string>
     <string name="loading_status">Loading status</string>
-    <string name="container_loaded">Containers loaded</string>
+    <string name="container_loaded">Container loaded</string>
     <string name="total_weight">Total weight</string>
     <string name="departure">Departure</string>
     <string name="destination">Destination</string>
@@ -59,5 +59,4 @@
     <string name="no">No</string>
     <string name="operationFailled">Operation failled, please try again</string>
     <string name="operationSuccess">Operation successfully completed</string>
-
 </resources>

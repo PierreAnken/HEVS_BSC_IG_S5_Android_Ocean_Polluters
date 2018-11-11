@@ -94,6 +94,16 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
+        // container loaded toggle button
+        <ToggleButton
+            android:id="@+id/v_lm_loaded_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOn="@string/loaded_true"
+            android:textOff="@string/loaded_false"
+            android:enabled="false" />
+
         // title content
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -125,20 +135,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //weight status
+        // weight status
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //weight label
+            // weight label
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/total_weight" />
 
-            //weight
+            // weight
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/t_total_weight"
                 android:layout_width="match_parent"

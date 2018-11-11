@@ -82,10 +82,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                // view to add container
-                return true;
-            case R.id.search:
-                // view to search container
+                DisplayContainer(OperationMode.Save, -1);
                 return true;
             case android.R.id.home:
                 this.finish();
