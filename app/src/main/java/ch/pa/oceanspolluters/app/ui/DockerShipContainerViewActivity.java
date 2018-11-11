@@ -11,18 +11,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.model.Container;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
@@ -33,17 +31,14 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class DockerShipContainerViewActivity extends AppCompatActivity {
 
-    private ContainerWithItem mContainerWithItem;
-    private ContainerViewModel mContainerListViewModel;
-
-    private ShipViewModel mViewModel;
-    private ShipWithContainer mShip;
+    private ShipWithContainer mShipWithContainer;
+    private ShipViewModel mContainerListViewModel;
 
     private TextView dockPosition;
     private TextView containerName;
     private TextView loadingStatus;
     private TextView dockerContainerListTitle;
-    private List<ContainerWithItem> mShipWithContainer;
+    private int shipId;
 
     private static final String TAG = "dockerShipContViewAct";
     private RecyclerAdapter<ContainerWithItem> mAdapter;
@@ -54,53 +49,31 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_docker_container_list);
 
         Intent shipDetail = getIntent();
-        int shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));
+        shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));
 
         //get ship and display it
         ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        mViewModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
-        mViewModel.getShip().observe(this, ship -> {
+        mContainerListViewModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
+        mContainerListViewModel.getShip().observe(this, ship -> {
             if (ship != null) {
-                mShip = ship;
+                mShipWithContainer = ship;
                 Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
                 updateView();
 
             }
         });
-
-        RecyclerView recyclerView = findViewById(R.id.dockerShipContainersRecyclerView);
-
-        mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-            }
-
-            @Override
-            public void onItemLongClick(View v, int position) {
-            }
-        });
-
-        // generate new linear layout
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        TextView shipName = findViewById(R.id.docker_container_list_title);
-        shipName.setText("Test");
-
-//        ContainerListViewModel.FactoryContainers factory2 = new ContainerListViewModel.FactoryContainers(getApplication(), mShip.ship.getId());
-//        ContainerListViewModel mContainerForDocker = ViewModelProviders.of(this, factory2).get(ContainerListViewModel.class);
-//        mContainerForDocker.getContainers().observe(this, cont -> {
-//            if (cont != null) {
-//                mShipWithContainer = cont;
-//                mAdapter.setData(mShipWithContainer);
-//            }
-//        });
-        recyclerView.setAdapter(mAdapter);
     }
 
     private void updateView() {
         Log.d(TAG, "PA_Debug updateView");
-
+        if(mShipWithContainer != null){
+            ((TextView)findViewById(R.id.v_docker_container_code_name)).setText(mShipWithContainer.containers.get(1).container.getName());
+            ((TextView)findViewById(R.id.v_docker_container_dock_position)).setText(mShipWithContainer.containers.get(1).container.getDockPosition());
+            if (mShipWithContainer.containers.get(1).container.getLoaded() == true) {
+                ((TextView)findViewById(R.id.v_docker_ship_container_loading_status)).setText("loaded");
+            }
+                ((TextView)findViewById(R.id.v_docker_ship_container_loading_status)).setText("to load");
+            }
     }
 
     @Override
@@ -112,12 +85,6 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-                Intent containerAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
-                containerAddEdit.putExtra("containerId",mContainerWithItem.container.getId().toString());
-                Log.d(TAG, "PA_Debug ship sent as intent to edit " + mContainerWithItem.container.getId());
-                startActivity(containerAddEdit);
-                return true;
             case android.R.id.home:
                 this.finish();
                 return true;

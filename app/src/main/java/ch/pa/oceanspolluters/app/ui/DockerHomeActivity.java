@@ -12,13 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
-import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
@@ -47,8 +44,6 @@ public class DockerHomeActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View v, int position) {
-//                Log.d(TAG, "PA_Debug long clicked position:" + position);
-//                DisplayShips(OperationMode.Edit, mShipsWithContainer.get(position).ship.getId());
             }
         });
 
