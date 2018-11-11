@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:gravity="center_horizontal"
-android:orientation="vertical"
-tools:context=".ui.DockerHomeActivity"
-android:background="@drawable/texture_eau">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.DockerHomeActivity"
+    android:background="@drawable/texture_eau">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,16 +19,76 @@ android:background="@drawable/texture_eau">
         android:text="@string/next_ship_departures"
         />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/docker_ship_list_scroll_view">
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
+        android:background="@color/White"
+        android:orientation="vertical"
+        android:id="@+id/docker_ship_list"
+        android:textSize="20sp">
 
+        // Ship infos
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/docker_ship_list"
-            android:textSize="20sp"/>
-    </ScrollView>
+            android:orientation="horizontal">
+
+            // ship label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ship"/>
+
+            // ship name
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_docker_ship_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"  />
+        </LinearLayout>
+
+        // Departure infos
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            // next departure label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/departure"/>
+
+            // next departure
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_docker_ship_departure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        // Loading infos
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            // loading label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/loading_status"/>
+
+            // containers left to loading
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_docker_ship_containers_to_load"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>
