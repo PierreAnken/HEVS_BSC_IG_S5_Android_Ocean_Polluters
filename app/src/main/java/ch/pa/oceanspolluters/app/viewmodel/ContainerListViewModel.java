@@ -25,7 +25,7 @@ public class ContainerListViewModel extends AndroidViewModel {
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<ContainerWithItem>> mObservableContainers;
 
-    private ContainerListViewModel(@NonNull Application application,
+    public ContainerListViewModel(@NonNull Application application,
                                    final int shipId, ContainerRepository containerRepository) {
         super(application);
 
