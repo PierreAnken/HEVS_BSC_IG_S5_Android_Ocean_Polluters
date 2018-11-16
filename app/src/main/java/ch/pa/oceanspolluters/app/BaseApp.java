@@ -1,6 +1,7 @@
 package ch.pa.oceanspolluters.app;
 
 import android.app.Application;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
 import ch.pa.oceanspolluters.app.database.repository.PortRepository;
 import ch.pa.oceanspolluters.app.database.repository.ShipRepository;
 import ch.pa.oceanspolluters.app.database.repository.UserRepository;
+import ch.pa.oceanspolluters.app.util.LanguageHelper;
 
 public class BaseApp extends Application {
 
@@ -27,6 +29,13 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         AppDatabase.getInstance(getApplicationContext());
+        initLanguage();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initLanguage();
     }
 
     public void connectUser(UserEntity user){
@@ -80,5 +89,11 @@ public class BaseApp extends Application {
         });
     }
 
-
+    private void initLanguage() {
+        String ul = LanguageHelper.getUserLanguage(this);
+        // if null the language doesn't need to be changed as the user has not chosen one.
+        if (ul != null) {
+            LanguageHelper.updateLanguage(this, ul);
+        }
+    }
 }

@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity{
             userNames[0] = "- No user found -";
         }
         else{
-            userNames[0] = "- Select User -";
+            userNames[0] = getString(R.string.spinnerUserSelect);
         }
         for(int i = 1; i<userNames.length; i++){
             userNames[i] = users.get(i-1).getName();
@@ -104,13 +104,9 @@ public class LoginActivity extends AppCompatActivity{
 
         // setup spinner for user selection
         mSpinner = findViewById(R.id.users_spinner);
-        usersAdapter =
-                new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
+        usersAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
         usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(usersAdapter);
-
-        // setup spinner for language selection
-//        mSpinner = findViewById(R.id.language_chooser);
 
 
         //setup password

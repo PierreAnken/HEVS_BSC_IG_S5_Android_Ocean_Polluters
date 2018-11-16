@@ -72,4 +72,8 @@
     <string name="item_quantity">Quantity</string>
     <string name="item_types">Product</string>
     <string name="language">Language</string>
+    <string name="langFr">French</string>
+    <string name="langEn">English</string>
+    <string name="spinnerUserSelect">- Select User -</string>
+    <string name="param_user_language">userLanguage</string>
 </resources>

@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,12 +21,10 @@ import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class DockerShipContainerViewActivity extends AppCompatActivity {
@@ -80,6 +77,7 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
             if (cont != null) {
                 mContainerWithItem = cont;
                 mAdapter.setData(mContainerWithItem);
+
 //                if (mShipWithContainer.containers.get(1).container.getLoaded() == true) {
 //                    ((TextView) findViewById(R.id.v_docker_ship_container_loading_status)).setText("loaded");
 //                } else {
