@@ -3,8 +3,7 @@ package ch.pa.oceanspolluters.app.util;
 public enum Roles {
     Captain(0),
     Docker(1),
-    LogisticManager(2),
-    Administrator(3);
+    LogisticManager(2);
 
     private final int id;
 

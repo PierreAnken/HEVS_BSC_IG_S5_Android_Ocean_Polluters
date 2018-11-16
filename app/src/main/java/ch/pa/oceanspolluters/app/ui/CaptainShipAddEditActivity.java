@@ -38,7 +38,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
     private EditText shipName;
     private EditText maxWeight;
     private EditText departureDate;
-    private Spinner ports;
+    private Spinner portsSpinner;
 
     private static final String TAG = "CaptainShipAddEdit";
 
@@ -57,7 +57,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         shipName = findViewById(R.id.ae_ship_name);
         departureDate = findViewById(R.id.ae_departure_date);
-        ports = findViewById(R.id.ae_destination_port_spinner);
+        portsSpinner = findViewById(R.id.ae_destination_port_spinner);
         maxWeight = findViewById(R.id.ae_max_weight);
 
         Log.d(TAG, "PA_Debug received ship id from intent:" + shipId);
@@ -131,16 +131,11 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         if(valid){
 
-            ShipEntity ship;
+            ShipEntity ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), (int) portsSpinner.getSelectedItemId(), convertedDate);
+            Log.d(TAG, "PA_Debug port selected:" + portsSpinner.getSelectedItem().toString() + " id:" + (int) portsSpinner.getSelectedItemId());
 
-            if (mShip == null) {
-                ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), ports.getSelectedItemPosition(), convertedDate);
-            } else {
-                ship = mShip.ship;
-                ship.setName(shipNameS);
-                ship.setMaxLoadKg(maxWeightF);
-                ship.setDepartureDate(convertedDate);
-                ship.setDestinationPortId(ports.getSelectedItemPosition());
+            if (mShip != null) {
+                ship.setId(mShip.ship.getId());
             }
             ship.setOperationMode(OperationMode.Save);
 
@@ -160,36 +155,27 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void updateView(){
         Log.d(TAG, "PA_Debug updateView");
         if(mShip != null){
             shipName.setText(mShip.ship.getName());
             departureDate.setText(TB.getShortDate(mShip.ship.getDepartureDate()));
             maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
-        }
 
-        if(mPorts != null){
-            Log.d(TAG, "PA_Debug update port list: ship is null? "+(mShip == null));
-            int selectionId = 0;
-            String[] portsNames = new  String[mPorts.size()];
+            if (mPorts != null) {
+                String[] portsNames = new String[mPorts.size()];
 
-            for(int i = 0; i<portsNames.length; i++){
-                portsNames[i] = mPorts.get(i).getName();
-                if(mShip != null){
-                    if(mPorts.get(i).getId() == mShip.port.getId()){
-                        selectionId = i;
-                    }
+                for (int i = 0; i < portsNames.length; i++) {
+                    portsNames[i] = mPorts.get(i).getName();
                 }
+
+                portsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, portsNames);
+                portsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                portsSpinner.setAdapter(portsAdapter);
+                portsSpinner.setSelection(mShip.port.getId());
+                Log.d(TAG, "PA_Debug port in ship " + mShip.port.getName() + " id:" + mShip.port.getId() + " spinner port at same id:" + portsAdapter.getItem(mShip.port.getId()));
+
             }
-
-            portsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, portsNames);
-            portsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            ports.setAdapter(portsAdapter);
-            ports.setSelection(selectionId);
-
-            Log.d(TAG, "PA_Debug update port list: selectionId? "+selectionId);
         }
     }
 
