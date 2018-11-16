@@ -17,23 +17,21 @@ import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 @Dao
 public abstract class ItemTypeDao {
 
-    @Query("SELECT * FROM itemTypes WHERE e_item_type_id = :id")
-    public abstract ItemTypeEntity getById(int id);
 
     @Query("SELECT * FROM itemTypes")
     public abstract List<ItemTypeEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract long insert(ItemTypeEntity itemTypeEntity);
+    public abstract long insert(ItemTypeEntity itemType);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertAll(List<ItemTypeEntity> itemTypeEntity);
+    public abstract void insertAll(List<ItemTypeEntity> itemTypes);
 
     @Update
-    public abstract void update(ItemTypeEntity itemTypeEntity);
+    public abstract void update(ItemTypeEntity itemType);
 
     @Delete
-    public abstract void delete(ItemTypeEntity itemTypeEntity);
+    public abstract void delete(ItemTypeEntity itemType);
 
     @Query("DELETE FROM itemTypes")
     public abstract void deleteAll();

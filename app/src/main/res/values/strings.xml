@@ -70,4 +70,6 @@
     <string name="date_creation">Creation date</string>
     <string name="date">Date</string>
     <string name="language">Language</string>
+    <string name="item_types">Item type</string>
+    <string name="item_quantity">Item quantity</string>
 </resources>

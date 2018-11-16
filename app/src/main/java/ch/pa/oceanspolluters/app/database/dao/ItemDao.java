@@ -6,21 +6,38 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import ch.pa.oceanspolluters.app.database.entity.ItemEntity;;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 
 
 @Dao
 public abstract class ItemDao {
 
-    @Query("SELECT * FROM items WHERE e_item_id = :id")
-    public abstract LiveData<ItemEntity> getByIdLD(int id);
+    @Transaction
+    @Query("SELECT * " +
+            "FROM items i " +
+            "INNER JOIN itemTypes it " +
+            "ON i.item_type_id = it.e_item_type_id")
+    public abstract List<ItemWithType> getAll();
 
-    @Query("SELECT * FROM items WHERE container_id = :containerId")
-    public abstract LiveData<List<ItemEntity>> getItemsFromContainerLD(int containerId);
+    @Transaction
+    @Query("SELECT * FROM items i " +
+            "INNER JOIN itemTypes it " +
+            "ON i.item_type_id = it.e_item_type_id " +
+            "WHERE e_item_id = :id")
+    public abstract LiveData<ItemWithType> getByIdLD(int id);
+
+    @Transaction
+    @Query("SELECT * FROM items i " +
+            "INNER JOIN itemTypes it " +
+            "ON i.item_type_id = it.e_item_type_id " +
+            "WHERE container_id = :containerId")
+    public abstract LiveData<List<ItemWithType>> getItemsFromContainerLD(int containerId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(ItemEntity port);

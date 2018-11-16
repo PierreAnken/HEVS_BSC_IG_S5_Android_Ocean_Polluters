@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 
 public class ItemRepository {
     private static ItemRepository sInstance;
@@ -27,11 +28,15 @@ public class ItemRepository {
         return sInstance;
     }
 
-    public LiveData<ItemEntity> getItemLD(final int id) {
+    public List<ItemWithType> getAll() {
+        return mDatabase.itemDao().getAll();
+    }
+
+    public LiveData<ItemWithType> getItemLD(final int id) {
         return mDatabase.itemDao().getByIdLD(id);
     }
 
-    public LiveData<List<ItemEntity>> getItemsFromContainerLD(int containerId) {
+    public LiveData<List<ItemWithType>> getItemsFromContainerLD(int containerId) {
         return mDatabase.itemDao().getItemsFromContainerLD(containerId);
     }
 

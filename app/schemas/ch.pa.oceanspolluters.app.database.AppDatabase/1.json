@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2e1aaf3fde83c89c377b20e9ef220a93",
+    "identityHash": "0f0f19e3cd3f3de7d2555b830fe067b4",
     "entities": [
       {
         "tableName": "itemTypes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_type_id` INTEGER PRIMARY KEY AUTOINCREMENT, `item_type` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_type_id` INTEGER PRIMARY KEY AUTOINCREMENT, `item_type_name` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -16,7 +16,7 @@
           },
           {
             "fieldPath": "name",
-            "columnName": "item_type",
+            "columnName": "item_type_name",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -135,19 +135,13 @@
       },
       {
         "tableName": "items",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_id` INTEGER PRIMARY KEY AUTOINCREMENT, `item_type_id` INTEGER NOT NULL, `container_id` INTEGER, `weight_kg` REAL NOT NULL, FOREIGN KEY(`container_id`) REFERENCES `containers`(`e_container_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_id` INTEGER PRIMARY KEY AUTOINCREMENT, `container_id` INTEGER, `weight_kg` REAL NOT NULL, `item_type_id` INTEGER NOT NULL, FOREIGN KEY(`container_id`) REFERENCES `containers`(`e_container_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`item_type_id`) REFERENCES `itemTypes`(`e_item_type_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "e_item_id",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "itemTypeId",
-            "columnName": "item_type_id",
-            "affinity": "INTEGER",
-            "notNull": true
           },
           {
             "fieldPath": "containerId",
@@ -159,6 +153,12 @@
             "fieldPath": "weightKg",
             "columnName": "weight_kg",
             "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemTypeId",
+            "columnName": "item_type_id",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -176,6 +176,14 @@
               "container_id"
             ],
             "createSql": "CREATE  INDEX `index_items_container_id` ON `${TABLE_NAME}` (`container_id`)"
+          },
+          {
+            "name": "index_items_item_type_id",
+            "unique": false,
+            "columnNames": [
+              "item_type_id"
+            ],
+            "createSql": "CREATE  INDEX `index_items_item_type_id` ON `${TABLE_NAME}` (`item_type_id`)"
           }
         ],
         "foreignKeys": [
@@ -188,6 +196,17 @@
             ],
             "referencedColumns": [
               "e_container_id"
+            ]
+          },
+          {
+            "table": "itemTypes",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "item_type_id"
+            ],
+            "referencedColumns": [
+              "e_item_type_id"
             ]
           }
         ]
@@ -311,7 +330,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2e1aaf3fde83c89c377b20e9ef220a93\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0f0f19e3cd3f3de7d2555b830fe067b4\")"
     ]
   }
 }

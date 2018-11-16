@@ -10,27 +10,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
-import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
-import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ItemListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivity {
@@ -38,7 +28,7 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
     private ShipViewModel mShipModel;
     private TextView shipNames;
     private ContainerWithItem mContainerWithItems;
-    private RecyclerAdapter<ItemEntity> mAdapter;
+    private RecyclerAdapter<ItemWithType> mAdapter;
 
     private static final String TAG = "lmContainerItemsViewAct";
 

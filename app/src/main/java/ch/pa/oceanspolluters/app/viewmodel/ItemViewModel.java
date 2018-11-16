@@ -9,7 +9,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.BaseApp;
-import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
 
 
@@ -20,7 +20,7 @@ public class ItemViewModel extends AndroidViewModel {
     private ItemRepository mRepository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<ItemEntity> mObservableItem;
+    private final MediatorLiveData<ItemWithType> mObservableItem;
 
     public ItemViewModel(@NonNull Application application,
                          final int containerId, ItemRepository containerRepository) {
@@ -32,10 +32,10 @@ public class ItemViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableItem.setValue(null);
 
-        LiveData<ItemEntity> container = mRepository.getItemLD(containerId);
+        LiveData<ItemWithType> item = mRepository.getItemLD(containerId);
 
         // observe the changes of the container entity from the database and forward them
-        mObservableItem.addSource(container, mObservableItem::setValue);
+        mObservableItem.addSource(item, mObservableItem::setValue);
     }
 
     /**
@@ -66,7 +66,7 @@ public class ItemViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ItemEntity query so the UI can observe it.
      */
-    public LiveData<ItemEntity> getItem() {
+    public LiveData<ItemWithType> getItem() {
         return mObservableItem;
     }
 

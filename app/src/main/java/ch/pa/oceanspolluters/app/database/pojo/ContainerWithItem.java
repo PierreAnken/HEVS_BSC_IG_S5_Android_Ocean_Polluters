@@ -17,16 +17,16 @@ public class ContainerWithItem {
     public ContainerEntity container;
 
     @Relation(parentColumn = "e_container_id", entityColumn = "container_id", entity = ItemEntity.class)
-    public List<ItemEntity> items;
+    public List<ItemWithType> items;
 
     public int getWeight(){
 
         Log.v(TAG, "PA_Debug getting weight of container " + container.getId());
         int weight = 0;
         if(items != null){
-            for (ItemEntity item: items
+            for (ItemWithType item : items
                  ) {
-                weight+= item.getWeightKg();
+                weight += item.item.getWeightKg();
             }
         }
         return weight;

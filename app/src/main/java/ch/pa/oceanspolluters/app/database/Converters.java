@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ch.pa.oceanspolluters.app.model.Item;
-import ch.pa.oceanspolluters.app.util.ItemTypes;
 
 public class Converters {
     @TypeConverter
