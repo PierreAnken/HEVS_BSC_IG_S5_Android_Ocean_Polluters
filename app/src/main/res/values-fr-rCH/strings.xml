@@ -46,4 +46,11 @@
     <string name="no">Non</string>
     <string name="containerManager">Modifier contenu</string>
     <string name="confirmDisconnect">Se déconnecter?</string>
+    <string name="home">Accueil</string>
+    <string name="title_activity_parameters">Système</string>
+    <string name="title_activity_captain_home">Cockpit capitaine</string>
+    <string name="title_activity_docker_home" translatable="false">Cockpit docker</string>
+    <string name="title_activity_logistic_manager_home" translatable="false">Cockpit Logisticien</string>
+    <string name="planning">Planning</string>
+    <string name="code">Code</string>
 </resources>
