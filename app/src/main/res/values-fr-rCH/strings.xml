@@ -44,5 +44,4 @@
     <string name="operationSuccess">Operation successfully completed</string>
     <string name="loaded_true">Sur le bateau</string>
     <string name="no">Non</string>
-    <string name="containerManager">Container Manager</string>
 </resources>

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -19,6 +18,7 @@ import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
@@ -81,20 +81,15 @@ public class DockerHomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save:
-                this.finish();
-                return true;
             case android.R.id.home:
-                this.finish();
+                TB.ConfirmAction(this, getString(R.string.confirmDisconnect), () ->
+                        {
+                            this.finish();
+                        }
+                );
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_ok, menu);
-        return true;
     }
 }

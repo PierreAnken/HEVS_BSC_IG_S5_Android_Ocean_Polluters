@@ -1,8 +1,6 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -103,41 +101,32 @@ public class CaptainShipViewActivity extends AppCompatActivity {
         return true;
     }
 
-    private void confirmDelete(){
 
-        Log.d(TAG, "PA_Debug sure delete ship?");
+    private void deleteShip() {
+        mShip.ship.setOperationMode(OperationMode.Delete);
 
-        DialogInterface.OnClickListener dialogDelete = (dialog, which) -> {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    mShip.ship.setOperationMode(OperationMode.Delete);
-
-                    new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
-                        @Override
-                        public void onSuccess() {
-                            Log.d(TAG, "PA_Debug delete ship: success");
-                            ((BaseApp)getApplication()).displayShortToast(getString(R.string.operationSuccess));
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(Exception e) {
-                            Log.d(TAG, "PA_Debug delete ship: failure", e);
-                            ((BaseApp)getApplication()).displayShortToast(getString(R.string.operationFailled));
-                        }
-                    }).execute(mShip.ship);
-
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
+        new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "PA_Debug delete ship: success");
+                ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
+                finish();
             }
-        };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(CaptainShipViewActivity.this);
-        builder.setMessage(getString(R.string.sureDeleteShip)).setPositiveButton(getString(R.string.yes), dialogDelete)
-                .setNegativeButton(getString(R.string.no), dialogDelete).show();
+            @Override
+            public void onFailure(Exception e) {
+                Log.d(TAG, "PA_Debug delete ship: failure", e);
+                ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationFailled));
+            }
+        }).execute(mShip.ship);
+    }
+
+    private void confirmDelete(){
+        TB.ConfirmAction(this, getString(R.string.sureDeleteShip), () ->
+                {
+                    deleteShip();
+                }
+        );
     }
 
     @Override

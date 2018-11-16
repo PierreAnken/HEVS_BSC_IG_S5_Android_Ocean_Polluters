@@ -18,8 +18,9 @@ import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
+import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
@@ -98,7 +99,11 @@ public class CaptainHomeActivity extends AppCompatActivity {
                 DisplayShip(OperationMode.Edit, -1);
                 return true;
             case android.R.id.home:
-                this.finish();
+                TB.ConfirmAction(this, getString(R.string.confirmDisconnect), () ->
+                        {
+                            this.finish();
+                        }
+                );
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
