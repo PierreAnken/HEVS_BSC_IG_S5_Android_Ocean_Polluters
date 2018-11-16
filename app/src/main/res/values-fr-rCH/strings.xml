@@ -53,4 +53,12 @@
     <string name="title_activity_logistic_manager_home" translatable="false">Cockpit Logisticien</string>
     <string name="planning">Planning</string>
     <string name="code">Code</string>
+    <string name="parameters">Parameters</string>
+    <string name="about">About</string>
+    <string name="app_version">Version</string>
+    <string name="version_number">1.1.0</string>
+    <string name="authors">Authors</string>
+    <string name="app_date">November 2018</string>
+    <string name="date_creation">Creation date</string>
+    <string name="date">Date</string>
 </resources>
