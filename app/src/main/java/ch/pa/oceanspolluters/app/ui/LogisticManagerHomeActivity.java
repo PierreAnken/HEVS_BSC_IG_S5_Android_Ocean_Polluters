@@ -34,7 +34,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logistic_manager_home);
+        setContentView(R.layout.activity_lm_home);
 
         RecyclerView recyclerView = findViewById(R.id.lmContainersRecyclerView);
 

@@ -9,6 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import ch.pa.oceanspolluters.app.model.Item;
+import ch.pa.oceanspolluters.app.util.ItemTypes;
 
 @Entity(tableName = "items",
         foreignKeys =
@@ -28,8 +29,8 @@ public class ItemEntity extends BaseEntity implements Item {
     @ColumnInfo(name = "e_item_id")
     private Integer id = null;
 
-    @ColumnInfo(name = "item_type_id")
-    private int itemTypeId;
+    @ColumnInfo(name = "item_type")
+    private ItemTypes itemType;
 
     @ColumnInfo(name = "container_id")
     private Integer containerId;
@@ -39,13 +40,13 @@ public class ItemEntity extends BaseEntity implements Item {
 
     @Ignore
     public ItemEntity(@NonNull Item item) {
-        itemTypeId = item.getItemTypeId();
+        itemType = item.getItemType();
         weightKg = item.getWeightKg();
         containerId = getContainerId();
     }
 
-    public ItemEntity(int itemTypeId, float weightKg, int containerId) {
-        this.itemTypeId = itemTypeId;
+    public ItemEntity(ItemTypes itemType, float weightKg, int containerId) {
+        this.itemType = itemType;
         this.weightKg = weightKg;
         this.containerId = containerId;
     }
@@ -57,11 +58,11 @@ public class ItemEntity extends BaseEntity implements Item {
     public void setId(Integer id){ this.id = id;}
 
     @Override
-    public int getItemTypeId() {
-        return itemTypeId;
+    public ItemTypes getItemType() {
+        return itemType;
     }
     public void seItemTypeId(int itemTypeId) {
-        this.itemTypeId = itemTypeId;
+        this.itemType = itemType;
     }
 
     @Override

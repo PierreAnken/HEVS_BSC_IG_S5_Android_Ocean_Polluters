@@ -5,6 +5,7 @@ public enum ViewHolderDetails {
     ShipPortDeparturedate,
     ShipDeparturehoursContainersleft,
     ContainernameWeight,
-    ContainernamePosStatus
+    ContainernamePosStatus,
+    ItemtypeWeight
 
 }

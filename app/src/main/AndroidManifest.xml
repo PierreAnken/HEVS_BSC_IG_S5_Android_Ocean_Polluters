@@ -43,6 +43,10 @@
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.LogisticManagerHomeActivity">
         </activity>
+        <activity android:name=".ui.LogisticsManagerContainerItemsViewActivity"
+            android:label="@string/title_activity_logistic_manager_container_detail"
+            android:parentActivityName="ui.LogisticsManagerContainerViewActivity">
+        </activity>
         <activity android:name=".ui.LogisticsManagerContainerAddEditActivity"
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.LogisticManagerHomeActivity">
