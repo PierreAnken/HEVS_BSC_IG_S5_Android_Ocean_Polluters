@@ -48,7 +48,6 @@ public class ContainerListViewModel extends AndroidViewModel {
             } else {
                 ContainersFull = containerRepository.getContainersLD();
             }
-
         } else {
             ContainersFull = containerRepository.getByShipIdLD(shipId);
         }
