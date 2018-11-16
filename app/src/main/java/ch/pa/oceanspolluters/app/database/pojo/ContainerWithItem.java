@@ -21,7 +21,7 @@ public class ContainerWithItem {
 
     public int getWeight(){
 
-        Log.d(TAG, "PA_Debug getting weight of container "+container.getId());
+        Log.v(TAG, "PA_Debug getting weight of container " + container.getId());
         int weight = 0;
         if(items != null){
             for (ItemEntity item: items

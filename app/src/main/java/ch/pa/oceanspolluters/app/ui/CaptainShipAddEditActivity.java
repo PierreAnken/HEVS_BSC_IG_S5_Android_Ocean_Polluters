@@ -130,9 +130,17 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         }
 
         if(valid){
+            Log.d(TAG, "PA_Debug port selected: " + portsSpinner.getSelectedItem());
+            int portId = 0;
+            for (PortEntity port : mPorts) {
+                if (port.getName().equals(portsSpinner.getSelectedItem())) {
+                    portId = port.getId();
+                    break;
+                }
+            }
 
-            ShipEntity ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), (int) portsSpinner.getSelectedItemId(), convertedDate);
-            Log.d(TAG, "PA_Debug port selected:" + portsSpinner.getSelectedItem().toString() + " id:" + (int) portsSpinner.getSelectedItemId());
+
+            ShipEntity ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), portId, convertedDate);
 
             if (mShip != null) {
                 ship.setId(mShip.ship.getId());
@@ -163,17 +171,24 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
             maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
 
             if (mPorts != null) {
+
+                int selectedPortPosition = 0;
                 String[] portsNames = new String[mPorts.size()];
 
                 for (int i = 0; i < portsNames.length; i++) {
                     portsNames[i] = mPorts.get(i).getName();
+
+                    Log.v(TAG, "PA_Debug Spinner test, ship port: " + mShip.port.getName() + " port in list: " + mPorts.get(i).getName());
+                    if (mPorts.get(i).getName().equals(mShip.port.getName())) {
+                        selectedPortPosition = i;
+                        Log.d(TAG, "PA_Debug Port from ship found in list " + mShip.port.getName());
+                    }
                 }
 
                 portsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, portsNames);
                 portsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 portsSpinner.setAdapter(portsAdapter);
-                portsSpinner.setSelection(mShip.port.getId());
-                Log.d(TAG, "PA_Debug port in ship " + mShip.port.getName() + " id:" + mShip.port.getId() + " spinner port at same id:" + portsAdapter.getItem(mShip.port.getId()));
+                portsSpinner.setSelection(selectedPortPosition);
 
             }
         }
