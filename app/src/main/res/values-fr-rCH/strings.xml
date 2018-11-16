@@ -53,4 +53,6 @@
     <string name="title_activity_logistic_manager_home" translatable="false">Cockpit Logisticien</string>
     <string name="planning">Planning</string>
     <string name="code">Code</string>
+    <string name="item_quantity">Quantity</string>
+    <string name="item_types">Produits</string>
 </resources>

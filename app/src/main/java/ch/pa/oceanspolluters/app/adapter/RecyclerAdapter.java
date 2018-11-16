@@ -20,6 +20,7 @@ import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.util.ItemTypes;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
@@ -208,7 +209,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             holder.mListText.get(2).setText(departureDate);
 
         } else if (details == ViewHolderDetails.ItemtypeWeight) {
-            holder.mListText.get(0).setText(Integer.toString(((ItemEntity) item).getItemTypeId()));
+            holder.mListText.get(0).setText(((ItemEntity) item).getItemType().getTextEN());
             holder.mListText.get(1).setText(((ItemEntity) item).getWeightKg() + " kg");
 
         } else if (details == ViewHolderDetails.ContainernameWeight) {

@@ -20,6 +20,7 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
@@ -37,7 +38,7 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
     private ShipViewModel mShipModel;
     private TextView shipNames;
     private ContainerWithItem mContainerWithItems;
-    private RecyclerAdapter<ContainerWithItem> mAdapter;
+    private RecyclerAdapter<ItemEntity> mAdapter;
 
     private static final String TAG = "lmContainerItemsViewAct";
 
@@ -66,14 +67,16 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), -1);
+        int containerId = Integer.parseInt(getIntent().getStringExtra("containerId"));
+        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
         ContainerViewModel mAllContainers = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
         mAllContainers.getContainer().observe(this, containerWithItems -> {
             if (containerWithItems != null) {
                 mContainerWithItems = containerWithItems;
-                mAdapter.setData(mContainerWithItems);
+                mAdapter.setData(mContainerWithItems.items);
             }
         });
+
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -102,8 +105,8 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
         switch (item.getItemId()) {
             case R.id.edit:
                 Intent containerAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
-                containerAddEdit.putExtra("containerId",mContainerWithItem.container.getId().toString());
-                Log.d(TAG, "PA_Debug ship sent as intent to edit " + mContainerWithItem.container.getId());
+//                containerAddEdit.putExtra("containerId", mContainerWithItems.items.getId().toString());
+//                Log.d(TAG, "PA_Debug ship sent as intent to edit " + mContainerWithItem.container.getId());
                 startActivity(containerAddEdit);
                 return true;
             case android.R.id.home:

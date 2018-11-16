@@ -61,4 +61,7 @@
     <string name="code">Code</string>
     <string name="containerManager">Edit content</string>
     <string name="confirmDisconnect">Disconnect current user?</string>
+    <string name="item_quantity">Quantity</string>
+    <string name="item_types">Product</string>
+    <string name="Food" translatable="false">Food</string>
 </resources>
