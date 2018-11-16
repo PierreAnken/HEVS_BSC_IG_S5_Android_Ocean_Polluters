@@ -14,9 +14,6 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 
-;
-
-
 @Dao
 public abstract class ShipDao {
 
@@ -26,7 +23,8 @@ public abstract class ShipDao {
             "ships s " +
             "LEFT JOIN users u ON s.captain_id = e_user_id " +
             "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id "+
-            "WHERE s.e_ship_id = :shipId")
+            "WHERE s.e_ship_id = :shipId " +
+            "ORDER BY s.departure_date asc")
     public abstract LiveData<ShipWithContainer> getByIdLD(int shipId);
 
     @Transaction
@@ -34,7 +32,8 @@ public abstract class ShipDao {
             "FROM " +
             "ships s " +
             "LEFT JOIN users u ON s.captain_id = e_user_id " +
-            "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id ")
+            "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id " +
+            "ORDER BY s.departure_date asc")
     public abstract LiveData<List<ShipWithContainer>> getAllLD();
 
     @Transaction
@@ -42,7 +41,8 @@ public abstract class ShipDao {
             "FROM " +
             "ships s " +
             "LEFT JOIN users u ON s.captain_id = e_user_id " +
-            "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id ")
+            "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id " +
+            "ORDER BY s.departure_date asc")
     public abstract List<ShipWithContainer> getAll();
 
     @Transaction
@@ -51,7 +51,8 @@ public abstract class ShipDao {
                 "ships s " +
                 "LEFT JOIN users u ON s.captain_id = e_user_id " +
                 "LEFT JOIN ports p ON s.destination_port_id = p.e_port_id " +
-            "WHERE captain_id = :id_captain")
+            "WHERE captain_id = :id_captain " +
+            "ORDER BY s.departure_date asc")
     public abstract LiveData<List<ShipWithContainer>> getShipsFromCaptainLD(int id_captain);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

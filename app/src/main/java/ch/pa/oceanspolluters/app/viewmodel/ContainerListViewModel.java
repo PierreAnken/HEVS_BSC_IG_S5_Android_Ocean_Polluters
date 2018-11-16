@@ -22,16 +22,20 @@ public class ContainerListViewModel extends AndroidViewModel {
 
     private ContainerRepository mRepository;
 
+    private static boolean onlyToLoad;
+
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<ContainerWithItem>> mObservableContainers;
 
     public ContainerListViewModel(@NonNull Application application,
-                                   final int shipId, ContainerRepository containerRepository) {
+                                   final int shipId, ContainerRepository containerRepository, boolean onlyToLoad) {
         super(application);
 
         mRepository = containerRepository;
 
         mObservableContainers = new MediatorLiveData<>();
+
+        this.onlyToLoad = onlyToLoad;
         
         // set by default null, until we get data from the database.
         mObservableContainers.setValue(null);
@@ -39,7 +43,11 @@ public class ContainerListViewModel extends AndroidViewModel {
         LiveData<List<ContainerWithItem>> ContainersFull;
 
         if (shipId < 0) {
-            ContainersFull = containerRepository.getContainersLD();
+            if (onlyToLoad) {
+                ContainersFull = containerRepository.getContainerToLoadLD();
+            } else {
+                ContainersFull = containerRepository.getContainersLD();
+            }
 
         } else {
             ContainersFull = containerRepository.getByShipIdLD(shipId);
@@ -63,16 +71,17 @@ public class ContainerListViewModel extends AndroidViewModel {
         private final ContainerRepository mContainerRepository;
 
 
-        public FactoryContainers(@NonNull Application application, int shipId) {
+        public FactoryContainers(@NonNull Application application, int shipId, boolean onlyToLoadS) {
             mApplication = application;
             mShipId = shipId;
             mContainerRepository = ((BaseApp) application).getContainerRepository();
+            onlyToLoad = onlyToLoadS;
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new ContainerListViewModel(mApplication, mShipId, mContainerRepository);
+            return (T) new ContainerListViewModel(mApplication, mShipId, mContainerRepository, onlyToLoad);
         }
     }
 

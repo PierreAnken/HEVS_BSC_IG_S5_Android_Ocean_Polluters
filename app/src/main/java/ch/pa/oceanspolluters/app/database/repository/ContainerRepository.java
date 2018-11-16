@@ -36,6 +36,10 @@ public class ContainerRepository {
         return mDatabase.containerDao().getAllLD();
     }
 
+    public LiveData<List<ContainerWithItem>> getContainerToLoadLD() {
+        return mDatabase.containerDao().getToLoadLD();
+    }
+
     public LiveData<List<ContainerWithItem>> getByShipIdLD(final int shipId) {
         return mDatabase.containerDao().getByShipIdLD(shipId);
     }

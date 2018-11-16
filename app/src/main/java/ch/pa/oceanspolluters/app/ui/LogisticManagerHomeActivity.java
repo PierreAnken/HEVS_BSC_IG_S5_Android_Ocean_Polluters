@@ -22,6 +22,8 @@ import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
+import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
@@ -51,7 +53,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
                 DisplayContainer(OperationMode.Edit, mContainerWithItems.get(position).container.getId());
             }
-        });
+        }, ViewType.lmHome, ViewHolderDetails.ContainernameWeight);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -60,7 +62,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
         // get all containers
         mContainerWithItems = new ArrayList<>();
 
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), -1);
+        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), -1, false);
         ContainerListViewModel mAllContainers = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
         mAllContainers.getContainers().observe(this, containerWithItems -> {
             if (containerWithItems != null) {

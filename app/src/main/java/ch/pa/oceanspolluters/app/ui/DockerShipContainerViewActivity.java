@@ -24,6 +24,8 @@ import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
+import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
@@ -58,7 +60,7 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View v, int position) {
             }
-        });
+        }, ViewType.dockerContainer, ViewHolderDetails.ContainernamePosStatus);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -72,7 +74,7 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
         Log.d(TAG, "OG_Debug received container id from intent:" + containerId);
 
         // get container and display it
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId);
+        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId, false);
         mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
         mContainerListViewModel.getContainers().observe(this, cont -> {
             if (cont != null) {

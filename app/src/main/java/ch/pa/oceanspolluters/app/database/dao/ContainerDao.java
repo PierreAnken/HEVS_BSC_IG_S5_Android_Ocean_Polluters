@@ -14,9 +14,6 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 
-;
-
-
 @Dao
 public abstract class ContainerDao {
 
@@ -24,14 +21,22 @@ public abstract class ContainerDao {
     @Query("SELECT * " +
             "FROM " +
             "containers c " +
-            "ORDER BY c.name")
+            "ORDER BY c.loaded, c.name")
     public abstract LiveData<List<ContainerWithItem>> getAllLD();
 
     @Transaction
     @Query("SELECT * " +
             "FROM " +
             "containers c " +
-            "ORDER BY c.name")
+            "WHERE c.loaded = 0 " +
+            "ORDER BY c.loaded, c.name")
+    public abstract LiveData<List<ContainerWithItem>> getToLoadLD();
+
+    @Transaction
+    @Query("SELECT * " +
+            "FROM " +
+            "containers c " +
+            "ORDER BY c.loaded, c.name")
     public abstract List<ContainerWithItem> getAll();
 
     @Transaction
@@ -47,7 +52,7 @@ public abstract class ContainerDao {
             "FROM " +
             "containers c " +
             "WHERE c.ship_id = :id_ship " +
-            "ORDER BY c.name")
+            "ORDER BY c.loaded, c.name")
     public abstract LiveData<List<ContainerWithItem>> getByShipIdLD(int id_ship);
 
 

@@ -20,6 +20,8 @@ import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
+import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
+import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class CaptainHomeActivity extends AppCompatActivity {
@@ -48,7 +50,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
                 DisplayShip(OperationMode.Edit, mShipsWithContainer.get(position).ship.getId());
             }
-        });
+        }, ViewType.captainShips, ViewHolderDetails.ShipPortDeparturedate);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

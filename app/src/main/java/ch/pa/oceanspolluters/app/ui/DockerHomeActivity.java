@@ -19,6 +19,8 @@ import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
+import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class DockerHomeActivity extends AppCompatActivity {
@@ -45,7 +47,7 @@ public class DockerHomeActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View v, int position) {
             }
-        });
+        }, ViewType.dockerHome, ViewHolderDetails.ShipDeparturehoursContainersleft);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
