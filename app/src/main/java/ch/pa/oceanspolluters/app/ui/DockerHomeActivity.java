@@ -84,6 +84,9 @@ public class DockerHomeActivity extends AppCompatActivity {
             case R.id.save:
                 this.finish();
                 return true;
+            case android.R.id.home:
+                this.finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -172,6 +172,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             if (countContainerToLoad > 0) {
                 holder.mListText.get(2).setText(countContainerToLoad + " left");
+                holder.mListText.get(2).setTextColor(Color.BLACK);
             } else {
                 holder.mListText.get(2).setText("completed");
                 holder.mListText.get(2).setTextColor(Color.GREEN);
@@ -200,6 +201,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 holder.mListText.get(2).setTextColor(Color.GREEN);
                 holder.mListText.get(2).setText("loaded");
             } else {
+                holder.mListText.get(2).setTextColor(Color.BLACK);
                 holder.mListText.get(2).setText("to load");
             }
         }
