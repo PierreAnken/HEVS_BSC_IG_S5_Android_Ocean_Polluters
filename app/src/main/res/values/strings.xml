@@ -60,4 +60,6 @@
     <string name="operationFailled">Operation failled, please try again</string>
     <string name="operationSuccess">Operation successfully completed</string>
     <string name="code">Code</string>
+    <string name="containerManager">Edit container content</string>
+    <string name="confirmDisconnect">Disconnect current user?</string>
 </resources>
