@@ -34,7 +34,6 @@ public class DataGenerator {
         users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
         users.add(new UserEntity("Docker Roth", 1234, Roles.Docker.id()));
         users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
-        users.add(new UserEntity("Administrator Frank", 1234, Roles.Administrator.id()));
 
         db.userDao().insertAll(users);
 

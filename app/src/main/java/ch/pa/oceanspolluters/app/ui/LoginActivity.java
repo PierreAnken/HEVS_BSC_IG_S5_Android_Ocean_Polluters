@@ -114,10 +114,10 @@ public class LoginActivity extends AppCompatActivity{
 
 
         //setup password
-        mPassword = (EditText)findViewById(R.id.password);
+        mPassword = findViewById(R.id.password);
 
         //setup login listener
-        ImageButton mLoginButton = (ImageButton) findViewById(R.id.login_button);
+        ImageButton mLoginButton = findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,10 +186,7 @@ public class LoginActivity extends AppCompatActivity{
         protected void onPostExecute(Integer userRoleId) {
             if(userRoleId >= 0){
 
-                if(userRoleId == Roles.Administrator.id()){
-                     startActivity(new Intent(getApplicationContext(), AdministratorHomeActivity.class));
-                }
-                else if(userRoleId == Roles.Docker.id()){
+                if (userRoleId == Roles.Docker.id()) {
                     startActivity(new Intent(getApplicationContext(), DockerHomeActivity.class));
                 }
                 else if(userRoleId == Roles.LogisticManager.id()){

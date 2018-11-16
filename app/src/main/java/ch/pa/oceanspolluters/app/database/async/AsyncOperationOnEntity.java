@@ -119,6 +119,7 @@ public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
 
         } catch (Exception e) {
             Log.d(TAG, "PA_Debug asynch: " + e.toString());
+            mException = e;
         }
         return null;
     }
