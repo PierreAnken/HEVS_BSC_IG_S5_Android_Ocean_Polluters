@@ -74,7 +74,7 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
         Log.d(TAG, "OG_Debug received container id from intent:" + containerId);
 
         // get container and display it
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId, false);
+        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId, true);
         mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
         mContainerListViewModel.getContainers().observe(this, cont -> {
             if (cont != null) {

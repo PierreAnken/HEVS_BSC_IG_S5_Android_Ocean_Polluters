@@ -17,6 +17,7 @@ android:background="@drawable/texture_eau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/lm_container_view_layout"
         style="@style/border_white_style">
 
         // title general infos

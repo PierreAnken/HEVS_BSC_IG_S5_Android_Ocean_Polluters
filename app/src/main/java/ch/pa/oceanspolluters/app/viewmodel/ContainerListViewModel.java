@@ -49,7 +49,11 @@ public class ContainerListViewModel extends AndroidViewModel {
                 ContainersFull = containerRepository.getContainersLD();
             }
         } else {
-            ContainersFull = containerRepository.getByShipIdLD(shipId);
+            if (onlyToLoad) {
+                ContainersFull = containerRepository.getByShipIdLDToLoad(shipId);
+            } else {
+                ContainersFull = containerRepository.getByShipIdLD(shipId);
+            }
         }
 
         // observe the changes of the entities from the database and forward them

@@ -55,6 +55,14 @@ public abstract class ContainerDao {
             "ORDER BY c.loaded, c.name")
     public abstract LiveData<List<ContainerWithItem>> getByShipIdLD(int id_ship);
 
+    @Transaction
+    @Query("SELECT * " +
+            "FROM " +
+            "containers c " +
+            "WHERE c.ship_id = :id_ship " +
+            "AND c.loaded = 0 " +
+            "ORDER BY c.loaded, c.name")
+    public abstract LiveData<List<ContainerWithItem>> getByShipIdLDToLoad(int id_ship);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(ContainerEntity container);

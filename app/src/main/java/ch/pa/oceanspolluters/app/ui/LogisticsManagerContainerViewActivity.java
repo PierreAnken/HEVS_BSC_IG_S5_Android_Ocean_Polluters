@@ -3,26 +3,22 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.model.Container;
-import ch.pa.oceanspolluters.app.util.TB;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
@@ -64,6 +60,28 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
                 updateView();
             }
         });
+
+        //add delete button
+        LinearLayout containerViewPage = findViewById(R.id.lm_container_view_layout);
+        View btnContainerManager = getLayoutInflater().inflate(R.layout.btn_container_manager, null);
+        containerViewPage.addView(btnContainerManager);
+        btnContainerManager.setOnClickListener(
+                view -> {
+                    openContainerManager(containerId);
+                }
+        );
+    }
+
+    private void openContainerManager(int containerId) {
+
+        Intent containerView;
+
+        containerView = new Intent(getApplicationContext(), LogisticsManagerContainerViewActivity.class);
+
+        containerView.putExtra("containerId",Integer.toString(containerId));
+        Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));
+        startActivity(containerView);
+
     }
 
     private void updateView(){

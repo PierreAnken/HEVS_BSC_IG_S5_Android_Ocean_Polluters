@@ -53,7 +53,7 @@ public class CaptainShipViewActivity extends AppCompatActivity {
 
         //add delete button
         LinearLayout shipViewPage = findViewById(R.id.cap_ship_detail);
-        View deleteButton = getLayoutInflater().inflate(R.layout.delete_button_red, null);
+        View deleteButton = getLayoutInflater().inflate(R.layout.btn_delete_red, null);
         shipViewPage.addView(deleteButton);
         deleteButton.setOnClickListener(
                 view -> {

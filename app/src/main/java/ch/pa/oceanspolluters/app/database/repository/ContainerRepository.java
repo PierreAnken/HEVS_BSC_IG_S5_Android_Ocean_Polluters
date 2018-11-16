@@ -40,8 +40,12 @@ public class ContainerRepository {
         return mDatabase.containerDao().getToLoadLD();
     }
 
-    public LiveData<List<ContainerWithItem>> getByShipIdLD(final int shipId) {
+    public LiveData<List<ContainerWithItem>>  getByShipIdLD(final int shipId) {
         return mDatabase.containerDao().getByShipIdLD(shipId);
+    }
+
+    public LiveData<List<ContainerWithItem>> getByShipIdLDToLoad(final int shipId) {
+        return mDatabase.containerDao().getByShipIdLDToLoad(shipId);
     }
 
     public void insert(final ContainerEntity container) {
