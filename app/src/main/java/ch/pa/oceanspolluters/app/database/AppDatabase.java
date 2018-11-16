@@ -12,16 +12,18 @@ import java.util.concurrent.Executors;
 
 import ch.pa.oceanspolluters.app.database.dao.ContainerDao;
 import ch.pa.oceanspolluters.app.database.dao.ItemDao;
+import ch.pa.oceanspolluters.app.database.dao.ItemTypeDao;
 import ch.pa.oceanspolluters.app.database.dao.PortDao;
 import ch.pa.oceanspolluters.app.database.dao.ShipDao;
 import ch.pa.oceanspolluters.app.database.dao.UserDao;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
-@Database(entities = {UserEntity.class, ContainerEntity.class, ItemEntity.class, PortEntity.class, ShipEntity.class}, version = 1)
+@Database(entities = {ItemTypeEntity.class, UserEntity.class, ContainerEntity.class, ItemEntity.class, PortEntity.class, ShipEntity.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -31,6 +33,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract PortDao portDao();
+
+    public abstract ItemTypeDao itemTypeDao();
     public abstract ItemDao itemDao();
     public abstract ContainerDao containerDao();
     public abstract ShipDao shipDao();

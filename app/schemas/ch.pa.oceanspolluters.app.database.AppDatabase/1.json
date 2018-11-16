@@ -2,8 +2,34 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a3d97e7dcf3b472402bd2ae65080e112",
+    "identityHash": "2e1aaf3fde83c89c377b20e9ef220a93",
     "entities": [
+      {
+        "tableName": "itemTypes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_type_id` INTEGER PRIMARY KEY AUTOINCREMENT, `item_type` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "e_item_type_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "item_type",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "e_item_type_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
       {
         "tableName": "users",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_user_id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_name` TEXT, `password` INTEGER NOT NULL, `role_id` INTEGER NOT NULL)",
@@ -285,7 +311,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a3d97e7dcf3b472402bd2ae65080e112\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2e1aaf3fde83c89c377b20e9ef220a93\")"
     ]
   }
 }

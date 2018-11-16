@@ -47,6 +47,4 @@ public class ItemRepository {
         mDatabase.itemDao().delete(item);
     }
 
-
-
 }

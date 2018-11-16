@@ -19,12 +19,44 @@
             android:text="@string/parameters" />
 
     //parameters frame
-
     <LinearLayout
         style="@style/border_white_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"></LinearLayout>
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        //Labels headers
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/language" />
+
+        </LinearLayout>
+
+        //Label texts
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinner_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <TextView
@@ -37,7 +69,6 @@
         android:textSize="20sp" />
 
     //about frame
-
     <LinearLayout
         style="@style/border_white_style"
         android:layout_width="match_parent"
@@ -46,7 +77,6 @@
         android:orientation="horizontal">
 
         //Labels headers
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +100,6 @@
         </LinearLayout>
 
         //Label texts
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
