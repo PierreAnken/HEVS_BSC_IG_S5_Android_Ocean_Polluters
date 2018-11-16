@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
@@ -99,9 +100,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 return true;
             });
             return viewHolderShipList;
-        }
 
-        else if (type == ViewType.lmHome){
+        } else if (type == ViewType.lmHome){
 
             // create item list object
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
@@ -120,6 +120,27 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 return true;
             });
             return viewHolderContainerList;
+
+        } else if (type == ViewType.lmContainerItems){
+
+            // create item list object
+            LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_container_line, parent, false);
+
+            ArrayList<TextView> texts = new ArrayList<TextView>();
+
+            texts.add(containerListItem.findViewById(R.id.clContainerName));
+            texts.add(containerListItem.findViewById(R.id.clContainerWeight));
+
+            final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
+
+            containerListItem.setOnClickListener(view -> mListener.onItemClick(view, viewHolderContainerList.getAdapterPosition()));
+            containerListItem.setOnLongClickListener(view -> {
+                mListener.onItemLongClick(view, viewHolderContainerList.getAdapterPosition());
+                return true;
+            });
+            return viewHolderContainerList;
+
         } else if (type == ViewType.dockerContainer) {
 
                 // create item list object
@@ -177,6 +198,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 holder.mListText.get(2).setText("completed");
                 holder.mListText.get(2).setTextColor(Color.GREEN);
             }
+
         } else if (details == ViewHolderDetails.ShipPortDeparturedate) {
             holder.mListText.get(0).setText(((ShipWithContainer) item).ship.getName());
             holder.mListText.get(1).setText(((ShipWithContainer) item).port.getName());
@@ -184,6 +206,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             String departureDate = simpleDateFormat.format(((ShipWithContainer) item).ship.getDepartureDate());
             holder.mListText.get(2).setText(departureDate);
+
+        } else if (details == ViewHolderDetails.ItemtypeWeight) {
+            holder.mListText.get(0).setText(Integer.toString(((ItemEntity) item).getItemTypeId()));
+            holder.mListText.get(1).setText(((ItemEntity) item).getWeightKg() + " kg");
+
         } else if (details == ViewHolderDetails.ContainernameWeight) {
             holder.mListText.get(0).setTextColor(Color.BLACK);
             holder.mListText.get(1).setTextColor(Color.BLACK);
@@ -194,6 +221,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             holder.mListText.get(0).setText(((ContainerWithItem) item).container.getName());
             int weight = ((ContainerWithItem) item).getWeight();
             holder.mListText.get(1).setText(weight+" kg");
+
         } else if (details == ViewHolderDetails.ContainernamePosStatus) {
             holder.mListText.get(0).setText(((ContainerWithItem) item).container.getName());
             holder.mListText.get(1).setText(((ContainerWithItem) item).container.getDockPosition());

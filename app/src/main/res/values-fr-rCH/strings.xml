@@ -45,4 +45,6 @@
     <string name="loaded_true">Sur le bateau</string>
     <string name="no">Non</string>
     <string name="containerManager">Container Manager</string>
+    <string name="item_types">Product</string>
+    <string name="item_quantity">Quantity</string>
 </resources>

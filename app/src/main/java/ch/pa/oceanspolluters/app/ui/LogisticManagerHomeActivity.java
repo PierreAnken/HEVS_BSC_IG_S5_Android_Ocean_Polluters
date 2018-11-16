@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,17 +14,14 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
-import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class LogisticManagerHomeActivity extends AppCompatActivity {
 
@@ -37,7 +33,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logistic_manager_home);
+        setContentView(R.layout.activity_lm_home);
 
         RecyclerView recyclerView = findViewById(R.id.lmContainersRecyclerView);
 
