@@ -86,18 +86,18 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        getMenuInflater().inflate(R.menu.menu_add, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-                Intent containerAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
+            case R.id.add:
+//                Intent itemAddEdit = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
 //                containerAddEdit.putExtra("containerId", mContainerWithItems.items.getId().toString());
 //                Log.d(TAG, "PA_Debug ship sent as intent to edit " + mContainerWithItem.container.getId());
-                startActivity(containerAddEdit);
+//                startActivity(itemAddEdit);
                 return true;
             case android.R.id.home:
                 this.finish();

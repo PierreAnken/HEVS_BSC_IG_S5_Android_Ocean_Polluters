@@ -125,12 +125,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             // create item list object
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_container_line, parent, false);
+                    .inflate(R.layout.list_container_line_delete, parent, false);
 
             ArrayList<TextView> texts = new ArrayList<TextView>();
 
             texts.add(containerListItem.findViewById(R.id.clContainerName));
             texts.add(containerListItem.findViewById(R.id.clContainerWeight));
+            texts.add(containerListItem.findViewById(R.id.clContainerDelete));
 
             final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
 

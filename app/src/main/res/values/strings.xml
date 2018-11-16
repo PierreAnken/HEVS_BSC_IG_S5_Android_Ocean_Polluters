@@ -69,7 +69,7 @@
     <string name="app_date">November 2018</string>
     <string name="date_creation">Creation date</string>
     <string name="date">Date</string>
+    <string name="item_quantity">Quantity</string>
+    <string name="item_types">Product</string>
     <string name="language">Language</string>
-    <string name="item_types">Item type</string>
-    <string name="item_quantity">Item quantity</string>
 </resources>
