@@ -18,6 +18,9 @@ import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 public abstract class ItemTypeDao {
 
 
+    @Query("SELECT * FROM itemTypes WHERE e_item_type_id = :id")
+    public abstract ItemTypeEntity getById(int id);
+
     @Query("SELECT * FROM itemTypes")
     public abstract List<ItemTypeEntity> getAll();
 

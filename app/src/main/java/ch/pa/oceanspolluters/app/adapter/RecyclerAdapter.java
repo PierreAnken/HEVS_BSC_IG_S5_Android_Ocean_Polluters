@@ -208,7 +208,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             holder.mListText.get(2).setText(departureDate);
 
         } else if (details == ViewHolderDetails.ItemtypeWeight) {
-            holder.mListText.get(0).setText(((ItemWithType) item).itemTypes.get(0).getName());
+            holder.mListText.get(0).setText(((ItemWithType) item).itemType().getName());
             holder.mListText.get(1).setText(((ItemWithType) item).item.getWeightKg() + " kg");
 
         } else if (details == ViewHolderDetails.ContainernameWeight) {

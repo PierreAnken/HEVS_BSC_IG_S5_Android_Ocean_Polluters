@@ -15,4 +15,11 @@ public class ItemWithType {
     @Relation(parentColumn = "item_type_id", entityColumn = "e_item_type_id", entity = ItemTypeEntity.class)
     public List<ItemTypeEntity> itemTypes;
 
+
+    public ItemTypeEntity itemType() {
+        if (itemTypes.size() > 0)
+            return itemTypes.get(0);
+        else
+            return new ItemTypeEntity();
+    }
 }

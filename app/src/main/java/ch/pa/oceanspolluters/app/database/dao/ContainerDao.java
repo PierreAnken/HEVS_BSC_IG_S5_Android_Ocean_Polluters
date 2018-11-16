@@ -36,8 +36,6 @@ public abstract class ContainerDao {
     @Query("SELECT * " +
             "FROM " +
             "containers c " +
-            "LEFT join items i on c.e_container_id = i.container_id " +
-            "LEFT join itemTypes it on i.item_type_id = it.e_item_type_id " +
             "ORDER BY c.loaded, c.name")
     public abstract List<ContainerWithItem> getAll();
 

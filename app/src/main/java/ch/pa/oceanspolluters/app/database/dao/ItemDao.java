@@ -20,22 +20,24 @@ public abstract class ItemDao {
 
     @Transaction
     @Query("SELECT * " +
-            "FROM items i " +
-            "INNER JOIN itemTypes it " +
-            "ON i.item_type_id = it.e_item_type_id")
+            "FROM items")
     public abstract List<ItemWithType> getAll();
 
     @Transaction
-    @Query("SELECT * FROM items i " +
-            "INNER JOIN itemTypes it " +
-            "ON i.item_type_id = it.e_item_type_id " +
+    @Query("SELECT * " +
+            "FROM items i " +
+            "WHERE e_item_id = :id")
+    public abstract ItemWithType getById(int id);
+
+    @Transaction
+    @Query("SELECT * " +
+            "FROM items i " +
             "WHERE e_item_id = :id")
     public abstract LiveData<ItemWithType> getByIdLD(int id);
 
     @Transaction
-    @Query("SELECT * FROM items i " +
-            "INNER JOIN itemTypes it " +
-            "ON i.item_type_id = it.e_item_type_id " +
+    @Query("SELECT * " +
+            "FROM items i " +
             "WHERE container_id = :containerId")
     public abstract LiveData<List<ItemWithType>> getItemsFromContainerLD(int containerId);
 

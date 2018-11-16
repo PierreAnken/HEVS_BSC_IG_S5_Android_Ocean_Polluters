@@ -29,6 +29,7 @@ import ch.pa.oceanspolluters.app.model.Item;
                 @Index(value = {"container_id"}),
                 @Index(value = {"item_type_id"})
         })
+
 public class ItemEntity extends BaseEntity implements Item {
 
     @PrimaryKey(autoGenerate = true)
@@ -59,7 +60,6 @@ public class ItemEntity extends BaseEntity implements Item {
     public int getItemTypeId() {
         return itemTypeId;
     }
-
     public void setItemTypeId(int itemTypeId) {
         this.itemTypeId = itemTypeId;
     }
@@ -79,7 +79,6 @@ public class ItemEntity extends BaseEntity implements Item {
     public Integer getContainerId() {
         return containerId;
     }
-
     public void setWeightKg(float weightKg) {
         this.weightKg = weightKg;
     }
