@@ -40,7 +40,7 @@
     <string name="max_weight">Max weight (kg)</string>
     <string name="search">Search</string>
     <string name="Containers">Containers</string>
-    <string name="container_name">Name</string>
+    <string name="container_name">Code</string>
     <string name="container_weight">Weight</string>
     <string name="dock_position">Position</string>
     <string name="content">Content</string>
@@ -48,7 +48,7 @@
     <string name="title_activity_logistic_manager_container_detail">Container detail</string>
     <string name="container_edit">Container edition</string>
     <string name="container_add">Container add</string>
-    <string name="error_empty_container">Container name cannot be empty</string>
+    <string name="error_empty_container">Container code cannot be empty</string>
     <string name="loaded_true">On ship</string>
     <string name="loaded_false">At dock</string>
     <string name="error_empty_dock_position">Dock position cannot be empty</string>
@@ -84,7 +84,7 @@
     <string name="spinnerUserSelect">- Select User -</string>
     <string name="langFr">French</string>
     <string name="langEn">English</string>
-    <string name="authors_detail"><![CDATA[Pierre Anken & Olivier Gottet]]></string>
+    <string name="authors_detail" translatable="false"><![CDATA[Pierre Anken & Olivier Gottet]]></string>
     <string name="container_loading_priority">Container loading priority</string>
     <string name="confirmLoaded">Confirm container loaded on ship?</string>
     <string name="container_list">Container list</string>
@@ -93,5 +93,6 @@
     <string name="toast_container_loaded">Container status updated</string>
     <string name="confirm_container_add">Container successfully added</string>
     <string name="confirm_container_save">Container successfully saved</string>
-    <string name="error_duplicate_container_name">Container name must be unique</string>
+    <string name="error_duplicate_container_name">Container code must be unique</string>
+    <string name="sureDeleteContainer">Do you really want to delete this container and its content?</string>
 </resources>

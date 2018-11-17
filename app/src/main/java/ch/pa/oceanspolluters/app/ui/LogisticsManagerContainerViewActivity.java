@@ -11,13 +11,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
+import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
+import ch.pa.oceanspolluters.app.util.OperationMode;
+import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
@@ -61,13 +65,22 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
             }
         });
 
-        //add delete button
-        LinearLayout containerViewPage = findViewById(R.id.lm_container_view_layout);
+        //add edit button
+        LinearLayout containerViewPage = findViewById(R.id.btn_layout_lm_container);
         View btnContainerManager = getLayoutInflater().inflate(R.layout.btn_container_manager, null);
         containerViewPage.addView(btnContainerManager);
         btnContainerManager.setOnClickListener(
                 view -> {
                     openContainerManager(containerId);
+                }
+        );
+
+        //add delete button
+        View deleteButton = getLayoutInflater().inflate(R.layout.btn_delete_red, null);
+        containerViewPage.addView(deleteButton);
+        deleteButton.setOnClickListener(
+                view -> {
+                    confirmDelete();
                 }
         );
     }
@@ -82,6 +95,26 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));
         startActivity(containerView);
 
+    }
+
+    private void confirmDelete() {
+        TB.ConfirmAction(this, getString(R.string.sureDeleteContainer), () ->
+                {
+                    mContainerWithItem.container.setOperationMode(OperationMode.Delete);
+                    new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+                        @Override
+                        public void onSuccess() {
+                            ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationFailled));
+                        }
+                    }).execute(mContainerWithItem.container);
+                }
+        );
     }
 
     private void updateView(){
@@ -130,6 +163,9 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
+        if (mContainerWithItem != null) {
+            getMenuInflater().inflate(R.menu.menu_delete, menu);
+        }
         return true;
     }
 
@@ -144,6 +180,9 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
                 return true;
             case android.R.id.home:
                 this.finish();
+                return true;
+            case R.id.delete:
+                confirmDelete();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

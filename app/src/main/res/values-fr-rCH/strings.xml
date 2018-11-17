@@ -26,7 +26,7 @@
     <string name="max_weight">Poids max (kg)</string>
     <string name="search">Rechercher</string>
     <string name="Containers">Containers</string>
-    <string name="container_name">Nom</string>
+    <string name="container_name">Code</string>
     <string name="container_weight">Poids</string>
     <string name="dock_position">Position</string>
     <string name="content">Contenu</string>
@@ -34,7 +34,7 @@
     <string name="title_activity_logistic_manager_container_detail">Détail du conteneur</string>
     <string name="container_edit">Edition du conteneur</string>
     <string name="container_add">Ajouter un conteneur</string>
-    <string name="error_empty_container">Le nom du conteneur ne peut pas être vide</string>
+    <string name="error_empty_container">Le code du conteneur ne peut pas être vide</string>
     <string name="loaded_false">A quai</string>
     <string name="error_empty_dock_position">La position à quai ne peut pas être vide</string>
     <string name="delete">Supprimer</string>
@@ -77,4 +77,12 @@
     <string name="langFr">Français</string>
     <string name="langEn">Anglais</string>
     <string name="container_loading_priority">Container loading priority</string>
+    <string name="confirmLoaded">Confirmer chargement du conteneur sur le navire?</string>
+    <string name="container_list">Liste des conteneurs</string>
+    <string name="validate">Valider</string>
+    <string name="fully_loaded">Tous les conteneurs du navire sont déjà chargés</string>
+    <string name="toast_container_loaded">Statut du conteneur mis à jour</string>
+    <string name="confirm_container_add">Conteneur ajouté avec succès</string>
+    <string name="confirm_container_save">Conteneur mis à jour avec succès</string>
+    <string name="error_duplicate_container_name">Le code du conteneur doit être unique</string>
 </resources>
