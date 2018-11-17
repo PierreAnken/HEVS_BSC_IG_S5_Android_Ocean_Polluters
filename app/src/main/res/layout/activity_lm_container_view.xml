@@ -16,28 +16,23 @@ android:background="@drawable/texture_eau"
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:id="@+id/lm_container_view_layout"
         style="@style/border_white_style">
-
-        <!-- title general infos -->
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/general_information"
-            android:textSize="@dimen/title_inside_view"
-            android:layout_marginBottom="10dp"/>
 
         <!-- ship name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <!-- ship name label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:text="@string/ship"
                 />
@@ -46,6 +41,7 @@ android:background="@drawable/texture_eau"
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_ship_name"
                 android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"/>
 
@@ -61,6 +57,7 @@ android:background="@drawable/texture_eau"
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:text="@string/dock_position"/>
 
@@ -68,6 +65,7 @@ android:background="@drawable/texture_eau"
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_dock_position"
                 android:layout_weight="1"
+                android:layout_marginStart="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -83,6 +81,7 @@ android:background="@drawable/texture_eau"
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:text="@string/container_name"/>
 
@@ -90,34 +89,41 @@ android:background="@drawable/texture_eau"
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_name"
                 android:layout_weight="1"
+                android:layout_marginStart="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
-        <!-- container loaded toggle button -->
-        <ToggleButton
-            android:id="@+id/v_lm_loaded_status"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textOn="@string/loaded_true"
-            android:textOff="@string/loaded_false"
-            android:enabled="false" />
-
-        <!-- title content -->
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        <!-- loading status -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/content"
-            android:textSize="@dimen/title_inside_view"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"/>
+            android:orientation="horizontal">
+
+            <!-- loading status label -->
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="@string/loading_status"/>
+
+            <!-- loading status -->
+            <TextView
+                android:id="@+id/v_lm_loaded_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
         <!-- items -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <!-- items label -->
@@ -125,14 +131,16 @@ android:background="@drawable/texture_eau"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:text="@string/items" />
 
             <!-- items -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_items_quantity_weight"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -146,6 +154,7 @@ android:background="@drawable/texture_eau"
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:text="@string/total_weight" />
 
@@ -154,6 +163,7 @@ android:background="@drawable/texture_eau"
                 android:id="@+id/t_total_weight"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
+                android:layout_marginStart="20dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

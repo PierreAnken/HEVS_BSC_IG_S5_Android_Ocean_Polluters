@@ -51,11 +51,12 @@ public class LogisticsManagerItemAddEditActivity extends AppCompatActivity {
 
         Intent containerDetail = getIntent();
         int containerId = containerDetail.getStringExtra("containerId") != null ? Integer.parseInt(containerDetail.getStringExtra("containerId")): 0;
+        int itemId = containerDetail.getStringExtra("itemId") != null ? Integer.parseInt(containerDetail.getStringExtra("itemId")): 0;
 
-        if(containerId > 0)
-            setTitle(getString(R.string.item_edit));
-        else
+        if(itemId == 0)
             setTitle(getString(R.string.item_add));
+        else
+            setTitle(getString(R.string.item_edit));
 
         itemCategories = findViewById(R.id.ae_lm_item_category_spinner);
         itemWeight = findViewById(R.id.ae_lm_item_weight);
@@ -71,27 +72,31 @@ public class LogisticsManagerItemAddEditActivity extends AppCompatActivity {
 
         Log.d(TAG, "PA_Debug received container id from intent:" + containerId);
 
-        //get container and display it in form
-        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
-        mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
-        mContainerViewModel.getContainer().observe(this, container -> {
-            if (container != null) {
-                mContainerWithItem = container;
-                shipId = container.container.getShipId();
-                Log.d(TAG, "PA_Debug container id from factory:" + container.container.getId());
-                updateView();
-            }
-        });
+        if (containerId > 0) {
+            //get container and display it in form
+            ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
+            mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
+            mContainerViewModel.getContainer().observe(this, container -> {
+                if (container != null) {
+                    mContainerWithItem = container;
+                    shipId = container.container.getShipId();
+                    Log.d(TAG, "PA_Debug container id from factory:" + container.container.getId());
+                    updateView();
+                }
+            });
+        }
 
-        //get port list
-        ItemListViewModel.FactoryItems factoryItems = new ItemListViewModel.FactoryItems(getApplication(),containerId);
-        mItemListModel = ViewModelProviders.of(this, factoryItems).get(ItemListViewModel.class);
-        mItemListModel.getContainerItems().observe(this, items -> {
-            if (items != null) {
-                mItems = items;
-                updateView();
-            }
-        });
+        if (itemId > 0) {
+            //get port list
+            ItemListViewModel.FactoryItems factoryItems = new ItemListViewModel.FactoryItems(getApplication(),containerId);
+            mItemListModel = ViewModelProviders.of(this, factoryItems).get(ItemListViewModel.class);
+            mItemListModel.getContainerItems().observe(this, items -> {
+                if (items != null) {
+                    mItems = items;
+                    updateView();
+                }
+            });
+        }
 
     }
 

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/DimGray"
-        android:text="@string/Containers"
+        android:text="@string/items"
         android:textAlignment="center"
         android:textColor="@color/WhiteSmoke"
         android:textSize="20sp" />
@@ -39,9 +39,9 @@
         <!-- item quantity header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_weight="1.5"
+            android:layout_weight="1.6"
             android:layout_height="wrap_content"
-            android:text="@string/item_quantity"
+            android:text="@string/item_weight"
             android:layout_marginStart="10dp"
             android:textStyle="bold"/>
 

@@ -123,9 +123,9 @@ public class DataGenerator {
         List<ItemTypeEntity> itemTypes = new ArrayList<>();
 
         itemTypes.add(new ItemTypeEntity("Food"));
-        itemTypes.add(new ItemTypeEntity("Cloth"));
-        itemTypes.add(new ItemTypeEntity("Furniture"));
-        itemTypes.add(new ItemTypeEntity("Weapon"));
+        itemTypes.add(new ItemTypeEntity("Clothes"));
+        itemTypes.add(new ItemTypeEntity("Furnitures"));
+        itemTypes.add(new ItemTypeEntity("Weapons"));
         itemTypes.add(new ItemTypeEntity("Ore"));
         db.itemTypeDao().insertAll(itemTypes);
 

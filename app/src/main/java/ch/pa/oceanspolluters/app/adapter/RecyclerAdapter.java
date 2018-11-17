@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
+import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.ViewType;
@@ -177,6 +179,20 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             ((TextView) holder.mListText.get(0)).setText(containerWithItem.container.getName());
             ((TextView) holder.mListText.get(1)).setText(containerWithItem.container.getDockPosition());
+        } else if (type == ViewType.LogMan_Home) {
+
+            ContainerWithItem containerWithItem = (ContainerWithItem) item;
+
+            ((TextView) holder.mListText.get(0)).setText(containerWithItem.container.getName());
+            String cWeight = containerWithItem.getWeight() + " kg";
+            ((TextView) holder.mListText.get(1)).setText(cWeight);
+        } else if (type == ViewType.LogMan_Container_Content_View) {
+
+            ItemWithType itemWithType = (ItemWithType) item;
+
+            ((TextView) holder.mListText.get(0)).setText(itemWithType.itemType().getName());
+            DecimalFormat df = new DecimalFormat("###.##");
+            ((TextView) holder.mListText.get(1)).setText(df.format(itemWithType.item.getWeightKg()) + " kg");
         }
     }
 

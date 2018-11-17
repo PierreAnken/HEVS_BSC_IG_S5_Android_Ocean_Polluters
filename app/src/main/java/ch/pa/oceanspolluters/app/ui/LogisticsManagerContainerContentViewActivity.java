@@ -28,6 +28,7 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
     private TextView shipNames;
     private ContainerWithItem mContainerWithItems;
     private RecyclerAdapter<ItemWithType> mAdapter;
+    private int containerId;
 
     private static final String TAG = "lmContainerItemsViewAct";
 
@@ -42,13 +43,11 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                DisplayItem(OperationMode.View, position);
+                DisplayItem(OperationMode.Edit, position);
             }
 
             @Override
             public void onItemLongClick(View v, int position) {
-                Log.d(TAG, "PA_Debug long clicked position:" + position);
-                DisplayItem(OperationMode.Edit, position);
             }
         }, ViewType.LogMan_Container_Content_View);
 
@@ -56,7 +55,7 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        int containerId = Integer.parseInt(getIntent().getStringExtra("containerId"));
+        containerId = Integer.parseInt(getIntent().getStringExtra("containerId"));
         ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
         ContainerViewModel mAllContainers = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
         mAllContainers.getContainer().observe(this, containerWithItems -> {
@@ -69,18 +68,15 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void DisplayItem(OperationMode mode, int itemId){
+    private void DisplayItem(OperationMode mode, int position){
 
         Intent containerView;
 
-        if(mode == OperationMode.View)
-            containerView = new Intent(getApplicationContext(), LogisticsManagerContainerItemAddEditActivity.class);
-        else // edit or create mode
-            containerView = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
+        containerView = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
 
-        containerView.putExtra("itemId",Integer.toString(mContainerWithItems.items.get(0).item.getId()));
-        containerView.putExtra("containerId",Integer.toString(itemId));
-        Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(itemId));
+        containerView.putExtra("itemId",Integer.toString(mContainerWithItems.items.get(position).item.getId()));
+        containerView.putExtra("containerId",Integer.toString(containerId));
+        Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));
         startActivity(containerView);
     }
 

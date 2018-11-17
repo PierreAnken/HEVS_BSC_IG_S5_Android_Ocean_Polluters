@@ -35,8 +35,9 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
     private TextView dockPosition;
     private TextView containerName;
     private TextView shipNames;
-    private ToggleButton loadingStatus;
+    private TextView loadingStatus;
     private TextView items;
+    private TextView weight;
 
     private static final String TAG = "lmContainerViewAct";
 
@@ -101,7 +102,11 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
             shipNames = findViewById(R.id.container_ship_name);
             containerName.setText(mContainerWithItem.container.getName());
             dockPosition.setText(mContainerWithItem.container.getDockPosition());
-            loadingStatus.setChecked(mContainerWithItem.container.getLoaded());
+            if (mContainerWithItem.container.getLoaded() == true) {
+                loadingStatus.setText("loaded");
+            } else {
+                loadingStatus.setText("to load");
+            }
 
             //get ship name from ship id
             ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), mContainerWithItem.container.getShipId());
@@ -116,7 +121,9 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         }
 
             items = findViewById(R.id.container_items_quantity_weight);
-            items.setText(mContainerWithItem.getWeight() +"kg / "+ mContainerWithItem.items.size() + " items");
+            weight = findViewById(R.id.t_total_weight);
+            items.setText(mContainerWithItem.items.size() + " items");
+            weight.setText(mContainerWithItem.getWeight() +" kg");
 
     }
 
@@ -129,11 +136,11 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-                Intent containerAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
-                containerAddEdit.putExtra("containerId",mContainerWithItem.container.getId().toString());
-                Log.d(TAG, "PA_Debug ship sent as intent to edit " + mContainerWithItem.container.getId());
-                startActivity(containerAddEdit);
+            case R.id.add:
+                Intent itemAddEdit = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
+                itemAddEdit.putExtra("containerId",mContainerWithItem.container.getId().toString());
+                Log.d(TAG, "PA_Debug container sent as intent to edit " + mContainerWithItem.container.getId());
+                startActivity(itemAddEdit);
                 return true;
             case android.R.id.home:
                 this.finish();
