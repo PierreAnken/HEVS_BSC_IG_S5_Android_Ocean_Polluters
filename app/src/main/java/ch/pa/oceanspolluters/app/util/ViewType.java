@@ -5,7 +5,7 @@ public enum ViewType {
     Captain_Ship_View,
     Captain_Ship_Add_Edit,
     Docker_Home,
-    Docker_Ship_Container_List,
+    Docker_Ship_Container_list,
     LogMan_Home,
     LogMan_Container_View,
     LogMan_Container_Add_Edit,

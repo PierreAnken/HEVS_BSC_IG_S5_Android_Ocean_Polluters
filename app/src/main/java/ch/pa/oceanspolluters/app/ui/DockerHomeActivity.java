@@ -40,7 +40,7 @@ public class DockerHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                DisplayShips(OperationMode.View, mShipsWithContainer.get(position).ship.getId());
+                DisplayShipContent(OperationMode.View, mShipsWithContainer.get(position).ship.getId());
             }
 
             @Override
@@ -66,7 +66,7 @@ public class DockerHomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void DisplayShips(OperationMode mode, int shipId){
+    private void DisplayShipContent(OperationMode mode, int shipId) {
 
         Intent shipView;
 

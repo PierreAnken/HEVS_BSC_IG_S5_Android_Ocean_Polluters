@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/DimGray"
-        android:text="@string/planning"
+        android:text="@string/next_ship_departures"
         android:textAlignment="center"
         android:textColor="@color/WhiteSmoke"
         android:textSize="20sp" />
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:text="@string/loading_status"
             android:textStyle="bold" />
 

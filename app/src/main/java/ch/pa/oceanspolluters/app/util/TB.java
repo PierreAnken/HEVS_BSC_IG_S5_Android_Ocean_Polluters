@@ -1,8 +1,8 @@
 package ch.pa.oceanspolluters.app.util;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class TB {
         return new SimpleDateFormat("dd-MM-yyyy");
     }
 
-    public static void ConfirmAction(AppCompatActivity activity, String actionDescription, OnUserValidatePopupAction callback) {
+    public static void ConfirmAction(Activity activity, String actionDescription, OnUserValidatePopupAction callback) {
 
         DialogInterface.OnClickListener dialogDelete = (dialog, which) -> {
             switch (which) {

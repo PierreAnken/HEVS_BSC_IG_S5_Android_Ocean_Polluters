@@ -23,7 +23,10 @@
         <activity android:name=".ui.DockerHomeActivity"
             android:label="@string/title_activity_docker_home"
             android:parentActivityName="ui.LoginActivity"/>
-
+        <activity
+            android:name=".ui.DockerShipContainerListActivity"
+            android:label="@string/container_list"
+            android:parentActivityName="ui.DockerHomeActivity"></activity>
         <activity android:name=".ui.CaptainHomeActivity"
             android:label="@string/title_activity_captain_home"
             android:parentActivityName="ui.LoginActivity">
@@ -60,11 +63,6 @@
         <activity android:name=".ui.LogisticsManagerContainerAddEditActivity"
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.LogisticManagerHomeActivity">
-        </activity>
-        <activity
-            android:name=".ui.DockerShipContainerListActivity"
-            android:label="@string/title_activity_logistic_manager_container_detail"
-            android:parentActivityName="ui.DockerHomeActivity">
         </activity>
     </application>
 

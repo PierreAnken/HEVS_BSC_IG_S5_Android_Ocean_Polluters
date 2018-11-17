@@ -76,4 +76,5 @@
     <string name="title_activity_logistic_manager_items_detail">Objets du container</string>
     <string name="langFr">Français</string>
     <string name="langEn">Anglais</string>
+    <string name="container_loading_priority">Container loading priority</string>
 </resources>

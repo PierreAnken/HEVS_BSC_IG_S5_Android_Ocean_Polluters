@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,26 +30,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     private RecyclerViewItemClickListener mListener;
     private ViewType type;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    static class ViewHolder extends RecyclerView.ViewHolder {
-
-        LinearLayout mListItem;
-        ArrayList<TextView> mListText;
-
-        ViewHolder(LinearLayout listItem, ArrayList<TextView> listText) {
-            super(listItem);
-            mListItem = listItem;
-            mListText = listText;
-        }
-    }
-
-    public RecyclerAdapter(RecyclerViewItemClickListener listener, ViewType type) {
-        this.type = type;
-        mListener = listener;
-    }
-
     @NonNull
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,7 +43,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_captain_home_ship_line, parent, false);
 
-            ArrayList<TextView> texts = new ArrayList<TextView>();
+            ArrayList<View> texts = new ArrayList<View>();
 
             texts.add(shipListItem.findViewById(R.id.svShipName));
             texts.add(shipListItem.findViewById(R.id.svDestinationPort));
@@ -80,13 +61,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             //create item list object
             LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_captain_home_ship_line, parent, false);
+                    .inflate(R.layout.list_docker_home_ship_line, parent, false);
 
-            ArrayList<TextView> texts = new ArrayList<TextView>();
+            ArrayList<View> texts = new ArrayList<View>();
 
-            texts.add(shipListItem.findViewById(R.id.svShipName));
-            texts.add(shipListItem.findViewById(R.id.svDestinationPort));
-            texts.add(shipListItem.findViewById(R.id.svDepartureDate));
+            texts.add(shipListItem.findViewById(R.id.svdShipName));
+            texts.add(shipListItem.findViewById(R.id.svdDepartureTime));
+            texts.add(shipListItem.findViewById(R.id.svdLoadingStatus));
 
             final ViewHolder viewHolderShipList = new ViewHolder(shipListItem,texts);
 
@@ -103,7 +84,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_container_line, parent, false);
 
-            ArrayList<TextView> texts = new ArrayList<TextView>();
+            ArrayList<View> texts = new ArrayList<View>();
 
             texts.add(containerListItem.findViewById(R.id.clContainerName));
             texts.add(containerListItem.findViewById(R.id.clContainerWeight));
@@ -123,7 +104,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_container_line_delete, parent, false);
 
-            ArrayList<TextView> texts = new ArrayList<TextView>();
+            ArrayList<View> texts = new ArrayList<View>();
 
             texts.add(containerListItem.findViewById(R.id.clContainerName));
             texts.add(containerListItem.findViewById(R.id.clContainerWeight));
@@ -138,17 +119,16 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             });
             return viewHolderContainerList;
 
-        } else if (type == ViewType.Docker_Ship_Container_List) {
+        } else if (type == ViewType.Docker_Ship_Container_list) {
 
             // create item list object
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_docker_container_line, parent, false);
 
-            ArrayList<TextView> texts = new ArrayList<TextView>();
+            ArrayList<View> texts = new ArrayList<View>();
 
-            texts.add(containerListItem.findViewById(R.id.clContainerNamePS));
-            texts.add(containerListItem.findViewById(R.id.clContainerPosition));
-            texts.add(containerListItem.findViewById(R.id.clContainerLoadingStatus));
+            texts.add(containerListItem.findViewById(R.id.clContainerName));
+            texts.add(containerListItem.findViewById(R.id.clDockPosition));
 
             final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
 
@@ -159,81 +139,91 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         return new ViewHolder(null,null);
     }
 
+    public RecyclerAdapter(RecyclerViewItemClickListener listener, ViewType type) {
+        this.type = type;
+        mListener = listener;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
         T item = mData.get(position);
 
         if (type == ViewType.Docker_Home) {
-            holder.mListText.get(0).setText(((ShipWithContainer) item).ship.getName());
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            ShipWithContainer shipWithContainer = (ShipWithContainer) item;
+
+            //ship name label
+            ((TextView) holder.mListText.get(0)).setText(shipWithContainer.ship.getName());
+
+            //calculate time remaining before departure
             Date currentTime = Calendar.getInstance().getTime();
-            long departure = ((ShipWithContainer) item).ship.getDepartureDate().getTime()-currentTime.getTime();
-            long diffHours = departure / (60 * 60 * 1000) % 24, diffDays = departure / (60 * 60 * 1000 * 24);
+            long departure = shipWithContainer.ship.getDepartureDate().getTime() - currentTime.getTime();
+            long diffHours = departure / (60 * 60 * 1000) % 24;
+            long diffDays = departure / (60 * 60 * 1000 * 24);
+            String textTimeToDeparture = "";
 
+            //time in days
             if (diffDays > 0) {
-                holder.mListText.get(1).setText(diffDays + " days");
+                textTimeToDeparture = diffDays + " days";
             } else {
-                if (diffHours > 6) {
-                    holder.mListText.get(1).setTextColor(Color.parseColor("#FFA500"));
-                } else if (diffHours <= 6) {
-                    holder.mListText.get(1).setTextColor(Color.RED);
-                }
-                holder.mListText.get(1).setText(diffHours + " hours");
-            }
+                //time in hours
+                textTimeToDeparture = diffHours + " hours";
 
+                //if short delay red text
+                if (diffHours <= 6) {
+                    ((TextView) holder.mListText.get(1)).setTextColor(Color.RED);
+                }
+            }
+            //departure date label
+            ((TextView) holder.mListText.get(1)).setText(textTimeToDeparture);
+
+            //calculate containers to load
             int countContainerToLoad = 0;
-            for (int i = 0; i < ((ShipWithContainer) item).containers.size(); i++) {
-                if (((ShipWithContainer) item).containers.get(i).container.getLoaded() == false) {
+            for (int i = 0; i < shipWithContainer.containers.size(); i++) {
+                if (!shipWithContainer.containers.get(i).container.getLoaded()) {
                     countContainerToLoad++;
                 }
             }
 
-            if (countContainerToLoad > 0) {
-                holder.mListText.get(2).setText(countContainerToLoad + " left");
-                holder.mListText.get(2).setTextColor(Color.BLACK);
-            } else {
-                holder.mListText.get(2).setText("completed");
-                holder.mListText.get(2).setTextColor(Color.GREEN);
-            }
+            String loadingStatus = countContainerToLoad + "/" + shipWithContainer.containers.size();
+
+            //container to load label
+            ((TextView) holder.mListText.get(2)).setText(loadingStatus);
 
         } else if (type == ViewType.Captain_Home) {
-            holder.mListText.get(0).setText(((ShipWithContainer) item).ship.getName());
-            holder.mListText.get(1).setText(((ShipWithContainer) item).port.getName());
+
+            ShipWithContainer shipWithContainer = (ShipWithContainer) item;
+
+            ((TextView) holder.mListText.get(0)).setText(shipWithContainer.ship.getName());
+            ((TextView) holder.mListText.get(1)).setText(shipWithContainer.port.getName());
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            String departureDate = simpleDateFormat.format(((ShipWithContainer) item).ship.getDepartureDate());
-            holder.mListText.get(2).setText(departureDate);
+            String departureDate = simpleDateFormat.format(shipWithContainer.ship.getDepartureDate());
+            ((TextView) holder.mListText.get(2)).setText(departureDate);
 
-        /*} else if (details == ViewHolderDetails.ItemtypeWeight) {
-            holder.mListText.get(0).setText(((ItemWithType) item).itemType().getName());
-            holder.mListText.get(1).setText(((ItemWithType) item).item.getWeightKg() + " kg");
 
-        } else if (details == ViewHolderDetails.ContainernameWeight) {
-            holder.mListText.get(0).setTextColor(Color.BLACK);
-            holder.mListText.get(1).setTextColor(Color.BLACK);
-            if (((ContainerWithItem) item).container.getLoaded()) {
-                holder.mListText.get(0).setTextColor(Color.GREEN);
-                holder.mListText.get(1).setTextColor(Color.GREEN);
-            }
-            holder.mListText.get(0).setText(((ContainerWithItem) item).container.getName());
-            int weight = ((ContainerWithItem) item).getWeight();
-            holder.mListText.get(1).setText(weight+" kg");
+        } else if (type == ViewType.Docker_Ship_Container_list) {
+            ContainerWithItem containerWithItem = (ContainerWithItem) item;
 
-        } else if (details == ViewHolderDetails.ContainernamePosStatus) {
-            holder.mListText.get(0).setText(((ContainerWithItem) item).container.getName());
-            holder.mListText.get(1).setText(((ContainerWithItem) item).container.getDockPosition());
-            if (((ContainerWithItem) item).container.getLoaded() == true) {
-                holder.mListText.get(2).setTextColor(Color.GREEN);
-                holder.mListText.get(2).setText("loaded");
-            } else {
-                holder.mListText.get(2).setTextColor(Color.BLACK);
-                holder.mListText.get(2).setText("to load");
-            }*/
+            ((TextView) holder.mListText.get(0)).setText(containerWithItem.container.getName());
+            ((TextView) holder.mListText.get(1)).setText(containerWithItem.container.getDockPosition());
         }
+    }
 
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-}
+        LinearLayout mListItem;
+        ArrayList<View> mListText;
+
+        ViewHolder(LinearLayout listItem, ArrayList<View> listText) {
+            super(listItem);
+            mListItem = listItem;
+            mListText = listText;
+        }
+    }
 
     @Override
     public int getItemCount() {

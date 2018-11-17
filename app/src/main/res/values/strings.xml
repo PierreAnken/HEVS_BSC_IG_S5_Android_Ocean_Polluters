@@ -85,4 +85,8 @@
     <string name="langFr">French</string>
     <string name="langEn">English</string>
     <string name="authors_detail"><![CDATA[Pierre Anken & Olivier Gottet]]></string>
+    <string name="container_loading_priority">Container loading priority</string>
+    <string name="confirmLoaded">Confirm container loaded on ship?</string>
+    <string name="container_list">Container list</string>
+    <string name="validate">Validate</string>
 </resources>

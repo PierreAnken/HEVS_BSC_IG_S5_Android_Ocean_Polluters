@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
@@ -31,12 +31,12 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
     private ShipViewModel mShipViewModel;
     private ShipWithContainer mShipWithContainer;
     private ContainerListViewModel mContainerListViewModel;
-    private List<ContainerWithItem> mContainerWithItem;
+    private List<ContainerWithItem> mContainersWithItem;
 
     private String dockPosition;
     private String containerName;
     private String loadingStatus;
-    private int shipId;
+
 
     private static final String TAG = "dockerShipContViewAct";
     private RecyclerAdapter<ContainerWithItem> mAdapter;
@@ -51,37 +51,34 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-            }
+                TB.ConfirmAction(getParent(), getString(R.string.confirmLoaded), () -> {
 
+                });
+            }
             @Override
             public void onItemLongClick(View v, int position) {
             }
-        }, ViewType.Docker_Ship_Container_List);
+        }, ViewType.Docker_Ship_Container_list);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         Intent shipDetail = getIntent();
-        shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));
+        int shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));
 
         Intent containerDetail = getIntent();
         int containerId = Integer.parseInt(containerDetail.getStringExtra("shipId"));
         Log.d(TAG, "OG_Debug received container id from intent:" + containerId);
 
-        // get container and display it
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), containerId, true);
+        // get the list of containers
+        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), shipId, true);
         mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
-        mContainerListViewModel.getContainers().observe(this, cont -> {
-            if (cont != null) {
-                mContainerWithItem = cont;
-                mAdapter.setData(mContainerWithItem);
-
-//                if (mShipWithContainer.containers.get(1).container.getLoaded() == true) {
-//                    ((TextView) findViewById(R.id.v_docker_ship_container_loading_status)).setText("loaded");
-//                } else {
-//                    ((TextView) findViewById(R.id.v_docker_ship_container_loading_status)).setText("to load");
-//                }
+        mContainerListViewModel.getContainers().observe(this, contList -> {
+            if (contList != null) {
+                Log.d(TAG, "PA_Debug container received:" + contList.size());
+                mContainersWithItem = contList;
+                mAdapter.setData(mContainersWithItem);
             }
         });
 
@@ -94,34 +91,31 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
             if (ship != null) {
                 mShipWithContainer = ship;
                 Log.d(TAG, "OG_Debug ship id from factory:" + ship.ship.getId());
-                TextView title = findViewById(R.id.docker_container_list_title);
-                Date currentTime = Calendar.getInstance().getTime();
-                long diff = mShipWithContainer.ship.getDepartureDate().getTime()-currentTime.getTime();
-                long diffSeconds = diff / 1000 % 60, diffMinutes = diff / (60 * 1000) % 60, diffHours = diff / (60 * 60 * 1000) % 24, diffDays = diff / (60 * 60 * 1000 * 24);
-                title.setText(mShipWithContainer.ship.getName() + " / " + diffDays + " days, " + diffHours + " hours");
-                int shipContainers = ship.containers.size();
-                int containerLoaded = 0;
 
-                for (ContainerWithItem container: ship.containers) {
-                    if(container.container.getLoaded()){
-                        containerLoaded++;
-                    }
-                }
-                title.setText(mShipWithContainer.ship.getName() + " (" + diffDays + "d:" + diffHours + "h:" + diffMinutes + "m ) Loading: " + containerLoaded + " / "+ shipContainers);
-                if (diffDays < 1) {
-                    title.setTextColor(Color.parseColor("#FFA500"));
-                    if (diffHours < 12) {
-                        title.setTextColor(Color.RED);
-                    }
+                //calculate remaining time
+                Date currentTime = Calendar.getInstance().getTime();
+                long diff = ship.ship.getDepartureDate().getTime() - currentTime.getTime();
+                long diffMinutes = diff / (60 * 1000) % 60;
+                long diffHours = diff / (60 * 60 * 1000) % 24;
+                long diffDays = diff / (60 * 60 * 1000 * 24);
+
+                StringBuilder remainingTime = new StringBuilder(ship.ship.getName() + " (");
+                if (diffDays > 0)
+                    remainingTime.append(diffDays + "d:");
+                if (diffDays > 0 || diffHours > 0)
+                    remainingTime.append(diffHours + "h:");
+
+                remainingTime.append(diffMinutes + "m)");
+
+                TextView title = findViewById(R.id.docker_container_list_title);
+                title.setText(remainingTime.toString());
+
+                //red title if short time
+                if (diffDays < 1 && diffHours < 12) {
+                    title.setBackgroundColor(Color.RED);
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
-        return true;
     }
 
     @Override

@@ -7,46 +7,41 @@
     android:paddingTop="10dp">
 
     <LinearLayout
+        style="@style/border_white_style"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/border_white_style">
+        android:layout_height="match_parent">
 
-        // texts
-
-        <LinearLayout
+        <!-- texts -->
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            // container name label
-
-            <TextView
-                android:id="@+id/clContainerName"
+            <!-- ship name label -->
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/svdShipName"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
-
-            // container position label
-
-            <TextView
-                android:id="@+id/clDockPosition"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"/>
+                android:layout_weight="1" />
 
-            // container loading status label
-
-            <ImageView
-                android:layout_width="20dp"
+            <!-- ddeparture date label -->
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/svdDepartureTime"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/done_black" />
+                android:layout_weight="1.2" />
 
+            <!-- loading status label -->
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/svdLoadingStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2" />
 
         </LinearLayout>
     </LinearLayout>
