@@ -12,7 +12,7 @@ android:background="@drawable/texture_eau"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    // border
+    <!-- border -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@ android:background="@drawable/texture_eau"
         android:id="@+id/lm_container_view_layout"
         style="@style/border_white_style">
 
-        // title general infos
+        <!-- title general infos -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,13 +28,13 @@ android:background="@drawable/texture_eau"
             android:textSize="@dimen/title_inside_view"
             android:layout_marginBottom="10dp"/>
 
-        // ship name
+        <!-- ship name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // ship name label
+            <!-- ship name label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@ android:background="@drawable/texture_eau"
                 android:text="@string/ship"
                 />
 
-            // ship name
+            <!-- ship name -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_ship_name"
                 android:layout_width="match_parent"
@@ -51,20 +51,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        // dock position
+        <!-- dock position -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // dock position label
+            <!-- dock position label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/dock_position"/>
 
-            // dock position
+            <!-- dock position -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_dock_position"
                 android:layout_weight="1"
@@ -73,20 +73,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        // container name
+        <!-- container name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // container name label
+            <!-- container name label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/container_name"/>
 
-            // container name
+            <!-- container name -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_name"
                 android:layout_weight="1"
@@ -95,17 +95,17 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        // container loaded toggle button
+        <!-- container loaded toggle button -->
         <ToggleButton
             android:id="@+id/v_lm_loaded_status"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:textOn="@string/loaded_true"
             android:textOff="@string/loaded_false"
             android:enabled="false" />
 
-        // title content
+        <!-- title content -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,20 +114,20 @@ android:background="@drawable/texture_eau"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"/>
 
-        // items
+        <!-- items -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // items label
+            <!-- items label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/items" />
 
-            // items
+            <!-- items -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/container_items_quantity_weight"
                 android:layout_width="match_parent"
@@ -136,20 +136,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        // weight status
+        <!-- weight status -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // weight label
+            <!-- weight label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/total_weight" />
 
-            // weight
+            <!-- weight -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/t_total_weight"
                 android:layout_width="match_parent"

@@ -20,7 +20,6 @@ import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
-import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 
@@ -50,7 +49,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
                 DisplayContainer(OperationMode.Edit, mContainerWithItems.get(position).container.getId());
             }
-        }, ViewType.lmHome, ViewHolderDetails.ContainernameWeight);
+        }, ViewType.LogMan_Home);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

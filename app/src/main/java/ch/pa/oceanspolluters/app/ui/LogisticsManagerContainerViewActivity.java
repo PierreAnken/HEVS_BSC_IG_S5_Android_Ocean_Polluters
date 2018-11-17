@@ -18,7 +18,6 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
@@ -76,7 +75,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
         Intent containerView;
 
-        containerView = new Intent(getApplicationContext(), LogisticsManagerContainerItemsViewActivity.class);
+        containerView = new Intent(getApplicationContext(), LogisticsManagerContainerContentViewActivity.class);
 
         containerView.putExtra("containerId",Integer.toString(containerId));
         Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));

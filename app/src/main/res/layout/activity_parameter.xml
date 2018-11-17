@@ -18,16 +18,16 @@
             android:textColor="@color/WhiteSmoke"
             android:text="@string/parameters" />
 
-    //parameters frame
+    <!-- parameters frame -->
     <LinearLayout
         style="@style/border_white_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
-        //Labels headers
-
+        <!-- Labels headers -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,8 +41,7 @@
 
         </LinearLayout>
 
-        //Label texts
-
+        <!-- Label texts -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +67,7 @@
         android:textColor="@color/WhiteSmoke"
         android:textSize="20sp" />
 
-    //about frame
+    <!-- about frame -->
     <LinearLayout
         style="@style/border_white_style"
         android:layout_width="match_parent"
@@ -76,7 +75,7 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        //Labels headers
+        <!-- Labels headers -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +98,7 @@
                 android:text="@string/date" />
         </LinearLayout>
 
-        //Label texts
+        <!-- Label texts -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,7 +113,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pierre Anken &amp; Olivier Gottet" />
+                android:text="@string/authors_detail" />
 
             <TextView
                 android:layout_width="match_parent"

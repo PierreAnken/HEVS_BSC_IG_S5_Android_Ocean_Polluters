@@ -22,12 +22,11 @@ import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
-import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
-public class DockerShipContainerViewActivity extends AppCompatActivity {
+public class DockerShipContainerListActivity extends AppCompatActivity {
 
     private ShipViewModel mShipViewModel;
     private ShipWithContainer mShipWithContainer;
@@ -45,7 +44,7 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_docker_container_list);
+        setContentView(R.layout.activity_docker_ship_container_list);
 
         RecyclerView recyclerView = findViewById(R.id.dockerShipContainersRecyclerView);
 
@@ -57,7 +56,7 @@ public class DockerShipContainerViewActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View v, int position) {
             }
-        }, ViewType.dockerContainer, ViewHolderDetails.ContainernamePosStatus);
+        }, ViewType.Docker_Ship_Container_List);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

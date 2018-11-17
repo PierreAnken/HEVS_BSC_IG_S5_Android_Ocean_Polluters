@@ -27,7 +27,7 @@
         style="@style/border_white_style"
         android:layout_margin="10dp" >
 
-        // container name header
+        <!-- container name header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -36,13 +36,13 @@
             android:textStyle="bold"
             />
 
-        // container weight header
+        <!-- container weight header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1.5"
             android:layout_height="wrap_content"
             android:text="@string/container_weight"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textStyle="bold"/>
 
     </LinearLayout>

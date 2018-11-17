@@ -67,8 +67,9 @@ public class ShipListViewModel extends AndroidViewModel {
             mShipRepository = ((BaseApp) application).getShipRepository();
         }
 
+        @NonNull
         @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
             return (T) new ShipListViewModel(mApplication, mCaptainId, mShipRepository);
         }

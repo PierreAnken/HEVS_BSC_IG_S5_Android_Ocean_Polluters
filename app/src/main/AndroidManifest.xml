@@ -43,7 +43,8 @@
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.LogisticManagerHomeActivity">
         </activity>
-        <activity android:name=".ui.LogisticsManagerContainerItemsViewActivity"
+        <activity
+            android:name=".ui.LogisticsManagerContainerContentViewActivity"
             android:label="@string/title_activity_logistic_manager_items_detail"
             android:parentActivityName="ui.LogisticsManagerContainerViewActivity">
         </activity>
@@ -51,7 +52,8 @@
             android:label="@string/title_activity_logistic_manager_item_add_edit"
             android:parentActivityName="ui.LogisticsManagerContainerViewActivity">
         </activity>
-        <activity android:name=".ui.LogisticsManagerContainerItemViewActivity"
+        <activity
+            android:name=".ui.LogisticsManagerContainerItemAddEditActivity"
             android:label="@string/title_activity_logistic_manager_item_add_edit"
             android:parentActivityName="ui.LogisticsManagerContainerViewActivity">
         </activity>
@@ -59,7 +61,8 @@
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.LogisticManagerHomeActivity">
         </activity>
-        <activity android:name=".ui.DockerShipContainerViewActivity"
+        <activity
+            android:name=".ui.DockerShipContainerListActivity"
             android:label="@string/title_activity_logistic_manager_container_detail"
             android:parentActivityName="ui.DockerHomeActivity">
         </activity>

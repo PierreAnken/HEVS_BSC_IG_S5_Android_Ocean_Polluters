@@ -18,12 +18,11 @@ import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
-import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
-public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivity {
+public class LogisticsManagerContainerContentViewActivity extends AppCompatActivity {
 
     private ShipViewModel mShipModel;
     private TextView shipNames;
@@ -35,7 +34,7 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lm_container_items_view);
+        setContentView(R.layout.activity_lm_container_content_view);
 
         RecyclerView recyclerView = findViewById(R.id.lmContainersRecyclerView);
 
@@ -51,7 +50,7 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
                 DisplayItem(OperationMode.Edit, position);
             }
-        }, ViewType.lmContainerItems, ViewHolderDetails.ItemtypeWeight);
+        }, ViewType.LogMan_Container_Content_View);
 
         // generate new linear layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -75,7 +74,7 @@ public class LogisticsManagerContainerItemsViewActivity extends AppCompatActivit
         Intent containerView;
 
         if(mode == OperationMode.View)
-            containerView = new Intent(getApplicationContext(), LogisticsManagerContainerItemViewActivity.class);
+            containerView = new Intent(getApplicationContext(), LogisticsManagerContainerItemAddEditActivity.class);
         else // edit or create mode
             containerView = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
 

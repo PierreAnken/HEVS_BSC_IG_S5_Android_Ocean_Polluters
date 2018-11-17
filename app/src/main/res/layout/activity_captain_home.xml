@@ -27,7 +27,7 @@ android:background="@drawable/texture_eau">
         style="@style/border_white_style"
         android:layout_margin="10dp" >
 
-        //ship name header
+        <!-- ship name header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -36,7 +36,7 @@ android:background="@drawable/texture_eau">
             android:textStyle="bold"
             />
 
-        //destination port header
+        <!-- destination port header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -45,7 +45,7 @@ android:background="@drawable/texture_eau">
             android:layout_marginLeft="10dp"
             android:textStyle="bold"/>
 
-        //departure date header
+        <!-- departure date header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1.2"

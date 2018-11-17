@@ -56,8 +56,9 @@ public class ItemViewModel extends AndroidViewModel {
             mRepository = ((BaseApp) application).getItemRepository();
         }
 
+        @NonNull
         @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
             return (T) new ItemViewModel(mApplication, mItemId, mRepository);
         }

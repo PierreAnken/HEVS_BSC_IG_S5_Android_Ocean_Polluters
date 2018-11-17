@@ -1,6 +1,7 @@
 package ch.pa.oceanspolluters.app.adapter;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,8 @@ import java.util.Objects;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
-import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
-import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
 import ch.pa.oceanspolluters.app.util.ViewType;
 
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
@@ -29,7 +28,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     private List<T> mData;
     private RecyclerViewItemClickListener mListener;
     private ViewType type;
-    private ViewHolderDetails details;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -46,23 +44,23 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
     }
 
-    public RecyclerAdapter(RecyclerViewItemClickListener listener, ViewType type, ViewHolderDetails details) {
+    public RecyclerAdapter(RecyclerViewItemClickListener listener, ViewType type) {
         this.type = type;
         mListener = listener;
-        this.details = details;
     }
 
+    @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //layout depend on object type
         Class oClass = mData.get(0).getClass();
 
-        if (type == ViewType.captainShips){
+        if (type == ViewType.Captain_Home) {
 
             //create item list object
             LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_ship_line, parent, false);
+                    .inflate(R.layout.list_captain_home_ship_line, parent, false);
 
             ArrayList<TextView> texts = new ArrayList<TextView>();
 
@@ -78,13 +76,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 return true;
             });
             return viewHolderShipList;
-        }
-
-        else if (type == ViewType.dockerHome){
+        } else if (type == ViewType.Docker_Home) {
 
             //create item list object
             LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_ship_line, parent, false);
+                    .inflate(R.layout.list_captain_home_ship_line, parent, false);
 
             ArrayList<TextView> texts = new ArrayList<TextView>();
 
@@ -101,7 +97,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             });
             return viewHolderShipList;
 
-        } else if (type == ViewType.lmHome){
+        } else if (type == ViewType.LogMan_Home) {
 
             // create item list object
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
@@ -121,7 +117,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             });
             return viewHolderContainerList;
 
-        } else if (type == ViewType.lmContainerItems){
+        } else if (type == ViewType.LogMan_Container_Content_View) {
 
             // create item list object
             LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
@@ -142,31 +138,32 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             });
             return viewHolderContainerList;
 
-        } else if (type == ViewType.dockerContainer) {
+        } else if (type == ViewType.Docker_Ship_Container_List) {
 
-                // create item list object
-                LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_container_pos_status, parent, false);
+            // create item list object
+            LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_docker_container_line, parent, false);
 
-                ArrayList<TextView> texts = new ArrayList<TextView>();
+            ArrayList<TextView> texts = new ArrayList<TextView>();
 
-                texts.add(containerListItem.findViewById(R.id.clContainerNamePS));
-                texts.add(containerListItem.findViewById(R.id.clContainerPosition));
-                texts.add(containerListItem.findViewById(R.id.clContainerLoadingStatus));
+            texts.add(containerListItem.findViewById(R.id.clContainerNamePS));
+            texts.add(containerListItem.findViewById(R.id.clContainerPosition));
+            texts.add(containerListItem.findViewById(R.id.clContainerLoadingStatus));
 
-                final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
+            final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
 
-                return viewHolderContainerList;
+            return viewHolderContainerList;
 
-            }
+        }
 
         return new ViewHolder(null,null);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
         T item = mData.get(position);
-        if (details == ViewHolderDetails.ShipDeparturehoursContainersleft){
+
+        if (type == ViewType.Docker_Home) {
             holder.mListText.get(0).setText(((ShipWithContainer) item).ship.getName());
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -200,7 +197,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 holder.mListText.get(2).setTextColor(Color.GREEN);
             }
 
-        } else if (details == ViewHolderDetails.ShipPortDeparturedate) {
+        } else if (type == ViewType.Captain_Home) {
             holder.mListText.get(0).setText(((ShipWithContainer) item).ship.getName());
             holder.mListText.get(1).setText(((ShipWithContainer) item).port.getName());
 
@@ -208,7 +205,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             String departureDate = simpleDateFormat.format(((ShipWithContainer) item).ship.getDepartureDate());
             holder.mListText.get(2).setText(departureDate);
 
-        } else if (details == ViewHolderDetails.ItemtypeWeight) {
+        /*} else if (details == ViewHolderDetails.ItemtypeWeight) {
             holder.mListText.get(0).setText(((ItemWithType) item).itemType().getName());
             holder.mListText.get(1).setText(((ItemWithType) item).item.getWeightKg() + " kg");
 
@@ -232,7 +229,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             } else {
                 holder.mListText.get(2).setTextColor(Color.BLACK);
                 holder.mListText.get(2).setText("to load");
-            }
+            }*/
         }
 
 

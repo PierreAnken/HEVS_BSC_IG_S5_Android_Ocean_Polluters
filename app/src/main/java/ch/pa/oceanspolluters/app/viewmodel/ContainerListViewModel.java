@@ -7,7 +7,6 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class ContainerListViewModel extends AndroidViewModel {
 
         mObservableContainers = new MediatorLiveData<>();
 
-        this.onlyToLoad = onlyToLoad;
+        ContainerListViewModel.onlyToLoad = onlyToLoad;
         
         // set by default null, until we get data from the database.
         mObservableContainers.setValue(null);
@@ -81,8 +80,9 @@ public class ContainerListViewModel extends AndroidViewModel {
             onlyToLoad = onlyToLoadS;
         }
 
+        @NonNull
         @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
             return (T) new ContainerListViewModel(mApplication, mShipId, mContainerRepository, onlyToLoad);
         }

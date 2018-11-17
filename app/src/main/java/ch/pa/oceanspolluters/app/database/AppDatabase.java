@@ -29,7 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
 
-    private static final String DATABASE_NAME = "oceans-polluters-database";
+    private static final String DATABASE_NAME = "oceans-polluters-database2";
 
     public abstract UserDao userDao();
     public abstract PortDao portDao();

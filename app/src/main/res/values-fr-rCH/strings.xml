@@ -7,7 +7,7 @@
     <string name="error_bad_password">Le mot de passe est faux</string>
     <string name="error_user_not_selected">Aucun utilisateur selectionné</string>
     <string name="password">Mot de passe</string>
-    <string name="ship">Bateau</string>
+    <string name="ship">Navire</string>
     <string name="departure_date">Date de départ</string>
     <string name="destination_port">Port de déstination</string>
     <string name="ship_detail">Détails du navire</string>
@@ -67,6 +67,13 @@
     <string name="item_information">Item Information</string>
     <string name="item_type">Product Category</string>
     <string name="item_weight" translatable="false">Poids (kg)</string>
-    <string name="item_edit">Edit Item</string>
+    <string name="item_edit">Modifier l\'objet</string>
     <string name="error_empty_item_weight">Item may not be empty!</string>
+    <string name="spinnerUserSelect">- Choisir l\'utilisateur -</string>
+    <string name="item_add" translatable="false">Ajouter un objet</string>
+    <string name="title_activity_logistic_manager_item_add_edit">Détail</string>
+    <string name="title_activity_logistic_manager_item_detail">Détail</string>
+    <string name="title_activity_logistic_manager_items_detail">Objets du container</string>
+    <string name="langFr">Français</string>
+    <string name="langEn">Anglais</string>
 </resources>

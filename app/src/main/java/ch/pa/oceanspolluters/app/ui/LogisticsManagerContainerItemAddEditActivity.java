@@ -2,40 +2,23 @@ package ch.pa.oceanspolluters.app.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
-import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
-import ch.pa.oceanspolluters.app.util.ViewHolderDetails;
-import ch.pa.oceanspolluters.app.util.ViewType;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ItemListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ItemViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
-public class LogisticsManagerContainerItemViewActivity extends AppCompatActivity {
+public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActivity {
 
     private ItemWithType mItemWithType;
     private ContainerWithItem mContainerWithItems;
@@ -61,7 +44,7 @@ public class LogisticsManagerContainerItemViewActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lm_container_item_view);
+        setContentView(R.layout.activity_lm_container_item_add_edit);
 
         Intent containerDetail = getIntent();
         itemId = Integer.parseInt(containerDetail.getStringExtra("itemId"));
@@ -99,7 +82,7 @@ public class LogisticsManagerContainerItemViewActivity extends AppCompatActivity
 //            }
 //        });
 
-        if(mItemWithType != null){
+        /*if(mItemWithType != null){
             containerName = findViewById(R.id.v_lm_item_view_container_name);
             dockPosition = findViewById(R.id.v_lm_item_view_dock_position);
             loadingStatus = findViewById(R.id.v_lm_item_view_loaded_status);
@@ -112,7 +95,7 @@ public class LogisticsManagerContainerItemViewActivity extends AppCompatActivity
         }
 
         items = findViewById(R.id.v_lm_item_view_category_tf);
-        items.setText(mItemWithType.itemType().getName());
+        items.setText(mItemWithType.itemType().getName());*/
     }
 
     @Override

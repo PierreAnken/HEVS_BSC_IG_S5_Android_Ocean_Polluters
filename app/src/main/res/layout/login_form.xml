@@ -35,7 +35,7 @@
             android:inputType="numberPassword"
             android:maxLines="1"
             android:maxLength="4"
-            android:layout_marginRight="64dp"
+            android:layout_marginEnd="64dp"
             />
 
         <ImageButton
@@ -45,10 +45,4 @@
             android:layout_weight="1"
             android:src="@drawable/ic_lock_24dp" />
     </LinearLayout>
-
-<!--     <Spinner
-        android:id="@+id/language_chooser"
-        android:layout_marginTop="32dp"
-        style="@style/spinner_style"/> -->
-
 </LinearLayout>

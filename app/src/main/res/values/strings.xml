@@ -76,9 +76,13 @@
     <string name="item_type">Product Category</string>
     <string name="item_weight">Weight (kg)</string>
     <string name="item_edit">Edit Item</string>
-    <string name="item_add" translatable="false">Add item</string>
+    <string name="item_add">Add item</string>
     <string name="error_empty_item_weight">Item may not be empty!</string>
-    <string name="title_activity_logistic_manager_item_add_edit" translatable="false">Item detail</string>
-    <string name="title_activity_logistic_manager_item_detail" translatable="false">Item detail</string>
-    <string name="title_activity_logistic_manager_items_detail" translatable="false">Container items</string>
+    <string name="title_activity_logistic_manager_item_add_edit">Item detail</string>
+    <string name="title_activity_logistic_manager_item_detail">Item detail</string>
+    <string name="title_activity_logistic_manager_items_detail">Container items</string>
+    <string name="spinnerUserSelect">- Select User -</string>
+    <string name="langFr">French</string>
+    <string name="langEn">English</string>
+    <string name="authors_detail"><![CDATA[Pierre Anken & Olivier Gottet]]></string>
 </resources>

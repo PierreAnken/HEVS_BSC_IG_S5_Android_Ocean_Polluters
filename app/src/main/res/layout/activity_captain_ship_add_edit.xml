@@ -12,14 +12,14 @@ android:background="@drawable/texture_eau"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    //border
+    <!-- border -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         style="@style/border_white_style">
 
-        //title general infos
+        <!-- title general infos -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,13 +27,13 @@ android:background="@drawable/texture_eau"
             android:textSize="@dimen/title_inside_view"
             android:layout_marginBottom="10dp"/>
 
-        //ship name
+        <!-- ship name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //ship name header
+            <!-- ship name header -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@ android:background="@drawable/texture_eau"
                 android:text="@string/ship"
                 />
 
-            //ship name label
+            <!-- ship name label -->
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_ship_name"
                 android:layout_width="match_parent"
@@ -51,20 +51,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //destination port
+        <!-- destination port -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //destination port header
+            <!-- destination port header -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/destination_port"/>
 
-            //destination port label
+            <!-- destination port label -->
             <Spinner
                 android:id="@+id/ae_destination_port_spinner"
                 style="@style/spinner_style"
@@ -76,20 +76,20 @@ android:background="@drawable/texture_eau"
         </LinearLayout>
 
 
-        //departure date
+        <!-- departure date -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //departure date header
+            <!-- departure date header -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/departure_date"/>
 
-            //departure date label
+            <!-- departure date label -->
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_departure_date"
                 android:layout_weight="1"
@@ -100,23 +100,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //ship max weight
-
+        <!-- ship max weight -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //max weight header
-
+            <!-- max weight header -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/max_weight" />
 
-            //max weight label
-
+            <!-- max weight label -->
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_max_weight"
                 android:layout_width="match_parent"
@@ -126,7 +123,6 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-
         <TextView
             android:id="@+id/ShipAEerrorMsg"
             android:layout_width="match_parent"
@@ -135,6 +131,4 @@ android:background="@drawable/texture_eau"
             android:visibility="invisible"/>
 
     </LinearLayout>
-
-
 </LinearLayout>

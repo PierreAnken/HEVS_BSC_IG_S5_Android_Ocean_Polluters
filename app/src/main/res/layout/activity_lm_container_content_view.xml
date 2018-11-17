@@ -27,7 +27,7 @@
         style="@style/border_white_style"
         android:layout_margin="10dp" >
 
-        // item types header
+        <!-- item types header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -36,28 +36,26 @@
             android:textStyle="bold"
             />
 
-        // item quantity header
+        <!-- item quantity header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_weight="1.5"
             android:layout_height="wrap_content"
             android:text="@string/item_quantity"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textStyle="bold"/>
 
-        // item quantity header
-
+        <!-- item quantity header -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1.5"
             android:text="@string/delete"
             android:textAlignment="viewEnd"
             android:textStyle="bold" />
 
     </LinearLayout>
-
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

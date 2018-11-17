@@ -12,14 +12,14 @@
         android:layout_height="match_parent"
         style="@style/border_white_style">
 
-        // texts
+        <!--  texts -->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            // container name label
+            <!-- container name label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/clContainerName"
                 android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"/>
 
-            // container weight label
+            <!-- container weight label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/clContainerWeight"
                 android:layout_width="match_parent"

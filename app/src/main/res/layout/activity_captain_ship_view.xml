@@ -12,7 +12,7 @@ android:background="@drawable/texture_eau"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    //border
+    <!-- border -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@ android:background="@drawable/texture_eau"
         android:id="@+id/cap_ship_detail"
         style="@style/border_white_style">
 
-        //title general infos
+        <!--title general infos -->
 
         <TextView
             android:layout_width="match_parent"
@@ -29,13 +29,13 @@ android:background="@drawable/texture_eau"
             android:textSize="@dimen/title_inside_view"
             android:layout_marginBottom="10dp"/>
 
-        //ship name
+        <!--ship name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //ship name header
+            <!--ship name header -->
 
             <TextView
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@ android:background="@drawable/texture_eau"
                 android:text="@string/ship"
                 />
 
-            //ship name label
+            <!--ship name label -->
 
             <TextView
                 android:id="@+id/t_ship_name"
@@ -54,13 +54,13 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //destination port
+        <!--destination port -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //destination port header
+            <!--destination port header -->
 
             <TextView
                 android:layout_width="match_parent"
@@ -68,7 +68,7 @@ android:background="@drawable/texture_eau"
                 android:layout_weight="1"
                 android:text="@string/destination_port"/>
 
-            //destination port label
+            <!--destination port label -->
 
             <TextView
                 android:id="@+id/t_destination_port"
@@ -79,13 +79,13 @@ android:background="@drawable/texture_eau"
         </LinearLayout>
 
 
-        //departure date
+        <!--departure date -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //departure date header
+            <!--departure date header -->
 
             <TextView
                 android:layout_width="match_parent"
@@ -93,8 +93,7 @@ android:background="@drawable/texture_eau"
                 android:layout_weight="1"
                 android:text="@string/departure_date"/>
 
-            //departure date label
-
+            <!--departure date label -->
             <TextView
                 android:id="@+id/t_departure_date"
                 android:layout_weight="1"
@@ -103,7 +102,7 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //title loading status
+        <!--title loading status -->
 
         <TextView
             android:layout_width="match_parent"
@@ -113,14 +112,13 @@ android:background="@drawable/texture_eau"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"/>
 
-        //container loaded
+        <!--container loaded -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //containers status
-
+            <!--containers status -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -135,22 +133,20 @@ android:background="@drawable/texture_eau"
 
         </LinearLayout>
 
-        //weight status
+        <!--weight status -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            //weight label
-
+            <!--weight label -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/total_weight" />
 
-            //weight
-
+            <!-- weight -->
             <TextView
                 android:id="@+id/t_total_weight"
                 android:layout_width="match_parent"
@@ -158,6 +154,5 @@ android:background="@drawable/texture_eau"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

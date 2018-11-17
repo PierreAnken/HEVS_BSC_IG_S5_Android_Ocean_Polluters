@@ -12,14 +12,14 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    // border
+    <!-- border -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         style="@style/border_white_style">
 
-        // title general infos
+        <!-- title general infos -->
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,13 +27,13 @@
             android:textSize="@dimen/title_inside_view"
             android:layout_marginBottom="10dp"/>
 
-        // ship name
+        <!-- ship name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // ship name label
+            <!-- ship name label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:text="@string/ship"
                 />
 
-            // ship name
+            <!-- ship name -->
             <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_lm_ship_name_spinner"
                 style="@style/spinner_style"
@@ -51,20 +51,20 @@
 
         </LinearLayout>
 
-        // dock position
+        <!-- dock position -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // dock position label
+            <!-- dock position label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/dock_position"/>
 
-            // dock position
+            <!-- dock position -->
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_lm_dock_position"
                 android:layout_width="match_parent"
@@ -74,20 +74,20 @@
 
         </LinearLayout>
 
-        // container name
+        <!-- container name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // container name label
+            <!-- container name label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/container_name"/>
 
-            // container name
+            <!-- container name -->
             <EditText xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ae_lm_container_name"
                 android:layout_width="match_parent"
@@ -97,20 +97,20 @@
 
         </LinearLayout>
 
-        // container loaded
+        <!-- container loaded -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            // loaded status label
+            <!-- loaded status label -->
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/container_loaded"/>
 
-            // container loaded toggle button
+            <!-- container loaded toggle button -->
             <ToggleButton
                 android:id="@+id/ae_lm_loaded_status"
                 android:layout_width="match_parent"

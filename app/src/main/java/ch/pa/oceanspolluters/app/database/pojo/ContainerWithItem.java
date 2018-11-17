@@ -21,8 +21,16 @@ public class ContainerWithItem {
 
     public int getWeight(){
 
-        Log.v(TAG, "PA_Debug getting weight of container " + container.getId());
+
         int weight = 0;
+
+        if (items != null) {
+            for (ItemWithType item : items) {
+                weight += item.item.getWeightKg();
+            }
+        }
+        Log.v(TAG, "PA_Debug getting weight of container " + container.getId() + " : " + weight);
         return weight;
+
     }
 }
