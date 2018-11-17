@@ -18,8 +18,11 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
+import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
@@ -47,12 +50,19 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_docker_ship_container_list);
 
         RecyclerView recyclerView = findViewById(R.id.dockerShipContainersRecyclerView);
+        AppCompatActivity appCompatActivity = this;
 
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                TB.ConfirmAction(getParent(), getString(R.string.confirmLoaded), () -> {
+                Log.d(TAG, "PA_Debug clicked on:" + position);
 
+                TB.ConfirmAction(appCompatActivity, getString(R.string.confirmLoaded), () -> {
+                    ContainerEntity container = mContainersWithItem.get(position).container;
+                    container.setLoaded(true);
+                    container.setOperationMode(OperationMode.Save);
+
+                    new AsyncOperationOnEntity(getApplication(), null).execute(container);
                 });
             }
             @Override

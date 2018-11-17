@@ -38,16 +38,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"/>
 
-            // container loading status label
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/done_black" />
-
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

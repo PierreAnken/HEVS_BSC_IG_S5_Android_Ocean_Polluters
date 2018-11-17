@@ -36,107 +36,70 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
         //layout depend on object type
         Class oClass = mData.get(0).getClass();
+        LinearLayout lineInView = null;
+        ViewHolder viewHolder = null;
+        ArrayList<View> texts = new ArrayList<View>();
 
         if (type == ViewType.Captain_Home) {
 
             //create item list object
-            LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+            lineInView = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_captain_home_ship_line, parent, false);
 
-            ArrayList<View> texts = new ArrayList<View>();
+            texts.add(lineInView.findViewById(R.id.svShipName));
+            texts.add(lineInView.findViewById(R.id.svDestinationPort));
+            texts.add(lineInView.findViewById(R.id.svDepartureDate));
 
-            texts.add(shipListItem.findViewById(R.id.svShipName));
-            texts.add(shipListItem.findViewById(R.id.svDestinationPort));
-            texts.add(shipListItem.findViewById(R.id.svDepartureDate));
-
-            final ViewHolder viewHolderShipList = new ViewHolder(shipListItem,texts);
-
-            shipListItem.setOnClickListener(view -> mListener.onItemClick(view, viewHolderShipList.getAdapterPosition()));
-            shipListItem.setOnLongClickListener(view -> {
-                mListener.onItemLongClick(view, viewHolderShipList.getAdapterPosition());
-                return true;
-            });
-            return viewHolderShipList;
         } else if (type == ViewType.Docker_Home) {
 
             //create item list object
-            LinearLayout shipListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+            lineInView = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_docker_home_ship_line, parent, false);
 
-            ArrayList<View> texts = new ArrayList<View>();
+            texts.add(lineInView.findViewById(R.id.svdShipName));
+            texts.add(lineInView.findViewById(R.id.svdDepartureTime));
+            texts.add(lineInView.findViewById(R.id.svdLoadingStatus));
 
-            texts.add(shipListItem.findViewById(R.id.svdShipName));
-            texts.add(shipListItem.findViewById(R.id.svdDepartureTime));
-            texts.add(shipListItem.findViewById(R.id.svdLoadingStatus));
-
-            final ViewHolder viewHolderShipList = new ViewHolder(shipListItem,texts);
-
-            shipListItem.setOnClickListener(view -> mListener.onItemClick(view, viewHolderShipList.getAdapterPosition()));
-            shipListItem.setOnLongClickListener(view -> {
-                mListener.onItemLongClick(view, viewHolderShipList.getAdapterPosition());
-                return true;
-            });
-            return viewHolderShipList;
 
         } else if (type == ViewType.LogMan_Home) {
 
             // create item list object
-            LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+            lineInView = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_container_line, parent, false);
 
-            ArrayList<View> texts = new ArrayList<View>();
-
-            texts.add(containerListItem.findViewById(R.id.clContainerName));
-            texts.add(containerListItem.findViewById(R.id.clContainerWeight));
-
-            final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
-
-            containerListItem.setOnClickListener(view -> mListener.onItemClick(view, viewHolderContainerList.getAdapterPosition()));
-            containerListItem.setOnLongClickListener(view -> {
-                mListener.onItemLongClick(view, viewHolderContainerList.getAdapterPosition());
-                return true;
-            });
-            return viewHolderContainerList;
+            texts.add(lineInView.findViewById(R.id.clContainerName));
+            texts.add(lineInView.findViewById(R.id.clContainerWeight));
 
         } else if (type == ViewType.LogMan_Container_Content_View) {
 
             // create item list object
-            LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+            lineInView = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_container_line_delete, parent, false);
 
-            ArrayList<View> texts = new ArrayList<View>();
-
-            texts.add(containerListItem.findViewById(R.id.clContainerName));
-            texts.add(containerListItem.findViewById(R.id.clContainerWeight));
-            texts.add(containerListItem.findViewById(R.id.clContainerDelete));
-
-            final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
-
-            containerListItem.setOnClickListener(view -> mListener.onItemClick(view, viewHolderContainerList.getAdapterPosition()));
-            containerListItem.setOnLongClickListener(view -> {
-                mListener.onItemLongClick(view, viewHolderContainerList.getAdapterPosition());
-                return true;
-            });
-            return viewHolderContainerList;
+            texts.add(lineInView.findViewById(R.id.clContainerName));
+            texts.add(lineInView.findViewById(R.id.clContainerWeight));
+            texts.add(lineInView.findViewById(R.id.clContainerDelete));
 
         } else if (type == ViewType.Docker_Ship_Container_list) {
 
             // create item list object
-            LinearLayout containerListItem = (LinearLayout) LayoutInflater.from(parent.getContext())
+            lineInView = (LinearLayout) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_docker_container_line, parent, false);
 
-            ArrayList<View> texts = new ArrayList<View>();
-
-            texts.add(containerListItem.findViewById(R.id.clContainerName));
-            texts.add(containerListItem.findViewById(R.id.clDockPosition));
-
-            final ViewHolder viewHolderContainerList = new ViewHolder(containerListItem,texts);
-
-            return viewHolderContainerList;
+            texts.add(lineInView.findViewById(R.id.clContainerName));
+            texts.add(lineInView.findViewById(R.id.clDockPosition));
 
         }
 
-        return new ViewHolder(null,null);
+
+        final ViewHolder viewholder = new ViewHolder(lineInView, texts);
+        lineInView.setOnClickListener(view -> mListener.onItemClick(view, viewholder.getAdapterPosition()));
+        lineInView.setOnLongClickListener(view -> {
+            mListener.onItemLongClick(view, viewholder.getAdapterPosition());
+            return true;
+        });
+
+        return viewholder;
     }
 
     public RecyclerAdapter(RecyclerViewItemClickListener listener, ViewType type) {
@@ -151,6 +114,23 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         if (type == ViewType.Docker_Home) {
 
             ShipWithContainer shipWithContainer = (ShipWithContainer) item;
+
+            //calculate containers to load
+            int countContainerToLoad = 0;
+            for (int i = 0; i < shipWithContainer.containers.size(); i++) {
+                if (!shipWithContainer.containers.get(i).container.getLoaded()) {
+                    countContainerToLoad++;
+                }
+            }
+            int totalContainer = shipWithContainer.containers.size();
+            int loaded = totalContainer - countContainerToLoad;
+            String loadingStatus = loaded + "/" + totalContainer;
+
+            if (countContainerToLoad == 0)
+                ((TextView) holder.mListText.get(2)).setTextColor(Color.GREEN);
+
+            //container to load label
+            ((TextView) holder.mListText.get(2)).setText(loadingStatus);
 
             //ship name label
             ((TextView) holder.mListText.get(0)).setText(shipWithContainer.ship.getName());
@@ -170,25 +150,15 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 textTimeToDeparture = diffHours + " hours";
 
                 //if short delay red text
-                if (diffHours <= 6) {
+                if (diffHours <= 6 && countContainerToLoad > 0) {
                     ((TextView) holder.mListText.get(1)).setTextColor(Color.RED);
-                }
+                } else
+                    ((TextView) holder.mListText.get(1)).setTextColor(Color.GRAY);
             }
             //departure date label
             ((TextView) holder.mListText.get(1)).setText(textTimeToDeparture);
 
-            //calculate containers to load
-            int countContainerToLoad = 0;
-            for (int i = 0; i < shipWithContainer.containers.size(); i++) {
-                if (!shipWithContainer.containers.get(i).container.getLoaded()) {
-                    countContainerToLoad++;
-                }
-            }
 
-            String loadingStatus = countContainerToLoad + "/" + shipWithContainer.containers.size();
-
-            //container to load label
-            ((TextView) holder.mListText.get(2)).setText(loadingStatus);
 
         } else if (type == ViewType.Captain_Home) {
 
