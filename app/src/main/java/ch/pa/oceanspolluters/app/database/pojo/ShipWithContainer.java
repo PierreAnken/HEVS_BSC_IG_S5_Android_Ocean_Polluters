@@ -34,4 +34,17 @@ public class ShipWithContainer {
         return weight;
     }
 
+
+    public int containerToLoad() {
+        int counter = 0;
+        if (containers != null) {
+            for (ContainerWithItem container : containers) {
+
+                if (!container.container.getLoaded())
+                    counter++;
+            }
+        }
+        return counter;
+    }
+
 }

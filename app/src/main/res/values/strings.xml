@@ -89,4 +89,9 @@
     <string name="confirmLoaded">Confirm container loaded on ship?</string>
     <string name="container_list">Container list</string>
     <string name="validate">Validate</string>
+    <string name="fully_loaded">All containers of this ship are already loaded</string>
+    <string name="toast_container_loaded">Container status updated</string>
+    <string name="confirm_container_add">Container successfully added</string>
+    <string name="confirm_container_save">Container successfully saved</string>
+    <string name="error_duplicate_container_name">Container name must be unique</string>
 </resources>

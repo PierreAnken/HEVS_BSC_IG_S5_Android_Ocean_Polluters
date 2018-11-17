@@ -13,10 +13,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
@@ -40,7 +40,11 @@ public class DockerHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                DisplayShipContent(OperationMode.View, mShipsWithContainer.get(position).ship.getId());
+                if (mShipsWithContainer.get(position).containerToLoad() > 0) {
+                    DisplayContainersToLoad(mShipsWithContainer.get(position).ship.getId());
+                } else {
+                    ((BaseApp) getApplication()).displayShortToast(getString(R.string.fully_loaded));
+                }
             }
 
             @Override
@@ -66,7 +70,7 @@ public class DockerHomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void DisplayShipContent(OperationMode mode, int shipId) {
+    private void DisplayContainersToLoad(int shipId) {
 
         Intent shipView;
 

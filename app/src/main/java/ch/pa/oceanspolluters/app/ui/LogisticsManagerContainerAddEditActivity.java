@@ -11,28 +11,20 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import java.util.Date;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
-import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.model.Container;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
-import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.PortListViewModel;
 import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity {
 
@@ -80,7 +72,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
             }
         });
 
-        //get port list
+        //get ship list
         ShipListViewModel.FactoryShips factoryShips = new ShipListViewModel.FactoryShips(getApplication(),-1);
         mShipListModel = ViewModelProviders.of(this, factoryShips).get(ShipListViewModel.class);
         mShipListModel.getShips().observe(this, ships -> {
@@ -98,15 +90,36 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
         containerName.setError(null);
         dockPosition.setError(null);
 
-        String containerNameS = containerName.getText().toString();
+        String containerNameS = containerName.getText().toString().toUpperCase();
         String dockPositionS = dockPosition.getText().toString();
         Boolean loaded = loadingStatus.isChecked();
-        Integer shipId = (int)shipNames.getSelectedItemId();
+        String shipName = shipNames.getSelectedItem().toString();
+        Integer shipId = 0;
+
+        for (ShipWithContainer ship : mShips) {
+            if (ship.ship.getName().equals(shipName)) {
+                shipId = ship.ship.getId();
+                break;
+            }
+        }
 
         if(TextUtils.isEmpty(containerNameS)){
             valid = false;
             containerName.setError(getString(R.string.error_empty_container));
         }
+
+        for (ShipWithContainer ship : mShips) {
+            for (ContainerWithItem container : ship.containers) {
+                if (container.container.getName().equals(containerNameS)) {
+                    containerName.setError(getString(R.string.error_duplicate_container_name));
+                    valid = false;
+                    break;
+                }
+
+            }
+
+        }
+
 
         if(TextUtils.isEmpty(dockPositionS) && !loaded){
             valid = false;
@@ -126,12 +139,18 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "PA_Debug updateContainer: success");
+
+                    if (container.getId() == null)
+                        ((BaseApp) getApplication()).displayShortToast(getString(R.string.confirm_container_add));
+                    else
+                        ((BaseApp) getApplication()).displayShortToast(getString(R.string.confirm_container_save));
                     finish();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
                     Log.d(TAG, "PA_Debug updateContainer: failure", e);
+                    ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationFailled));
                     finish();
                 }
             }).execute(container);

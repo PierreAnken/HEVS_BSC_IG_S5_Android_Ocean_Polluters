@@ -16,12 +16,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
 import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
+import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
@@ -62,7 +64,17 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
                     container.setLoaded(true);
                     container.setOperationMode(OperationMode.Save);
 
-                    new AsyncOperationOnEntity(getApplication(), null).execute(container);
+                    new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+                        @Override
+                        public void onSuccess() {
+                            ((BaseApp) getApplication()).displayShortToast(getString(R.string.toast_container_loaded));
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+
+                        }
+                    }).execute(container);
                 });
             }
             @Override
@@ -99,6 +111,10 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
         mShipViewModel = ViewModelProviders.of(this, factory2).get(ShipViewModel.class);
         mShipViewModel.getShip().observe(this, ship -> {
             if (ship != null) {
+
+                if (ship.containerToLoad() == 0)
+                    this.finish();
+
                 mShipWithContainer = ship;
                 Log.d(TAG, "OG_Debug ship id from factory:" + ship.ship.getId());
 

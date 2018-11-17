@@ -71,7 +71,6 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
         getMenuInflater().inflate(R.menu.menu_add, menu);
         return true;
     }
@@ -80,7 +79,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                DisplayContainer(OperationMode.Save, -1);
+                DisplayContainer(OperationMode.Edit, -1);
                 return true;
             case android.R.id.home:
                 TB.ConfirmAction(this, getString(R.string.confirmDisconnect), () ->

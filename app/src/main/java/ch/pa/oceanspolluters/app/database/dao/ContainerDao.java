@@ -21,7 +21,7 @@ public abstract class ContainerDao {
     @Query("SELECT * " +
             "FROM " +
             "containers c " +
-            "ORDER BY c.loaded, c.name")
+            "ORDER BY UPPER(c.name)")
     public abstract LiveData<List<ContainerWithItem>> getAllLD();
 
     @Transaction
@@ -29,14 +29,14 @@ public abstract class ContainerDao {
             "FROM " +
             "containers c " +
             "WHERE c.loaded = 0 " +
-            "ORDER BY c.loaded, c.name")
+            "ORDER BY UPPER(c.name)")
     public abstract LiveData<List<ContainerWithItem>> getToLoadLD();
 
     @Transaction
     @Query("SELECT * " +
             "FROM " +
             "containers c " +
-            "ORDER BY c.loaded, c.name")
+            "ORDER BY UPPER(c.name)")
     public abstract List<ContainerWithItem> getAll();
 
     @Transaction
@@ -44,7 +44,7 @@ public abstract class ContainerDao {
             "FROM " +
             "containers c " +
             "WHERE c.e_container_id = :id_container " +
-            "ORDER BY c.name")
+            "ORDER BY UPPER(c.name)")
     public abstract LiveData<ContainerWithItem> getByIdLD(int id_container);
 
     @Transaction
@@ -52,7 +52,7 @@ public abstract class ContainerDao {
             "FROM " +
             "containers c " +
             "WHERE c.ship_id = :id_ship " +
-            "ORDER BY c.loaded, c.name")
+            "ORDER BY UPPER(c.name)")
     public abstract LiveData<List<ContainerWithItem>> getByShipIdLD(int id_ship);
 
     @Transaction
@@ -61,7 +61,7 @@ public abstract class ContainerDao {
             "containers c " +
             "WHERE c.ship_id = :id_ship " +
             "AND c.loaded = 0 " +
-            "ORDER BY c.loaded, c.name")
+            "ORDER BY UPPER(c.name)")
     public abstract LiveData<List<ContainerWithItem>> getByShipIdLDToLoad(int id_ship);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
