@@ -53,18 +53,20 @@
     <string name="title_activity_logistic_manager_home" translatable="false">Cockpit Logisticien</string>
     <string name="planning">Planning</string>
     <string name="code">Code</string>
-    <string name="parameters">Paramètres</string>
-    <string name="about">A propos</string>
+    <string name="parameters">Parameters</string>
+    <string name="about">About</string>
     <string name="app_version">Version</string>
     <string name="version_number">1.1.0</string>
-    <string name="authors">Auteurs</string>
-    <string name="app_date">Novembre 2018</string>
-    <string name="date_creation">Date de création</string>
+    <string name="authors">Authors</string>
+    <string name="app_date">November 2018</string>
+    <string name="date_creation">Creation date</string>
     <string name="date">Date</string>
-    <string name="language">Langage</string>
-    <string name="item_types">Produit</string>
-    <string name="item_quantity">Quantité</string>
-    <string name="langFr">Français</string>
-    <string name="langEn">Anglais</string>
-    <string name="spinnerUserSelect">- Choisir un utilisateur -</string>
+    <string name="language">Language</string>
+    <string name="item_types">Item type</string>
+    <string name="item_quantity">Item quantity</string>
+    <string name="item_information">Item Information</string>
+    <string name="item_type">Product Category</string>
+    <string name="item_weight" translatable="false">Poids (kg)</string>
+    <string name="item_edit">Edit Item</string>
+    <string name="error_empty_item_weight">Item may not be empty!</string>
 </resources>

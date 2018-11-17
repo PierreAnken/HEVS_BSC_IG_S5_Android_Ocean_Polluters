@@ -48,7 +48,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
         Intent containerDetail = getIntent();
         int containerId = Integer.parseInt(containerDetail.getStringExtra("containerId"));
-        Log.d(TAG, "OG_Debug received container id from intent:" + containerId);
+        Log.d(TAG, "PA_Debug received container id from intent:" + containerId);
 
         // get container and display it
         ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);

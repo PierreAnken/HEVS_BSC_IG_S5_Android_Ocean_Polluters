@@ -19,14 +19,6 @@
         android:orientation="vertical"
         style="@style/border_white_style">
 
-        // title general infos
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/general_information"
-            android:textSize="@dimen/title_inside_view"
-            android:layout_marginBottom="10dp"/>
-
         // ship name
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,9 +34,8 @@
                 />
 
             // ship name
-            <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_lm_ship_name_spinner"
-                style="@style/spinner_style"
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_lm_item_view_view_ship_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -65,8 +56,8 @@
                 android:text="@string/dock_position"/>
 
             // dock position
-            <EditText xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_lm_dock_position"
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_lm_item_view_dock_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -88,8 +79,8 @@
                 android:text="@string/container_name"/>
 
             // container name
-            <EditText xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_lm_container_name"
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_lm_item_view_container_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -110,14 +101,57 @@
                 android:layout_weight="1"
                 android:text="@string/container_loaded"/>
 
-            // container loaded toggle button
-            <ToggleButton
-                android:id="@+id/ae_lm_loaded_status"
+            // container loaded status
+            <TextView
+                android:id="@+id/v_lm_item_view_loaded_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        // Item category infos
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:orientation="horizontal">
+
+            // item category label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textOn="@string/loaded_true"
-                android:textOff="@string/loaded_false"/>
+                android:text="@string/item_type"/>
+
+            // item category
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/v_lm_item_view_category_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        // Item weight infos
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            // item weight label
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/item_weight"/>
+
+            // item category
+            <TextView
+                android:id="@+id/v_lm_item_view_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
