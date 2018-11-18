@@ -97,7 +97,7 @@
     <string name="sureDeleteContainer">Do you really want to delete this container and its content?</string>
     <string name="sureDeleteItem">Are you sure you want to delete this item?</string>
     <string name="error_weight_empty">Weight cannot be empty</string>
-    <string name="error_invalid_date_format">Invalid ship max weight</string>
+    <string name="error_invalid_date_format">Invalid ship max weight (min 10k)</string>
     <string name="error_empty_ship_name">Ship name cannot be empty</string>
     <string name="error_empty_departure_date">Departure date cannot be empty</string>
     <string name="error_invalid_date_sup_today"><![CDATA[Date must be > today]]></string>

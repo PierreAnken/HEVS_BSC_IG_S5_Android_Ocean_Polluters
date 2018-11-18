@@ -85,4 +85,11 @@
     <string name="confirm_container_add">Conteneur ajouté avec succès</string>
     <string name="confirm_container_save">Conteneur mis à jour avec succès</string>
     <string name="error_duplicate_container_name">Le code du conteneur doit être unique</string>
+    <string name="sureDeleteContainer">Voulez-vous vraiment supprimer ce conteneur et tout son contenu?</string>
+    <string name="sureDeleteItem">Voulez-vous supprimer cet objet?</string>
+    <string name="error_weight_empty">Le poids ne peut pas être vide</string>
+    <string name="error_invalid_date_format">Poids maximum invalide (min 10k)</string>
+    <string name="error_empty_ship_name">Le nom du navire ne peut être vide</string>
+    <string name="error_empty_departure_date">La date de départ ne peut être vide</string>
+    <string name="error_invalid_date_sup_today"><![CDATA[La date doit être > aujourd\\'ui]]></string>
 </resources>
