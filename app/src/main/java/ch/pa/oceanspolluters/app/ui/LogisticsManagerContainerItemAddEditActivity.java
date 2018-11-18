@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,13 +26,10 @@ import ch.pa.oceanspolluters.app.viewmodel.ItemViewModel;
 public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActivity {
 
     private ItemWithType mItemWithType;
-    private ItemViewModel mItemViewModel;
     private static final String TAG = "lmContItemAddEditAct";
     private TextView mItemWeight;
     private Spinner mSpinnerCategory;
-    private ArrayAdapter<String> itemTypeAdapter;
 
-    private int itemId;
     private int containerId;
     private List<ItemTypeEntity> mItemTypes;
 
@@ -41,7 +39,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         setContentView(R.layout.activity_lm_container_item_add_edit);
 
         Intent containerDetail = getIntent();
-        itemId = containerDetail.getStringExtra("itemId") != null ? Integer.parseInt(containerDetail.getStringExtra("itemId")) : -1;
+        int itemId = containerDetail.getStringExtra("itemId") != null ? Integer.parseInt(containerDetail.getStringExtra("itemId")) : -1;
         containerId = containerDetail.getStringExtra("containerId") != null ? Integer.parseInt(containerDetail.getStringExtra("containerId")) : -1;
 
         Log.d(TAG, "PA_Debug received item id from intent:" + itemId);
@@ -51,7 +49,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         type.setOperationMode(OperationMode.GetAll);
 
         try {
-            new AsyncOperationOnEntity<ItemTypeEntity>(getApplication(), new OnAsyncEventListener() {
+            new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
                 public void onSuccess(List result) {
                     Log.d(TAG, "PA_Debug success getting Types");
@@ -74,7 +72,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         //we retrieve item
         if (itemId >= 0) {
             ItemViewModel.FactoryItem factory = new ItemViewModel.FactoryItem(getApplication(), itemId);
-            mItemViewModel = ViewModelProviders.of(this, factory).get(ItemViewModel.class);
+            ItemViewModel mItemViewModel = ViewModelProviders.of(this, factory).get(ItemViewModel.class);
             mItemViewModel.getItem().observe(this, item -> {
                 if (item != null) {
                     mItemWithType = item;
@@ -102,7 +100,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
                 }
             }
 
-            itemTypeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, itemTypeNames);
+            ArrayAdapter<String> itemTypeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, itemTypeNames);
             itemTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerCategory.setAdapter(itemTypeAdapter);
             mSpinnerCategory.setSelection(selectedItemType);
@@ -112,47 +110,51 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
 
         if (mItemWithType != null) {
             float itemWeight = mItemWithType.item.getWeightKg();
-            mItemWeight.setText(Float.toString(itemWeight) + " kg");
+            mItemWeight.setText(Float.toString(itemWeight));
         }
 
     }
 
     private void saveItem() {
 
-        String itemTypeName = mSpinnerCategory.getSelectedItem().toString();
-        int itemTypeSelected = 0;
+        String itemTypeS = mSpinnerCategory.getSelectedItem().toString();
+        String itemWeightS = mItemWeight.getText().toString();
+        mItemWeight.setError(null);
+
+        int itemTypeSelected = -1;
 
         for (ItemTypeEntity itemType : mItemTypes) {
-            if (itemType.getName().equals(itemTypeName)) {
+            if (itemType.getName().equals(itemTypeS)) {
                 itemTypeSelected = itemType.getId();
                 break;
             }
         }
+        Log.d(TAG, "PA_Debug item container id:" + containerId);
 
-        mItemWeight.setError(null);
-        float weight = Float.parseFloat(mItemWeight.getText().toString());
-
-        if (weight <= 0)
+        if (TextUtils.isEmpty(itemWeightS)) {
             mItemWeight.setError(getString(R.string.error_weight_empty));
+        }
         else {
 
+            float weight = Float.parseFloat(itemWeightS);
             ItemEntity item = new ItemEntity(itemTypeSelected, weight, containerId);
 
             if (mItemWithType != null) {
                 item.setId(mItemWithType.item.getId());
+                Log.d(TAG, "PA_Debug updating item:" + item.getId());
             }
-            item.setOperationMode(OperationMode.Save);
 
+            item.setOperationMode(OperationMode.Save);
             new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
                 public void onSuccess(List result) {
-                    Log.d(TAG, "PA_Debug updateShip: success");
+                    Log.d(TAG, "PA_Debug updateItem: success");
                     finish();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Log.d(TAG, "PA_Debug updateShip: failure", e);
+                    Log.d(TAG, "PA_Debug updateItem: failure", e);
                     finish();
                 }
             }).execute(item);

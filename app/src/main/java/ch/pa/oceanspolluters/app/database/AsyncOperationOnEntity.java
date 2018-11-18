@@ -17,14 +17,14 @@ import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 
-public class AsyncOperationOnEntity<T> extends AsyncTask<BaseEntity, Void, Void> {
+public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
 
     private static final String TAG = "AsyncOperationOnEntity";
 
     private Application mApplication;
     private OnAsyncEventListener mCallBack;
     private Exception mException;
-    private List<T> mListEntities = null;
+    private List<ItemTypeEntity> mListEntities = null;
 
     public AsyncOperationOnEntity(Application application, OnAsyncEventListener callback) {
         mApplication = application;
@@ -42,7 +42,7 @@ public class AsyncOperationOnEntity<T> extends AsyncTask<BaseEntity, Void, Void>
             if (entity.getClass() == ItemTypeEntity.class) {
 
                 if (mode == OperationMode.GetAll) {
-                    mListEntities = (List<T>) ((BaseApp) mApplication).getItemTypeRepository().getAll();
+                    mListEntities = ((BaseApp) mApplication).getItemTypeRepository().getAll();
                     Log.d(TAG, "PA_Debug getting type from repository: " + mListEntities.size());
                 }
             } else if (entity.getClass() == ShipEntity.class) {

@@ -123,7 +123,7 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
         switch (item.getItemId()) {
             case R.id.add:
                 Intent itemAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerItemAddEditActivity.class);
-                itemAddEdit.putExtra("containerId", mContainerWithItems.container.getId());
+                itemAddEdit.putExtra("containerId", Integer.toString(containerId));
                 startActivity(itemAddEdit);
                 return true;
             case android.R.id.home:
