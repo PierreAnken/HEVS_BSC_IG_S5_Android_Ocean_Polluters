@@ -30,9 +30,6 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity {
 
     private ContainerWithItem mContainerWithItem;
-    private ContainerViewModel mContainerViewModel;
-    private ShipListViewModel mShipListModel;
-    private ArrayAdapter<String> shipAdapter;
     private List<ShipWithContainer> mShips;
 
     private EditText dockPosition;
@@ -61,7 +58,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
 
             //get container and display it in form
             ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
-            mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
+            ContainerViewModel mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
             mContainerViewModel.getContainer().observe(this, container -> {
                 if (container != null) {
                     mContainerWithItem = container;
@@ -76,7 +73,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
 
         //get ship list for spinner
         ShipListViewModel.FactoryShips factoryShips = new ShipListViewModel.FactoryShips(getApplication(),-1);
-        mShipListModel = ViewModelProviders.of(this, factoryShips).get(ShipListViewModel.class);
+        ShipListViewModel mShipListModel = ViewModelProviders.of(this, factoryShips).get(ShipListViewModel.class);
         mShipListModel.getShips().observe(this, ships -> {
             if (ships != null) {
 
@@ -195,7 +192,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
                 }
             }
 
-            shipAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, shipsNames);
+            ArrayAdapter<String> shipAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, shipsNames);
             shipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             shipNames.setAdapter(shipAdapter);
             shipNames.setSelection(currentPosition);

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -33,9 +32,7 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class DockerShipContainerListActivity extends AppCompatActivity {
 
-    private ShipViewModel mShipViewModel;
     private ShipWithContainer mShipWithContainer;
-    private ContainerListViewModel mContainerListViewModel;
     private List<ContainerWithItem> mContainersWithItem;
 
     private String dockPosition;
@@ -56,7 +53,7 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
 
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked on:" + position);
 
                 TB.ConfirmAction(appCompatActivity, getString(R.string.confirmLoaded), () -> {
@@ -78,7 +75,7 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
                 });
             }
             @Override
-            public void onItemLongClick(View v, int position) {
+            public void onItemLongClick(int position) {
             }
         }, ViewType.Docker_Ship_Container_list);
 
@@ -95,7 +92,7 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
 
         // get the list of containers
         ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), shipId, true);
-        mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
+        ContainerListViewModel mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
         mContainerListViewModel.getContainers().observe(this, contList -> {
             if (contList != null) {
                 Log.d(TAG, "PA_Debug container received:" + contList.size());
@@ -108,7 +105,7 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
 
         //get ship and display it in the header
         ShipViewModel.FactoryShip factory2 = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        mShipViewModel = ViewModelProviders.of(this, factory2).get(ShipViewModel.class);
+        ShipViewModel mShipViewModel = ViewModelProviders.of(this, factory2).get(ShipViewModel.class);
         mShipViewModel.getShip().observe(this, ship -> {
             if (ship != null) {
 
@@ -121,6 +118,8 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
                 //calculate remaining time
                 Date currentTime = Calendar.getInstance().getTime();
                 long diff = ship.ship.getDepartureDate().getTime() - currentTime.getTime();
+                if (diff < 0)
+                    diff = 0;
                 long diffMinutes = diff / (60 * 1000) % 60;
                 long diffHours = diff / (60 * 60 * 1000) % 24;
                 long diffDays = diff / (60 * 60 * 1000 * 24);

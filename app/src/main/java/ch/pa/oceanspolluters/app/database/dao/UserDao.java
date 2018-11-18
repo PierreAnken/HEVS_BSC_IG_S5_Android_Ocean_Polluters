@@ -22,7 +22,7 @@ public abstract class UserDao {
     public abstract LiveData<UserEntity> getByIdLD(int id);
 
     @Query("SELECT * FROM users WHERE user_name like '%' || :name || '%' limit 1")
-    public abstract LiveData<UserEntity> getByNameLD(String name);;
+    public abstract LiveData<UserEntity> getByNameLD(String name);
 
     @Query("SELECT * FROM users")
     public abstract LiveData<List<UserEntity>> getAllLD();
@@ -31,7 +31,7 @@ public abstract class UserDao {
     public abstract UserEntity getById(int id);
 
     @Query("SELECT * FROM users WHERE user_name like '%' || :name || '%' limit 1")
-    public abstract UserEntity getByName(String name);;
+    public abstract UserEntity getByName(String name);
 
     @Query("SELECT * FROM users")
     public abstract List<UserEntity> getAll();

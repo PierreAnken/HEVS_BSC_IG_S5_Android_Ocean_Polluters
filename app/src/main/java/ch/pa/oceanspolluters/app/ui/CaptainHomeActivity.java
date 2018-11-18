@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +39,13 @@ public class CaptainHomeActivity extends AppCompatActivity {
 
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
                 DisplayShip(OperationMode.View, mShipsWithContainer.get(position).ship.getId());
             }
 
             @Override
-            public void onItemLongClick(View v, int position) {
+            public void onItemLongClick(int position) {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
                 DisplayShip(OperationMode.Edit, mShipsWithContainer.get(position).ship.getId());
             }
@@ -98,11 +97,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
                 DisplayShip(OperationMode.Edit, -1);
                 return true;
             case android.R.id.home:
-                TB.ConfirmAction(this, getString(R.string.confirmDisconnect), () ->
-                        {
-                            this.finish();
-                        }
-                );
+                TB.ConfirmAction(this, getString(R.string.confirmDisconnect), this::finish);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

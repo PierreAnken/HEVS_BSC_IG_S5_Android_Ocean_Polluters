@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         style="@style/border_white_style">
 
-        // texts
+        <!-- texts -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            // container name label
+            <!-- container name label -->
 
             <TextView
                 android:id="@+id/clContainerName"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"/>
 
-            // container position label
+            <!-- container position label -->
 
             <TextView
                 android:id="@+id/clDockPosition"

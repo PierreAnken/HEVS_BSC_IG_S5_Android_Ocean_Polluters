@@ -17,8 +17,6 @@ public class PortViewModel extends AndroidViewModel {
 
     private static final String TAG = "PortViewModel";
 
-    private PortRepository mRepository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<PortEntity> mObservablePort;
 
@@ -26,7 +24,7 @@ public class PortViewModel extends AndroidViewModel {
                          final int portId, PortRepository portRepository) {
         super(application);
 
-        mRepository = portRepository;
+        PortRepository mRepository = portRepository;
 
         mObservablePort = new MediatorLiveData<>();
         // set by default null, until we get data from the database.

@@ -19,8 +19,6 @@ public class ShipListViewModel extends AndroidViewModel {
 
     private static final String TAG = "ShipListViewModel";
 
-    private ShipRepository mRepository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<ShipWithContainer>> mObservableCaptainShips;
 
@@ -28,7 +26,7 @@ public class ShipListViewModel extends AndroidViewModel {
                              final int captainId, ShipRepository shipRepository) {
         super(application);
 
-        mRepository = shipRepository;
+        ShipRepository mRepository = shipRepository;
 
         mObservableCaptainShips = new MediatorLiveData<>();
         

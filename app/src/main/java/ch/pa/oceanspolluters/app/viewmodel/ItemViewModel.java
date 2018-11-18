@@ -17,8 +17,6 @@ public class ItemViewModel extends AndroidViewModel {
 
     private static final String TAG = "ItemViewModel";
 
-    private ItemRepository mRepository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<ItemWithType> mObservableItem;
 
@@ -26,7 +24,7 @@ public class ItemViewModel extends AndroidViewModel {
                          final int containerId, ItemRepository containerRepository) {
         super(application);
 
-        mRepository = containerRepository;
+        ItemRepository mRepository = containerRepository;
 
         mObservableItem = new MediatorLiveData<>();
         // set by default null, until we get data from the database.

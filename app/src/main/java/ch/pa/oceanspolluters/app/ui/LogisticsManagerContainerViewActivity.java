@@ -29,19 +29,12 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
     private ContainerWithItem mContainerWithItem;
-    private ContainerViewModel mContainerViewModel;
-    private ShipViewModel mShipModel;
 
     private ShipListViewModel mShipListModel;
     private ArrayAdapter<String> shipAdapter;
     private List<ShipWithContainer> mShips;
 
-    private TextView dockPosition;
-    private TextView containerName;
     private TextView shipNames;
-    private TextView loadingStatus;
-    private TextView items;
-    private TextView weight;
 
     private static final String TAG = "lmContainerViewAct";
 
@@ -56,7 +49,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
         // get container and display it
         ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
-        mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
+        ContainerViewModel mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
         mContainerViewModel.getContainer().observe(this, cont -> {
             if (cont != null) {
                 mContainerWithItem = cont;
@@ -129,9 +122,9 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         }
 
         if(mContainerWithItem != null){
-            containerName = findViewById(R.id.container_name);
-            dockPosition = findViewById(R.id.container_dock_position);
-            loadingStatus = findViewById(R.id.v_lm_loaded_status);
+            TextView containerName = findViewById(R.id.container_name);
+            TextView dockPosition = findViewById(R.id.container_dock_position);
+            TextView loadingStatus = findViewById(R.id.v_lm_loaded_status);
             shipNames = findViewById(R.id.container_ship_name);
             containerName.setText(mContainerWithItem.container.getName());
             dockPosition.setText(mContainerWithItem.container.getDockPosition());
@@ -143,7 +136,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
             //get ship name from ship id
             ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), mContainerWithItem.container.getShipId());
-            mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
+            ShipViewModel mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
             mShipModel.getShip().observe(this, ship -> {
                 if (ship != null) {
                     Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
@@ -152,8 +145,8 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
             });
 
         }
-            items = findViewById(R.id.container_items_quantity_weight);
-            weight = findViewById(R.id.t_total_weight);
+        TextView items = findViewById(R.id.container_items_quantity_weight);
+        TextView weight = findViewById(R.id.t_total_weight);
             items.setText(mContainerWithItem.items.size() + " items");
             weight.setText(mContainerWithItem.getWeight() +" kg");
 

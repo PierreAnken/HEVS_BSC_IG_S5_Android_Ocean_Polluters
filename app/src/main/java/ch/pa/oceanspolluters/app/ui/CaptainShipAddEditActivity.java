@@ -30,9 +30,6 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 public class CaptainShipAddEditActivity extends AppCompatActivity {
 
     private ShipWithContainer mShip;
-    private ShipViewModel mShipModel;
-    private PortListViewModel mPortsModel;
-    private ArrayAdapter<String> portsAdapter;
     private List<PortEntity> mPorts;
 
     private EditText shipName;
@@ -64,7 +61,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         //get ship and display it in form
         ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
+        ShipViewModel mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
         mShipModel.getShip().observe(this, ship -> {
             if (ship != null) {
                 mShip = ship;
@@ -75,7 +72,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         //get port list
         PortListViewModel.FactoryPorts factoryPorts = new PortListViewModel.FactoryPorts(getApplication());
-        mPortsModel = ViewModelProviders.of(this, factoryPorts).get(PortListViewModel.class);
+        PortListViewModel mPortsModel = ViewModelProviders.of(this, factoryPorts).get(PortListViewModel.class);
         mPortsModel.getPorts().observe(this, ports -> {
             if (ports != null) {
                 mPorts = ports;
@@ -189,7 +186,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 }
             }
 
-            portsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, portsNames);
+            ArrayAdapter<String> portsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, portsNames);
             portsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             portsSpinner.setAdapter(portsAdapter);
             portsSpinner.setSelection(selectedPortPosition);

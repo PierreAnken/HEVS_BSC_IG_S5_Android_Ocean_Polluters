@@ -19,8 +19,6 @@ public class ContainerListViewModel extends AndroidViewModel {
 
     private static final String TAG = "ContainerListViewModel";
 
-    private ContainerRepository mRepository;
-
     private static boolean onlyToLoad;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
@@ -30,7 +28,7 @@ public class ContainerListViewModel extends AndroidViewModel {
                                    final int shipId, ContainerRepository containerRepository, boolean onlyToLoad) {
         super(application);
 
-        mRepository = containerRepository;
+        ContainerRepository mRepository = containerRepository;
 
         mObservableContainers = new MediatorLiveData<>();
 

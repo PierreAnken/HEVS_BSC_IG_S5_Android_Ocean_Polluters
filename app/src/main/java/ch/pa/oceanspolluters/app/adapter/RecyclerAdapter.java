@@ -94,11 +94,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
 
         final ViewHolder viewholder = new ViewHolder(lineInView, texts);
-        lineInView.setOnClickListener(view -> mListener.onItemClick(view, viewholder.getAdapterPosition()));
-        lineInView.setOnLongClickListener(view -> {
-            mListener.onItemLongClick(view, viewholder.getAdapterPosition());
-            return true;
-        });
+        if (lineInView != null) {
+            lineInView.setOnClickListener(view -> mListener.onItemClick(viewholder.getAdapterPosition()));
+            lineInView.setOnLongClickListener(view -> {
+                mListener.onItemLongClick(viewholder.getAdapterPosition());
+                return true;
+            });
+        }
 
         return viewholder;
     }
@@ -139,6 +141,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             //calculate time remaining before departure
             Date currentTime = Calendar.getInstance().getTime();
             long departure = shipWithContainer.ship.getDepartureDate().getTime() - currentTime.getTime();
+            if (departure < 0)
+                departure = 0;
+
             long diffHours = departure / (60 * 60 * 1000) % 24;
             long diffDays = departure / (60 * 60 * 1000 * 24);
             String textTimeToDeparture = "";
@@ -146,6 +151,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             //time in days
             if (diffDays > 0) {
                 textTimeToDeparture = diffDays + " days";
+
             } else {
                 //time in hours
                 textTimeToDeparture = diffHours + " hours";
@@ -156,6 +162,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 } else
                     ((TextView) holder.mListText.get(1)).setTextColor(Color.GRAY);
             }
+
+
             //departure date label
             ((TextView) holder.mListText.get(1)).setText(textTimeToDeparture);
 

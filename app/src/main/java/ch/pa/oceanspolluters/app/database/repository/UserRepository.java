@@ -33,7 +33,7 @@ public class UserRepository {
 
     public LiveData<UserEntity> getByNameLD(String name) {
         return mDatabase.userDao().getByNameLD(name);
-    };
+    }
 
     public LiveData<List<UserEntity>> getUsersLD() {
         return mDatabase.userDao().getAllLD();

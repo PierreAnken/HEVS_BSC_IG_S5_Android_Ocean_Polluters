@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +38,13 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
 
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
                 DisplayContainer(OperationMode.View, mContainerWithItems.get(position).container.getId());
             }
 
             @Override
-            public void onItemLongClick(View v, int position) {
+            public void onItemLongClick(int position) {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
                 DisplayContainer(OperationMode.Edit, mContainerWithItems.get(position).container.getId());
             }

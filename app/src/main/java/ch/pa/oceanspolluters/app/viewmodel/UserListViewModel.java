@@ -19,15 +19,13 @@ public class UserListViewModel extends AndroidViewModel {
 
     private static final String TAG = "UserListViewModel";
 
-    private UserRepository mRepository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<UserEntity>> mObservableUsers;
 
     private UserListViewModel(@NonNull Application application, UserRepository UserRepository) {
         super(application);
 
-        mRepository = UserRepository;
+        ch.pa.oceanspolluters.app.database.repository.UserRepository mRepository = UserRepository;
 
         mObservableUsers = new MediatorLiveData<>();
         

@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity{
     private EditText mPassword;
     private Spinner mSpinner;
     private List<UserEntity> users;
-    private ArrayAdapter<String> usersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class LoginActivity extends AppCompatActivity{
 
         // setup spinner for user selection
         mSpinner = findViewById(R.id.users_spinner);
-        usersAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
+        ArrayAdapter<String> usersAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, userNames);
         usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(usersAdapter);
 

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.List;
 
@@ -44,13 +43,13 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
 
         mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                DisplayItem(OperationMode.Edit, position);
+                DisplayItem(position);
             }
 
             @Override
-            public void onItemLongClick(View v, int position) {
+            public void onItemLongClick(int position) {
                 confirmDelete(mContainerWithItems.items.get(position).item);
             }
         }, ViewType.LogMan_Container_Content_View);
@@ -100,7 +99,7 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
         );
     }
 
-    private void DisplayItem(OperationMode mode, int position){
+    private void DisplayItem(int position) {
 
         Intent containerView;
 

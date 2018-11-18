@@ -19,15 +19,13 @@ public class PortListViewModel extends AndroidViewModel {
 
     private static final String TAG = "PortListViewModel";
 
-    private PortRepository mRepository;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<PortEntity>> mObservablePorts;
 
     private PortListViewModel(@NonNull Application application, PortRepository PortRepository) {
         super(application);
 
-        mRepository = PortRepository;
+        ch.pa.oceanspolluters.app.database.repository.PortRepository mRepository = PortRepository;
 
         mObservablePorts = new MediatorLiveData<>();
         

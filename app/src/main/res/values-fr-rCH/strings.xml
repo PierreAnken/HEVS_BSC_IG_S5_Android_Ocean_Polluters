@@ -66,11 +66,11 @@
     <string name="item_quantity">Item quantity</string>
     <string name="item_information">Item Information</string>
     <string name="item_type">Product Category</string>
-    <string name="item_weight" translatable="false">Poids (kg)</string>
+    <string name="item_weight">Poids (kg)</string>
     <string name="item_edit">Modifier l\'objet</string>
     <string name="error_empty_item_weight">Item may not be empty!</string>
     <string name="spinnerUserSelect">- Choisir l\'utilisateur -</string>
-    <string name="item_add" translatable="false">Ajouter un objet</string>
+    <string name="item_add">Ajouter un objet</string>
     <string name="title_activity_logistic_manager_item_add_edit">Détail</string>
     <string name="title_activity_logistic_manager_item_detail">Détail</string>
     <string name="title_activity_logistic_manager_items_detail">Objets du container</string>
@@ -91,5 +91,5 @@
     <string name="error_invalid_date_format">Poids maximum invalide (min 10k)</string>
     <string name="error_empty_ship_name">Le nom du navire ne peut être vide</string>
     <string name="error_empty_departure_date">La date de départ ne peut être vide</string>
-    <string name="error_invalid_date_sup_today"><![CDATA[La date doit être > aujourd\\'ui]]></string>
+    <string name="error_invalid_date_sup_today"><![CDATA[La date doit être > aujourd\'ui]]></string>
 </resources>

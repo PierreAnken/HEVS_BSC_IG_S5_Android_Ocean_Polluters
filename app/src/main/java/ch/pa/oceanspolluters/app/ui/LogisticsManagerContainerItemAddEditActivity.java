@@ -51,7 +51,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         try {
             new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
-                public void onSuccess(List result) {
+                public void onSuccess(List<ItemTypeEntity> result) {
                     Log.d(TAG, "PA_Debug success getting Types");
                     mItemTypes = result;
                     updateView();

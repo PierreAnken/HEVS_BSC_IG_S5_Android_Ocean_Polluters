@@ -19,7 +19,6 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
 
     private static final String TAG = "ParameterActivity";
     private Spinner mLanguageSpinner;
-    private ArrayAdapter<String> languageAdapter;
     private String currentLang;
 
     @Override
@@ -32,7 +31,7 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
         mLanguageSpinner = findViewById(R.id.spinner_language);
 
         //setup language spinner
-        languageAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{getString(R.string.langFr), getString(R.string.langEn)});
+        ArrayAdapter<String> languageAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{getString(R.string.langFr), getString(R.string.langEn)});
         languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mLanguageSpinner.setAdapter(languageAdapter);
 

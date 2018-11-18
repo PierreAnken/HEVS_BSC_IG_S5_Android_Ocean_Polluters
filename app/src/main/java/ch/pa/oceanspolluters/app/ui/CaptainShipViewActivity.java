@@ -27,7 +27,6 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 public class CaptainShipViewActivity extends AppCompatActivity {
 
     private ShipWithContainer mShip;
-    private ShipViewModel mViewModel;
 
     private static final String TAG = "CaptainShipView";
 
@@ -41,7 +40,7 @@ public class CaptainShipViewActivity extends AppCompatActivity {
 
         //get ship and display it
         ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        mViewModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
+        ShipViewModel mViewModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
         mViewModel.getShip().observe(this, ship -> {
             if (ship != null) {
                 mShip = ship;
