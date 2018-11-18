@@ -21,7 +21,7 @@ public abstract class ItemTypeDao {
     @Query("SELECT * FROM itemTypes WHERE e_item_type_id = :id")
     public abstract ItemTypeEntity getById(int id);
 
-    @Query("SELECT * FROM itemTypes")
+    @Query("SELECT * FROM itemTypes ORDER BY item_type_name")
     public abstract List<ItemTypeEntity> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

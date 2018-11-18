@@ -16,7 +16,7 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
@@ -103,7 +103,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
                     mContainerWithItem.container.setOperationMode(OperationMode.Delete);
                     new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                         @Override
-                        public void onSuccess() {
+                        public void onSuccess(List result) {
                             ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
                             finish();
                         }
@@ -152,12 +152,18 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
             });
 
         }
-
             items = findViewById(R.id.container_items_quantity_weight);
             weight = findViewById(R.id.t_total_weight);
             items.setText(mContainerWithItem.items.size() + " items");
             weight.setText(mContainerWithItem.getWeight() +" kg");
 
+    }
+
+    private void AddEditContainer(int containerId) {
+        Intent containerView = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
+        containerView.putExtra("containerId", Integer.toString(containerId));
+        Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));
+        startActivity(containerView);
     }
 
     @Override
@@ -172,11 +178,9 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.edit:
             case R.id.add:
-                Intent itemAddEdit = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
-                itemAddEdit.putExtra("containerId",mContainerWithItem.container.getId().toString());
-                Log.d(TAG, "PA_Debug container sent as intent to edit " + mContainerWithItem.container.getId());
-                startActivity(itemAddEdit);
+                AddEditContainer(mContainerWithItem != null ? mContainerWithItem.container.getId() : -1);
                 return true;
             case android.R.id.home:
                 this.finish();

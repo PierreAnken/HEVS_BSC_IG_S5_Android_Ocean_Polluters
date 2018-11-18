@@ -11,6 +11,7 @@ import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.repository.ContainerRepository;
 import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
+import ch.pa.oceanspolluters.app.database.repository.ItemTypeRepository;
 import ch.pa.oceanspolluters.app.database.repository.PortRepository;
 import ch.pa.oceanspolluters.app.database.repository.ShipRepository;
 import ch.pa.oceanspolluters.app.database.repository.UserRepository;
@@ -79,6 +80,11 @@ public class BaseApp extends Application {
     public ItemRepository getItemRepository() {
         return ItemRepository.getInstance(getDatabase());
     }
+
+    public ItemTypeRepository getItemTypeRepository() {
+        return ItemTypeRepository.getInstance(getDatabase());
+    }
+
 
     public void displayShortToast(String text){
         new Handler(Looper.getMainLooper()).post(new Runnable() {

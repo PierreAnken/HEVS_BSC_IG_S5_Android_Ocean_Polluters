@@ -19,97 +19,8 @@
         android:orientation="vertical"
         style="@style/border_white_style">
 
-        <!-- ship name -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <!-- ship name label -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/ship"
-                />
-
-            <!-- ship name -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_lm_item_ship_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <!-- dock position -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!-- dock position label -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dock_position"/>
-
-            <!-- dock position -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_lm_item_dock_position"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <!-- container name -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!-- container name label -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/container_name"/>
-
-            <!-- container name -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ae_lm_item_container_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="text" />
-
-        </LinearLayout>
-
-        <!-- container loaded -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!-- loaded status label -->
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/container_loaded"/>
-
-            <!-- container loaded status -->
-            <TextView
-                android:id="@+id/ae_lm_item_loaded_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <!-- Item category infos -->
+        <!-- Item category -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="numberDecimal"
                 android:text="@string/item_type"/>
 
             <!-- item category -->
@@ -133,7 +45,7 @@
 
         </LinearLayout>
 
-        <!-- Item weight infos -->
+        <!-- Item weight -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,7 +58,7 @@
                 android:layout_weight="1"
                 android:text="@string/item_weight"/>
 
-            <!-- item category -->
+            <!-- item weight -->
             <EditText
                 android:id="@+id/ae_lm_item_weight"
                 android:layout_width="match_parent"

@@ -76,11 +76,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
             // create item list object
             lineInView = (LinearLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_container_line_delete, parent, false);
+                    .inflate(R.layout.list_items_line, parent, false);
 
             texts.add(lineInView.findViewById(R.id.clContainerName));
             texts.add(lineInView.findViewById(R.id.clContainerWeight));
-            texts.add(lineInView.findViewById(R.id.clContainerDelete));
 
         } else if (type == ViewType.Docker_Ship_Container_list) {
 

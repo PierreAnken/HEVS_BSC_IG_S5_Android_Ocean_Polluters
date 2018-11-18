@@ -1,26 +1,30 @@
-package ch.pa.oceanspolluters.app.database.async;
+package ch.pa.oceanspolluters.app.database;
 
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.List;
+
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.database.entity.BaseEntity;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 
-public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
+public class AsyncOperationOnEntity<T> extends AsyncTask<BaseEntity, Void, Void> {
 
     private static final String TAG = "AsyncOperationOnEntity";
 
     private Application mApplication;
     private OnAsyncEventListener mCallBack;
     private Exception mException;
+    private List<T> mListEntities = null;
 
     public AsyncOperationOnEntity(Application application, OnAsyncEventListener callback) {
         mApplication = application;
@@ -35,26 +39,28 @@ public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
 
             Log.d(TAG, "PA_Debug asynch: " + entity.getClass().toString()+" "+entity.getOperationMode().toString());
 
+            if (entity.getClass() == ItemTypeEntity.class) {
 
-            if(entity.getClass() == ShipEntity.class){
+                if (mode == OperationMode.GetAll) {
+                    mListEntities = (List<T>) ((BaseApp) mApplication).getItemTypeRepository().getAll();
+                    Log.d(TAG, "PA_Debug getting type from repository: " + mListEntities.size());
+                }
+            } else if (entity.getClass() == ShipEntity.class) {
                 ShipEntity ship = (ShipEntity)entity;
 
                 if(mode == OperationMode.Save){
                     if(ship.getId() == null){
                         ((BaseApp) mApplication).getShipRepository()
-                            .insert(ship);
-                    }
-                    else{
+                                .insert(ship);
+                    } else {
                         ((BaseApp) mApplication).getShipRepository()
                                 .update(ship);
                     }
-                }
-                else if(mode == OperationMode.Delete){
+                } else if (mode == OperationMode.Delete) {
                     ((BaseApp) mApplication).getShipRepository()
                             .delete(ship);
                 }
-            }
-            else if(entity.getClass() == ContainerEntity.class) {
+            } else if (entity.getClass() == ContainerEntity.class) {
                 ContainerEntity container = (ContainerEntity) entity;
 
                 if (mode == OperationMode.Save) {
@@ -69,8 +75,7 @@ public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
                     ((BaseApp) mApplication).getContainerRepository()
                             .delete(container);
                 }
-            }
-            else if(entity.getClass() == ItemEntity.class) {
+            } else if (entity.getClass() == ItemEntity.class) {
                 ItemEntity item = (ItemEntity) entity;
 
                 if (mode == OperationMode.Save) {
@@ -128,7 +133,7 @@ public class AsyncOperationOnEntity extends AsyncTask<BaseEntity, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         if (mCallBack != null) {
             if (mException == null) {
-                mCallBack.onSuccess();
+                mCallBack.onSuccess(mListEntities);
             } else {
                 mCallBack.onFailure(mException);
             }

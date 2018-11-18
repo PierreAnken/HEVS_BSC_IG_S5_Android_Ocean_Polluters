@@ -30,7 +30,7 @@
     <string name="container_weight">Poids</string>
     <string name="dock_position">Position</string>
     <string name="content">Contenu</string>
-    <string name="items">Articles</string>
+    <string name="items">Objects</string>
     <string name="title_activity_logistic_manager_container_detail">Détail du conteneur</string>
     <string name="container_edit">Edition du conteneur</string>
     <string name="container_add">Ajouter un conteneur</string>
@@ -49,8 +49,8 @@
     <string name="home">Accueil</string>
     <string name="title_activity_parameters">Système</string>
     <string name="title_activity_captain_home">Cockpit capitaine</string>
-    <string name="title_activity_docker_home" translatable="false">Cockpit docker</string>
-    <string name="title_activity_logistic_manager_home" translatable="false">Cockpit Logisticien</string>
+    <string name="title_activity_docker_home">Cockpit docker</string>
+    <string name="title_activity_logistic_manager_home">Cockpit Logistique</string>
     <string name="planning">Planning</string>
     <string name="code">Code</string>
     <string name="parameters">Parameters</string>
@@ -62,7 +62,7 @@
     <string name="date_creation">Creation date</string>
     <string name="date">Date</string>
     <string name="language">Language</string>
-    <string name="item_types">Item type</string>
+    <string name="item_types">Type d\'objet</string>
     <string name="item_quantity">Item quantity</string>
     <string name="item_information">Item Information</string>
     <string name="item_type">Product Category</string>

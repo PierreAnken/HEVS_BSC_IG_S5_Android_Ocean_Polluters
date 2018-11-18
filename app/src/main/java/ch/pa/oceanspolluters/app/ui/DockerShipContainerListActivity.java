@@ -19,7 +19,7 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
-import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
@@ -66,7 +66,7 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
 
                     new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                         @Override
-                        public void onSuccess() {
+                        public void onSuccess(List result) {
                             ((BaseApp) getApplication()).displayShortToast(getString(R.string.toast_container_loaded));
                         }
 

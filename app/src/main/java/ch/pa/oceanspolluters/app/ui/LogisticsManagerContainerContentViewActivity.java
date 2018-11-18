@@ -10,22 +10,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
+import java.util.List;
+
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
+import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
+import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
+import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
 import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class LogisticsManagerContainerContentViewActivity extends AppCompatActivity {
 
-    private ShipViewModel mShipModel;
-    private TextView shipNames;
     private ContainerWithItem mContainerWithItems;
     private RecyclerAdapter<ItemWithType> mAdapter;
     private int containerId;
@@ -48,6 +51,7 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
 
             @Override
             public void onItemLongClick(View v, int position) {
+                confirmDelete(mContainerWithItems.items.get(position).item);
             }
         }, ViewType.LogMan_Container_Content_View);
 
@@ -68,11 +72,39 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
         recyclerView.setAdapter(mAdapter);
     }
 
+    private void deleteItem(ItemEntity item) {
+        item.setOperationMode(OperationMode.Delete);
+
+        new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+            @Override
+            public void onSuccess(List result) {
+                Log.d(TAG, "PA_Debug delete ship: success");
+                ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
+
+                Log.d(TAG, "PA_Debug mContainerWithItems.items.size: " + mContainerWithItems.items.size());
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.d(TAG, "PA_Debug delete ship: failure", e);
+                ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationFailled));
+            }
+        }).execute(item);
+    }
+
+    private void confirmDelete(ItemEntity item) {
+        TB.ConfirmAction(this, getString(R.string.sureDeleteItem), () ->
+                {
+                    deleteItem(item);
+                }
+        );
+    }
+
     private void DisplayItem(OperationMode mode, int position){
 
         Intent containerView;
 
-        containerView = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
+        containerView = new Intent(getApplicationContext(), LogisticsManagerContainerItemAddEditActivity.class);
 
         containerView.putExtra("itemId",Integer.toString(mContainerWithItems.items.get(position).item.getId()));
         containerView.putExtra("containerId",Integer.toString(containerId));
@@ -90,9 +122,8 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                Intent itemAddEdit = new Intent(getApplicationContext(), LogisticsManagerItemAddEditActivity.class);
-                itemAddEdit.putExtra("containerId", mContainerWithItems.items.get(0).item.getId().toString());
-                Log.d(TAG, "PA_Debug item sent as intent to edit " + mContainerWithItems.items.get(0).item.getId());
+                Intent itemAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerItemAddEditActivity.class);
+                itemAddEdit.putExtra("containerId", mContainerWithItems.container.getId());
                 startActivity(itemAddEdit);
                 return true;
             case android.R.id.home:

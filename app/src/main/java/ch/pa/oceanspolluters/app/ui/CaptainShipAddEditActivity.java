@@ -17,7 +17,7 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.async.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
@@ -99,25 +99,25 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         float maxWeightF = Float.parseFloat(maxWeight.getText().toString());
 
-        if (maxWeightF < 1) {
+        if (maxWeightF < 10000) {
             valid = false;
-            maxWeight.setError("Invalid ship max weight");
+            maxWeight.setError(getString(R.string.error_invalid_date_format));
         }
 
         if(TextUtils.isEmpty(shipNameS)){
             valid = false;
-            shipName.setError("Ship name cannot be empty");
+            shipName.setError(getString(R.string.error_empty_ship_name));
         }
 
         if(TextUtils.isEmpty(departureDateS)){
             valid = false;
-            departureDate.setError("Departure date cannot be empty");
+            departureDate.setError(getString(R.string.error_empty_departure_date));
         }
         else{
 
             if(convertedDate.after(new Date() )){
                 valid = false;
-                departureDate.setError("Date must be > today");
+                departureDate.setError(getString(R.string.error_invalid_date_sup_today));
             }
 
             try {
@@ -125,7 +125,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
             } catch (java.text.ParseException e) {
                 valid = false;
-                departureDate.setError("Invalid date format : " + TB.getDateFormat().toString());
+                departureDate.setError(getString(R.string.error_invalid_date_format) + " : " + TB.getDateFormat().toString());
             }
         }
 
@@ -149,7 +149,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
             new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(List result) {
                     Log.d(TAG, "PA_Debug updateShip: success");
                     finish();
                 }

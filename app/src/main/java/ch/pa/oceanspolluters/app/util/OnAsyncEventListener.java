@@ -1,7 +1,9 @@
 package ch.pa.oceanspolluters.app.util;
 
 
-public interface OnAsyncEventListener {
-    void onSuccess();
+import java.util.List;
+
+public interface OnAsyncEventListener<T> {
+    void onSuccess(List<T> result);
     void onFailure(Exception e);
 }

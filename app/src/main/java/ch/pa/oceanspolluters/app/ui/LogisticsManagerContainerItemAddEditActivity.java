@@ -8,38 +8,32 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.List;
+
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
-import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
+import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
+import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
+import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
+import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.viewmodel.ItemViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActivity {
 
     private ItemWithType mItemWithType;
-    private ContainerWithItem mContainerWithItems;
     private ItemViewModel mItemViewModel;
-    private ContainerViewModel mContainerViewModel;
-    private ShipViewModel mShipViewModel;
-
-    private ArrayAdapter<String> itemAdapter;
-    private ContainerWithItem mContainerItems;
-
-    private TextView dockPosition;
-    private TextView containerName;
-    private TextView shipNames;
-    private TextView loadingStatus;
-    private TextView items;
+    private static final String TAG = "lmContItemAddEditAct";
+    private TextView mItemWeight;
+    private Spinner mSpinnerCategory;
+    private ArrayAdapter<String> itemTypeAdapter;
 
     private int itemId;
     private int containerId;
-
-    private static final String TAG = "lmContainerItemViewAct";
-    private RecyclerAdapter<ContainerWithItem> mAdapter;
+    private List<ItemTypeEntity> mItemTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,71 +41,135 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         setContentView(R.layout.activity_lm_container_item_add_edit);
 
         Intent containerDetail = getIntent();
-        itemId = Integer.parseInt(containerDetail.getStringExtra("itemId"));
-        containerId = Integer.parseInt(containerDetail.getStringExtra("containerId"));
-        Log.d(TAG, "PA_Debug received container for items id from intent:" + itemId);
+        itemId = containerDetail.getStringExtra("itemId") != null ? Integer.parseInt(containerDetail.getStringExtra("itemId")) : -1;
+        containerId = containerDetail.getStringExtra("containerId") != null ? Integer.parseInt(containerDetail.getStringExtra("containerId")) : -1;
 
-        ItemViewModel.FactoryItem factory2 = new ItemViewModel.FactoryItem(getApplication(), itemId);
-        mItemViewModel = ViewModelProviders.of(this, factory2).get(ItemViewModel.class);
-        mItemViewModel.getItem().observe(this, itemx -> {
-            if (itemx != null) {
-                mItemWithType = itemx;
-                Log.d(TAG, "PA_Debug item id from factory:" + itemx.itemType().getName());
-            }
+        Log.d(TAG, "PA_Debug received item id from intent:" + itemId);
 
-        });
+        //get itemtype list - we dont need live data as they don't change
+        ItemTypeEntity type = new ItemTypeEntity();
+        type.setOperationMode(OperationMode.GetAll);
 
-        // get container and display it
-        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
-        mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
-        mContainerViewModel.getContainer().observe(this, cont -> {
-            if (cont != null) {
-                mContainerItems = cont;
-                Log.d(TAG, "PA_Debug container id from factory:" + cont.container.getId());
-            }
+        try {
+            new AsyncOperationOnEntity<ItemTypeEntity>(getApplication(), new OnAsyncEventListener() {
+                @Override
+                public void onSuccess(List result) {
+                    Log.d(TAG, "PA_Debug success getting Types");
+                    mItemTypes = result;
+                    updateView();
+                }
 
-        });
+                @Override
+                public void onFailure(Exception e) {
+                    Log.d(TAG, "PA_Debug error getting Types:" + e);
+                }
 
-//        //get ship name from ship id
-//        ShipViewModel.FactoryShip factory3 = new ShipViewModel.FactoryShip(getApplication(), mContainerItems.container.getShipId());
-//        mShipViewModel = ViewModelProviders.of(this, factory3).get(ShipViewModel.class);
-//        mShipViewModel.getShip().observe(this, ship -> {
-//            if (ship != null) {
-//                Log.d(TAG, "PA_Debug ship id from factory:" + mContainerItems.container.getShipId());
-//                shipNames.setText(ship.ship.getName());
-//            }
-//        });
+            }).execute(type);
 
-        /*if(mItemWithType != null){
-            containerName = findViewById(R.id.v_lm_item_view_container_name);
-            dockPosition = findViewById(R.id.v_lm_item_view_dock_position);
-            loadingStatus = findViewById(R.id.v_lm_item_view_loaded_status);
-            shipNames = findViewById(R.id.v_lm_item_view_view_ship_name);
-            shipNames.setText(mContainerWithItems.container.getShipId());
-            containerName.setText(mContainerItems.container.getName());
-            dockPosition.setText(mContainerItems.container.getDockPosition());
-            loadingStatus.setText(mContainerItems.container.getLoaded() + " ");
-
+        } catch (Exception e) {
+            Log.d(TAG, "PA_Debug error getting Types:" + e);
         }
 
-        items = findViewById(R.id.v_lm_item_view_category_tf);
-        items.setText(mItemWithType.itemType().getName());*/
+
+        //we retrieve item
+        if (itemId >= 0) {
+            ItemViewModel.FactoryItem factory = new ItemViewModel.FactoryItem(getApplication(), itemId);
+            mItemViewModel = ViewModelProviders.of(this, factory).get(ItemViewModel.class);
+            mItemViewModel.getItem().observe(this, item -> {
+                if (item != null) {
+                    mItemWithType = item;
+                    updateView();
+                }
+            });
+        }
+
+
+    }
+
+    private void updateView() {
+        //spinner generation
+        mSpinnerCategory = findViewById(R.id.ae_lm_item_category_spinner);
+        if (mItemTypes != null) {
+            int selectedItemType = 0;
+            String[] itemTypeNames = new String[mItemTypes.size()];
+
+            for (int i = 0; i < itemTypeNames.length; i++) {
+                itemTypeNames[i] = mItemTypes.get(i).getName();
+                if (mItemWithType != null) {
+                    if (mItemTypes.get(i).getName().equals(mItemWithType.itemType().getName())) {
+                        selectedItemType = i;
+                    }
+                }
+            }
+
+            itemTypeAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, itemTypeNames);
+            itemTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerCategory.setAdapter(itemTypeAdapter);
+            mSpinnerCategory.setSelection(selectedItemType);
+        }
+
+        mItemWeight = findViewById(R.id.ae_lm_item_weight);
+
+        if (mItemWithType != null) {
+            float itemWeight = mItemWithType.item.getWeightKg();
+            mItemWeight.setText(Float.toString(itemWeight) + " kg");
+        }
+
+    }
+
+    private void saveItem() {
+
+        String itemTypeName = mSpinnerCategory.getSelectedItem().toString();
+        int itemTypeSelected = 0;
+
+        for (ItemTypeEntity itemType : mItemTypes) {
+            if (itemType.getName().equals(itemTypeName)) {
+                itemTypeSelected = itemType.getId();
+                break;
+            }
+        }
+
+        mItemWeight.setError(null);
+        float weight = Float.parseFloat(mItemWeight.getText().toString());
+
+        if (weight <= 0)
+            mItemWeight.setError(getString(R.string.error_weight_empty));
+        else {
+
+            ItemEntity item = new ItemEntity(itemTypeSelected, weight, containerId);
+
+            if (mItemWithType != null) {
+                item.setId(mItemWithType.item.getId());
+            }
+            item.setOperationMode(OperationMode.Save);
+
+            new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+                @Override
+                public void onSuccess(List result) {
+                    Log.d(TAG, "PA_Debug updateShip: success");
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Log.d(TAG, "PA_Debug updateShip: failure", e);
+                    finish();
+                }
+            }).execute(item);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        getMenuInflater().inflate(R.menu.menu_ok, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-                Intent containerAddEdit = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
-                containerAddEdit.putExtra("itemId",mItemWithType.item.getId().toString());
-                Log.d(TAG, "PA_Debug item sent as intent to edit " + mItemWithType.item.getId());
-                startActivity(containerAddEdit);
+            case R.id.save:
+                saveItem();
                 return true;
             case android.R.id.home:
                 this.finish();

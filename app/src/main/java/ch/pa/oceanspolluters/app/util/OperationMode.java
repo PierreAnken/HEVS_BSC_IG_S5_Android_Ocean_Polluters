@@ -4,5 +4,6 @@ public enum OperationMode {
     View,
     Edit,
     Delete,
-    Save
+    Save,
+    GetAll
 }
