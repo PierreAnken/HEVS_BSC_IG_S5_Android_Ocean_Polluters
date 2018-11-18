@@ -75,10 +75,17 @@ public class LoginActivity extends AppCompatActivity{
         super.onResume();
         //we disconnect user if connected
         ((BaseApp)getApplication()).disconnectUser();
+
+
         if(mPassword != null)
             mPassword.setText(null);
         if(mSpinner != null)
             mSpinner.setSelection(0);
+
+        if (BaseApp.NeedHomeRefresh()) {
+            BaseApp.setHomeNeedRefresh(false);
+            recreate();
+        }
 
     }
 

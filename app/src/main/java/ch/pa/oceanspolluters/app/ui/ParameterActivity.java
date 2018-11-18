@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.util.LanguageHelper;
 
@@ -76,6 +77,7 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
         if (!currentLang.equals(languageSpinner)) {
             LanguageHelper.storeUserLanguage(this, languageSpinner);
             LanguageHelper.updateLanguage(this, languageSpinner);
+            ((BaseApp) getApplication()).setHomeNeedRefresh(true);
             this.recreate();
         }
     }

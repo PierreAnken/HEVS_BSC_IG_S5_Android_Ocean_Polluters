@@ -20,6 +20,17 @@ import ch.pa.oceanspolluters.app.util.LanguageHelper;
 public class BaseApp extends Application {
 
     private static UserEntity currentUser;
+    private static boolean HomeNeedRefresh = false;
+
+    //user after language change
+    public static boolean NeedHomeRefresh() {
+        return HomeNeedRefresh;
+    }
+
+    public static void setHomeNeedRefresh(boolean homeNeedRefresh) {
+        HomeNeedRefresh = homeNeedRefresh;
+    }
+
 
     public LayoutInflater getLayoutInflater(){
         return (LayoutInflater)getApplicationContext().getSystemService
