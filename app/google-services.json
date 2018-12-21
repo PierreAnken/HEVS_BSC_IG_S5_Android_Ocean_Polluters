@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "45864044951",
+    "firebase_url": "https://oceanspolluters-e196f.firebaseio.com",
+    "project_id": "oceanspolluters-e196f",
+    "storage_bucket": "oceanspolluters-e196f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45864044951:android:dda8f17eeac6cced",
+        "android_client_info": {
+          "package_name": "ch.pa.oceanspolluters.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45864044951-kk1ndgovjh2jfrd0d0r8a4g5lo0vlmb5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.pa.oceanspolluters.app",
+            "certificate_hash": "cc497aee2313b415e344d84841272dcd788cdd74"
+          }
+        },
+        {
+          "client_id": "45864044951-02si8o1mbht0dkbuavavbmuc263nj1fh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_dRJhb5KHPOa58JgTX06MpF_O9NEnpaM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45864044951-9j00vtioa25uabvbp35oo69tioj96f3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

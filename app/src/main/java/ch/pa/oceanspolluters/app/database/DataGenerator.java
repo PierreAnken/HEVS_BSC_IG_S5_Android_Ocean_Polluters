@@ -1,6 +1,13 @@
 package ch.pa.oceanspolluters.app.database;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +29,66 @@ import ch.pa.oceanspolluters.app.util.Roles;
 public class DataGenerator {
 
     private static final String TAG = "DataGenerator";
+    private static  DatabaseReference fireBaseDB = FirebaseDatabase.getInstance().getReference();
 
-    public static void generateBaseData(AppDatabase db) {
+    public static void initFireBaseData(){
+        initUsers();
+        initPorts();
+    }
+    private static void initUsers(){
+        //check/init users
+        fireBaseDB.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount() != 3){
+                    fireBaseDB.child("users").removeValue();
+                    List<UserEntity> users = new ArrayList<>();
+
+                    users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
+                    users.add(new UserEntity("Docker Roth", 1234, Roles.Docker.id()));
+                    users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
+
+                    for (UserEntity user:users) {
+                        fireBaseDB.child("users").push().setValue(user);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : error init users");
+            }
+        });
+    }
+
+    private static void initPorts(){
+        //check/init users
+        fireBaseDB.child("ports").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount() != 5){
+                    fireBaseDB.child("ports").removeValue();
+                    List<PortEntity> ports = new ArrayList<>();
+
+                    ports.add(new PortEntity("Rotterdam"));
+                    ports.add(new PortEntity("Anvers"));
+                    ports.add(new PortEntity("Hambourg"));
+                    ports.add(new PortEntity("Algésiras"));
+                    ports.add(new PortEntity("Marseille"));
+
+                    for (PortEntity port:ports) {
+                        fireBaseDB.child("ports").push().setValue(port);
+                        System.out.println("PA_DEBUG : error init ports");
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    static void generateBaseData(AppDatabase db) {
 
         Log.d(TAG, "PA_Debug start of random data generation");
 
@@ -35,6 +100,7 @@ public class DataGenerator {
         users.add(new UserEntity("Docker Roth", 1234, Roles.Docker.id()));
         users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
 
+        //insert into local db
         db.userDao().insertAll(users);
 
 

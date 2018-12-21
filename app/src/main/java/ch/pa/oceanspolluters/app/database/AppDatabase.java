@@ -8,6 +8,8 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.concurrent.Executors;
 
 import ch.pa.oceanspolluters.app.database.dao.ContainerDao;

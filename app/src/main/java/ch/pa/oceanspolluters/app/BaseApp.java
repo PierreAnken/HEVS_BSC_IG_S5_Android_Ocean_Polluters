@@ -7,7 +7,10 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import ch.pa.oceanspolluters.app.database.AppDatabase;
+import ch.pa.oceanspolluters.app.database.DataGenerator;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.repository.ContainerRepository;
 import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
@@ -40,6 +43,7 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DataGenerator.initFireBaseData();
         AppDatabase.getInstance(getApplicationContext());
         initLanguage();
     }
