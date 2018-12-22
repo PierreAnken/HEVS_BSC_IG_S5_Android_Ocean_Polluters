@@ -30,11 +30,29 @@ public class DataGenerator {
 
     private static final String TAG = "DataGenerator";
     private static  DatabaseReference fireBaseDB = FirebaseDatabase.getInstance().getReference();
+    //users - ports - ships - container
 
     public static void initFireBaseData(){
+        //we init all data in Cascade du to asynchrone mode of FireBase
         initUsers();
-        initPorts();
     }
+
+    private static void initShips(){
+        //check/init ships
+        fireBaseDB.child("ships").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount() != 8){
+                    fireBaseDB.child("ships").removeValue();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : error init users");
+            }
+        });
+    }
+
     private static void initUsers(){
         //check/init users
         fireBaseDB.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -51,6 +69,7 @@ public class DataGenerator {
                     for (UserEntity user:users) {
                         fireBaseDB.child("users").push().setValue(user);
                     }
+                    initPorts();
                 }
             }
             @Override
@@ -61,7 +80,7 @@ public class DataGenerator {
     }
 
     private static void initPorts(){
-        //check/init users
+        //check/init ports
         fireBaseDB.child("ports").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -102,7 +121,6 @@ public class DataGenerator {
 
         //insert into local db
         db.userDao().insertAll(users);
-
 
         //init ports
         db.portDao().deleteAll();
