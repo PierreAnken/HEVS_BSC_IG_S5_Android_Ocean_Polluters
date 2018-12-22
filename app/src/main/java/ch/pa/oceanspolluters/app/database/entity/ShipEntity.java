@@ -44,8 +44,30 @@ public class ShipEntity extends BaseEntity implements Ship {
     @ColumnInfo(name = "captain_id")
     private int captainId;
 
+    @ColumnInfo(name = "FB_captain_id")
+    private String FB_captainId;
+
     @ColumnInfo(name = "destination_port_id")
     private int destinationPortId;
+
+    public String getFB_captainId() {
+        return FB_captainId;
+    }
+
+    public void setFB_captainId(String FB_captainId) {
+        this.FB_captainId = FB_captainId;
+    }
+
+    public String getFB_destinationPortId() {
+        return FB_destinationPortId;
+    }
+
+    public void setFB_destinationPortId(String FB_destinationPortId) {
+        this.FB_destinationPortId = FB_destinationPortId;
+    }
+
+    @ColumnInfo(name = "FB_destination_port_id")
+    private String FB_destinationPortId;
 
     @ColumnInfo(name = "departure_date")
     private Date departureDate;
@@ -71,6 +93,14 @@ public class ShipEntity extends BaseEntity implements Ship {
         this.departureDate = departureDate;
     }
 
+    public ShipEntity(String name, float maxLoadKg, String captainIdFB, String destinationPortIdFB, Date departureDate) {
+        this.name = name;
+        this.maxLoadKg = maxLoadKg;
+        this.FB_captainId = captainIdFB;
+        this.FB_destinationPortId = destinationPortIdFB;
+        this.departureDate = departureDate;
+    }
+
     @Override
     public String getName(){return name;}
 
@@ -88,10 +118,10 @@ public class ShipEntity extends BaseEntity implements Ship {
     public int getCaptainId() {
         return captainId;
     }
-
     public void setCaptainId(int capitainId) {
         this.captainId = capitainId;
     }
+
 
     @Override
     public float getMaxLoadKg() {

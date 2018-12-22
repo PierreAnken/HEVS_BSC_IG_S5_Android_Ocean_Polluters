@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "45864044951-fpgce746bch0bst4gp414sd9072nbbf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.pa.oceanspolluters.app",
+            "certificate_hash": "bbc486fb813da4534f03e127e8dfb7fec1e3d7ab"
+          }
+        },
+        {
           "client_id": "45864044951-02si8o1mbht0dkbuavavbmuc263nj1fh.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -40,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "45864044951-9j00vtioa25uabvbp35oo69tioj96f3b.apps.googleusercontent.com",
+              "client_id": "45864044951-02si8o1mbht0dkbuavavbmuc263nj1fh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

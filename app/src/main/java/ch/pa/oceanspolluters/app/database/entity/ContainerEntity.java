@@ -39,6 +39,18 @@ public class ContainerEntity extends BaseEntity implements Container {
 
     @ColumnInfo(name = "ship_id")
     private int shipId;
+
+    public String getFB_shipId() {
+        return FB_shipId;
+    }
+
+    public void setFB_shipId(String FB_shipId) {
+        this.FB_shipId = FB_shipId;
+    }
+
+    @ColumnInfo(name = "FB_ship_id")
+    private String FB_shipId;
+
     private boolean loaded;
 
     @Ignore
@@ -51,6 +63,13 @@ public class ContainerEntity extends BaseEntity implements Container {
     public ContainerEntity(String name, String dockPosition, int shipId, boolean loaded) {
         this.dockPosition = dockPosition;
         this.shipId = shipId;
+        this.loaded = loaded;
+        this.name = name;
+    }
+
+    public ContainerEntity(String name, String dockPosition, String shipIdFB, boolean loaded) {
+        this.dockPosition = dockPosition;
+        this.FB_shipId = shipIdFB;
         this.loaded = loaded;
         this.name = name;
     }
@@ -79,7 +98,7 @@ public class ContainerEntity extends BaseEntity implements Container {
         this.name = name;
     }
 
-    @Override
+
     public int getShipId() {
         return shipId;
     }

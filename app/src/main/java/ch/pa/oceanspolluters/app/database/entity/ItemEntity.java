@@ -36,8 +36,23 @@ public class ItemEntity extends BaseEntity implements Item {
     @ColumnInfo(name = "e_item_id")
     private Integer id = null;
 
+    public void setContainerId(Integer containerId) {
+        this.containerId = containerId;
+    }
+
     @ColumnInfo(name = "container_id")
     private Integer containerId;
+
+    public String getFB_containerId() {
+        return FB_containerId;
+    }
+
+    public void setFB_containerId(String FB_containerId) {
+        this.FB_containerId = FB_containerId;
+    }
+
+    @ColumnInfo(name = "FB_container_id")
+    private String FB_containerId;
 
     @ColumnInfo(name = "weight_kg")
     private float weightKg;
@@ -45,16 +60,37 @@ public class ItemEntity extends BaseEntity implements Item {
     @ColumnInfo(name = "item_type_id")
     private int itemTypeId;
 
+    public String getFB_itemTypeId() {
+        return FB_itemTypeId;
+    }
+
+    public void setFB_itemTypeId(String FB_itemTypeId) {
+        this.FB_itemTypeId = FB_itemTypeId;
+    }
+
+    @ColumnInfo(name = "FB_item_type_id")
+    private String FB_itemTypeId;
+
     @Ignore
     public ItemEntity(@NonNull Item item) {
         weightKg = item.getWeightKg();
         containerId = getContainerId();
     }
 
+    public ItemEntity(){};
+
+    @Ignore
     public ItemEntity(int itemTypeId, float weightKg, int containerId) {
         this.weightKg = weightKg;
         this.containerId = containerId;
         this.itemTypeId = itemTypeId;
+    }
+
+    @Ignore
+    public ItemEntity(String itemTypeIdFB, float weightKg, String containerIdFB) {
+        this.weightKg = weightKg;
+        this.FB_containerId = containerIdFB;
+        this.FB_itemTypeId = itemTypeIdFB;
     }
 
     public int getItemTypeId() {

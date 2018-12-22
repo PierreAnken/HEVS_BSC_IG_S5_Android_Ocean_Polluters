@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0f0f19e3cd3f3de7d2555b830fe067b4",
+    "identityHash": "1387b6064832be7c9b945c4ad0a172fb",
     "entities": [
       {
         "tableName": "itemTypes",
@@ -70,7 +70,7 @@
       },
       {
         "tableName": "containers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_container_id` INTEGER PRIMARY KEY AUTOINCREMENT, `dock_position` TEXT, `name` TEXT, `ship_id` INTEGER NOT NULL, `loaded` INTEGER NOT NULL, FOREIGN KEY(`ship_id`) REFERENCES `ships`(`e_ship_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_container_id` INTEGER PRIMARY KEY AUTOINCREMENT, `dock_position` TEXT, `name` TEXT, `ship_id` INTEGER NOT NULL, `FB_ship_id` TEXT, `loaded` INTEGER NOT NULL, FOREIGN KEY(`ship_id`) REFERENCES `ships`(`e_ship_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -95,6 +95,12 @@
             "columnName": "ship_id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "FB_shipId",
+            "columnName": "FB_ship_id",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "loaded",
@@ -135,7 +141,7 @@
       },
       {
         "tableName": "items",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_id` INTEGER PRIMARY KEY AUTOINCREMENT, `container_id` INTEGER, `weight_kg` REAL NOT NULL, `item_type_id` INTEGER NOT NULL, FOREIGN KEY(`container_id`) REFERENCES `containers`(`e_container_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`item_type_id`) REFERENCES `itemTypes`(`e_item_type_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_item_id` INTEGER PRIMARY KEY AUTOINCREMENT, `container_id` INTEGER, `FB_container_id` TEXT, `weight_kg` REAL NOT NULL, `item_type_id` INTEGER NOT NULL, `FB_item_type_id` TEXT, FOREIGN KEY(`container_id`) REFERENCES `containers`(`e_container_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`item_type_id`) REFERENCES `itemTypes`(`e_item_type_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -150,6 +156,12 @@
             "notNull": false
           },
           {
+            "fieldPath": "FB_containerId",
+            "columnName": "FB_container_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "weightKg",
             "columnName": "weight_kg",
             "affinity": "REAL",
@@ -160,6 +172,12 @@
             "columnName": "item_type_id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "FB_itemTypeId",
+            "columnName": "FB_item_type_id",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -239,7 +257,7 @@
       },
       {
         "tableName": "ships",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_ship_id` INTEGER PRIMARY KEY AUTOINCREMENT, `ship_name` TEXT, `captain_id` INTEGER NOT NULL, `destination_port_id` INTEGER NOT NULL, `departure_date` INTEGER, `max_Load_Kg` REAL NOT NULL, FOREIGN KEY(`captain_id`) REFERENCES `users`(`e_user_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`destination_port_id`) REFERENCES `ports`(`e_port_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`e_ship_id` INTEGER PRIMARY KEY AUTOINCREMENT, `ship_name` TEXT, `captain_id` INTEGER NOT NULL, `FB_captain_id` TEXT, `destination_port_id` INTEGER NOT NULL, `FB_destination_port_id` TEXT, `departure_date` INTEGER, `max_Load_Kg` REAL NOT NULL, FOREIGN KEY(`captain_id`) REFERENCES `users`(`e_user_id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`destination_port_id`) REFERENCES `ports`(`e_port_id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -260,10 +278,22 @@
             "notNull": true
           },
           {
+            "fieldPath": "FB_captainId",
+            "columnName": "FB_captain_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "destinationPortId",
             "columnName": "destination_port_id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "FB_destinationPortId",
+            "columnName": "FB_destination_port_id",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "departureDate",
@@ -330,7 +360,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0f0f19e3cd3f3de7d2555b830fe067b4\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1387b6064832be7c9b945c4ad0a172fb\")"
     ]
   }
 }

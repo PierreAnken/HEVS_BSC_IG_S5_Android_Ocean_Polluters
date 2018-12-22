@@ -30,46 +30,29 @@ public class DataGenerator {
 
     private static final String TAG = "DataGenerator";
     private static  DatabaseReference fireBaseDB = FirebaseDatabase.getInstance().getReference();
+    private static List<UserEntity> users;
+    private static List<PortEntity> ports;
+    private static List<ShipEntity> ships;
+    private static List<ItemTypeEntity> itemTypes;
+    private static List<ContainerEntity> containers;
+    private static List<ItemEntity> items;
+
     //users - ports - ships - container
+
 
     public static void initFireBaseData(){
         //we init all data in Cascade du to asynchrone mode of FireBase
-        initUsers();
-    }
-
-    private static void initShips(){
-        //check/init ships
-        fireBaseDB.child("ships").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if(snapshot.getChildrenCount() != 8){
-                    fireBaseDB.child("ships").removeValue();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("PA_DEBUG : error init users");
-            }
-        });
-    }
-
-    private static void initUsers(){
-        //check/init users
         fireBaseDB.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.getChildrenCount() != 3){
-                    fireBaseDB.child("users").removeValue();
-                    List<UserEntity> users = new ArrayList<>();
 
-                    users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
-                    users.add(new UserEntity("Docker Roth", 1234, Roles.Docker.id()));
-                    users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
-
-                    for (UserEntity user:users) {
-                        fireBaseDB.child("users").push().setValue(user);
-                    }
-                    initPorts();
+                    initUsersFB();
+                    initPortsFB();
+                    initShipsFB();
+                    initContainersFB();
+                    initItemTypesFB();
+                    initItemsFB();
                 }
             }
             @Override
@@ -79,32 +62,153 @@ public class DataGenerator {
         });
     }
 
-    private static void initPorts(){
-        //check/init ports
-        fireBaseDB.child("ports").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if(snapshot.getChildrenCount() != 5){
-                    fireBaseDB.child("ports").removeValue();
-                    List<PortEntity> ports = new ArrayList<>();
 
-                    ports.add(new PortEntity("Rotterdam"));
-                    ports.add(new PortEntity("Anvers"));
-                    ports.add(new PortEntity("Hambourg"));
-                    ports.add(new PortEntity("Algésiras"));
-                    ports.add(new PortEntity("Marseille"));
+    private static void initUsersFB(){
+        //check/init users
+        fireBaseDB.child("users").removeValue();
+        users = new ArrayList<>();
 
-                    for (PortEntity port:ports) {
-                        fireBaseDB.child("ports").push().setValue(port);
-                        System.out.println("PA_DEBUG : error init ports");
-                    }
+        users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
+        users.add(new UserEntity("Docker Roth", 1234, Roles.Docker.id()));
+        users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
+
+        for (UserEntity user:users) {
+            user.setFB_Key(fireBaseDB.child("users").push().getKey());
+            fireBaseDB.child("users").child(user.getFB_Key()).setValue(user);
+        }
+    }
+
+    private static void initPortsFB(){
+
+        fireBaseDB.child("ports").removeValue();
+        ports = new ArrayList<>();
+
+        ports.add(new PortEntity("Rotterdam"));
+        ports.add(new PortEntity("Anvers"));
+        ports.add(new PortEntity("Hambourg"));
+        ports.add(new PortEntity("Algésiras"));
+        ports.add(new PortEntity("Marseille"));
+
+        for (PortEntity port:ports) {
+            port.setFB_Key(fireBaseDB.child("ports").push().getKey());
+            fireBaseDB.child("ports").child(port.getFB_Key()).setValue(port);
+        }
+    }
+
+    private static void initShipsFB(){
+        fireBaseDB.child("ships").removeValue();
+        ships = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.add(Calendar.HOUR, 6);
+        ships.add(new ShipEntity("Manila Maersk",  20568, users.get(0).getFB_Key(), ports.get(0).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 125);
+        ships.add(new ShipEntity("Ever Given",  20338, users.get(0).getFB_Key(), ports.get(1).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 132);
+        ships.add(new ShipEntity("MSC Mirjam",  19462, users.get(0).getFB_Key(), ports.get(2).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 224);
+        ships.add(new ShipEntity("Al Nefud",  18800, users.get(0).getFB_Key(), ports.get(3).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 131);
+        ships.add(new ShipEntity("MSC Diana",  19462, users.get(0).getFB_Key(), ports.get(4).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 186);
+        ships.add(new ShipEntity("YM Wellness",  14080, users.get(0).getFB_Key(), ports.get(3).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 236);
+        ships.add(new ShipEntity("Tihama",  18800, users.get(0).getFB_Key(), ports.get(0).getFB_Key(), calendar.getTime()));
+
+        calendar.add(Calendar.HOUR, 203);
+        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, users.get(0).getFB_Key(), ports.get(1).getFB_Key(), calendar.getTime()));
+
+        for (ShipEntity ship:ships) {
+            ship.setFB_Key(fireBaseDB.child("ships").push().getKey());
+            fireBaseDB.child("ships").child(ship.getFB_Key()).setValue(ship);
+        }
+    }
+
+    private static void initContainersFB(){
+
+        fireBaseDB.child("containers").removeValue();
+        containers = new ArrayList<>();
+
+        for(int i = 0; i<100; i++){
+
+            String shipIdFB = ships.get((int)Math.floor(Math.random()*ships.size())).getFB_Key();
+            boolean loaded = Math.random()>0.3;
+
+            char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+            char[] numbers = "0123456789".toCharArray();
+
+            StringBuilder dockPosition = new StringBuilder();
+            StringBuilder containerName = new StringBuilder();
+
+            for(int j = 0; j<8; j++){
+                containerName.append(alphabet[(int)Math.floor(Math.random()*alphabet.length)]);
+
+                if(j == 2)
+                    dockPosition.append(alphabet[(int)Math.floor(Math.random()*alphabet.length)]);
+                else if(j < 4){
+                    dockPosition.append(numbers[(int)Math.floor(Math.random()*numbers.length)]);
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+            containers.add(new ContainerEntity(containerName.toString(),dockPosition.toString(),shipIdFB,loaded));
+
+        }
+
+        for (ContainerEntity container:containers) {
+            container.setFB_Key(fireBaseDB.child("containers").push().getKey());
+            fireBaseDB.child("containers").child(container.getFB_Key()).setValue(container);
+        }
+    }
+
+    private static void initItemTypesFB(){
+
+        fireBaseDB.child("itemTypes").removeValue();
+        itemTypes = new ArrayList<>();
+        itemTypes.add(new ItemTypeEntity("Food"));
+        itemTypes.add(new ItemTypeEntity("Clothes"));
+        itemTypes.add(new ItemTypeEntity("Furnitures"));
+        itemTypes.add(new ItemTypeEntity("Weapons"));
+        itemTypes.add(new ItemTypeEntity("Ore"));
+
+        for (ItemTypeEntity itemType:itemTypes) {
+            itemType.setFB_Key(fireBaseDB.child("itemTypes").push().getKey());
+            fireBaseDB.child("itemTypes").child(itemType.getFB_Key()).setValue(itemType);
+        }
+    }
+
+    private static void initItemsFB(){
+
+        items = new ArrayList<>();
+        fireBaseDB.child("items").removeValue();
+
+        //for each container
+        for(int i = 0; i<containers.size(); i++){
+
+            //we add 3 - 10 random items to container
+            int numberItem = (int)Math.floor(Math.random()*7+3);
+
+            for(int j = 0; j<numberItem; j++){
+
+                String itemTypeIdFB = itemTypes.get((int) Math.floor(Math.random() * itemTypes.size())).getFB_Key();
+                float weight = (float)Math.random()*50;
+
+                ItemEntity item = new ItemEntity(itemTypeIdFB, weight, containers.get(i).getFB_Key());
+
+                items.add(item);
+            }
+        }
+
+        for (ItemEntity item:items) {
+            item.setFB_Key(fireBaseDB.child("items").push().getKey());
+            fireBaseDB.child("items").child(item.getFB_Key()).setValue(item);
+        }
     }
 
     static void generateBaseData(AppDatabase db) {
@@ -134,7 +238,7 @@ public class DataGenerator {
 
         db.portDao().insertAll(ports);
 
-        List<PortEntity> portsWithId = db.portDao().getAll();
+        ports = db.portDao().getAll();
 
         //init ships
         db.shipDao().deleteAll();
@@ -144,35 +248,35 @@ public class DataGenerator {
         Calendar calendar = Calendar.getInstance();
 
         calendar.add(Calendar.HOUR, 6);
-        ships.add(new ShipEntity("Manila Maersk",  20568, captain.getId(), portsWithId.get(0).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Manila Maersk",  20568, users.get(0).getId(), ports.get(0).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 125);
-        ships.add(new ShipEntity("Ever Given",  20338, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Ever Given",  20338, users.get(0).getId(), ports.get(1).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 132);
-        ships.add(new ShipEntity("MSC Mirjam",  19462, captain.getId(), portsWithId.get(2).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("MSC Mirjam",  19462, users.get(0).getId(), ports.get(2).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 224);
-        ships.add(new ShipEntity("Al Nefud",  18800, captain.getId(), portsWithId.get(3).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Al Nefud",  18800, users.get(0).getId(), ports.get(3).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 131);
-        ships.add(new ShipEntity("MSC Diana",  19462, captain.getId(), portsWithId.get(4).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("MSC Diana",  19462, users.get(0).getId(), ports.get(4).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 186);
-        ships.add(new ShipEntity("YM Wellness",  14080, captain.getId(), portsWithId.get(3).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("YM Wellness",  14080, users.get(0).getId(), ports.get(3).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 236);
-        ships.add(new ShipEntity("Tihama",  18800, captain.getId(), portsWithId.get(0).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("Tihama",  18800, users.get(0).getId(), ports.get(0).getId(), calendar.getTime()));
 
         calendar.add(Calendar.HOUR, 203);
-        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, captain.getId(), portsWithId.get(1).getId(), calendar.getTime()));
+        ships.add(new ShipEntity("CMA CGM Zheng He",  17859, users.get(0).getId(), ports.get(1).getId(), calendar.getTime()));
 
         db.shipDao().insertAll(ships);
         List<ShipWithContainer> shipsWithId = db.shipDao().getAll();
 
         //init containers
         db.containerDao().deleteAll();
-        List<ContainerEntity> containers = new ArrayList<>();
+        containers = new ArrayList<>();
 
         //we add 30 containers randomly to ships
         for(int i = 0; i<100; i++){
@@ -204,8 +308,7 @@ public class DataGenerator {
 
         //init itemTypes
         db.itemTypeDao().deleteAll();
-        List<ItemTypeEntity> itemTypes = new ArrayList<>();
-
+        itemTypes = new ArrayList<>();
         itemTypes.add(new ItemTypeEntity("Food"));
         itemTypes.add(new ItemTypeEntity("Clothes"));
         itemTypes.add(new ItemTypeEntity("Furnitures"));
