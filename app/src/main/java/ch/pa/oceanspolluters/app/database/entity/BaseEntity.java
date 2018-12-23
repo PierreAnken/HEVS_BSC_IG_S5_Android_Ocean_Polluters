@@ -21,7 +21,6 @@ public abstract class BaseEntity {
     @Exclude
     @Ignore
     private String FB_Key;
-
     public String getFB_Key(){return FB_Key;}
     public void setFB_Key(String fb_key){this.FB_Key = fb_key;}
 }
