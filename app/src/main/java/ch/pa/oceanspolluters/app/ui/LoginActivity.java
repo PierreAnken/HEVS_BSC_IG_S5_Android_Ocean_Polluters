@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -19,7 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
@@ -40,6 +47,7 @@ public class LoginActivity extends AppCompatActivity{
     private EditText mPassword;
     private Spinner mSpinner;
     private List<UserEntity> users;
+    private static DatabaseReference fireBaseDB = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +62,7 @@ public class LoginActivity extends AppCompatActivity{
 
         // we set a bit of delay to see the loading screen
 
-        UserListViewModel.FactoryUsers factoryUsers = new UserListViewModel.FactoryUsers(getApplication());
+  /*      UserListViewModel.FactoryUsers factoryUsers = new UserListViewModel.FactoryUsers(getApplication());
         UserListViewModel mUsers = ViewModelProviders.of(this, factoryUsers).get(UserListViewModel.class);
         mUsers.getUsers().observe(this, usersList -> {
             if (usersList != null) {
@@ -67,6 +75,30 @@ public class LoginActivity extends AppCompatActivity{
                     }
                 }, 2500);
             }
+        });*/
+
+        //as user dont change we only load them once
+        fireBaseDB.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                users = new ArrayList<UserEntity>();
+
+                for (DataSnapshot userSnapshot: snapshot.getChildren()) {
+                    UserEntity user = userSnapshot.getValue(UserEntity.class);
+                    user.setFB_Key(userSnapshot.getKey());
+                    users.add(user);
+                }
+                generateLoginPage();
+                new Handler().postDelayed(() -> {
+
+                }, 2500);
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : error init users");
+            }
         });
     }
     @Override
@@ -74,7 +106,6 @@ public class LoginActivity extends AppCompatActivity{
         super.onResume();
         //we disconnect user if connected
         ((BaseApp)getApplication()).disconnectUser();
-
 
         if(mPassword != null)
             mPassword.setText(null);

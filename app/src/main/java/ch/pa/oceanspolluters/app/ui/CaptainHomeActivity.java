@@ -3,6 +3,8 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +12,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
+import ch.pa.oceanspolluters.app.database.entity.PortEntity;
+import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
+import ch.pa.oceanspolluters.app.database.entity.UserEntity;
+import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
@@ -26,7 +39,7 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 public class CaptainHomeActivity extends AppCompatActivity {
 
     private static final String TAG = "CaptainActivity";
-
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
     private List<ShipWithContainer> mShipsWithContainer;
     private RecyclerAdapter<ShipWithContainer> mAdapter;
 
@@ -56,17 +69,35 @@ public class CaptainHomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         //get ships from captain
-        int idCaptain = ((BaseApp)getApplication()).getCurrentUser().getId();
-        mShipsWithContainer = new ArrayList<>();
+        String idCaptainFB = ((BaseApp)getApplication()).getCurrentUser().getFB_Key();
 
-        ShipListViewModel.FactoryShips factory = new ShipListViewModel.FactoryShips(getApplication(), idCaptain);
-        ShipListViewModel mShipsFromCaptain = ViewModelProviders.of(this, factory).get(ShipListViewModel.class);
-        mShipsFromCaptain.getShips().observe(this, shipsWithContainer -> {
-            if (shipsWithContainer != null) {
-                mShipsWithContainer = shipsWithContainer;
+        Query captainShipQ = fireBaseDB.getReference("ships")
+                .orderByChild("fb_captainId")
+                .equalTo(idCaptainFB);
+
+        captainShipQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                mShipsWithContainer = new ArrayList<>();
+
+                for (DataSnapshot shipSnapshot: snapshot.getChildren()) {
+
+                    //get ship
+                    ShipWithContainer shipWithContainer = new ShipWithContainer();
+                    shipWithContainer.ship = shipSnapshot.getValue(ShipEntity.class);
+                    shipWithContainer.captain = shipSnapshot.child("captain").getValue(UserEntity.class);
+                    shipWithContainer.port = shipSnapshot.child("port").getValue(PortEntity.class);
+                    mShipsWithContainer.add(shipWithContainer);
+                }
                 mAdapter.setData(mShipsWithContainer);
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : with loading captain ships");
+            }
         });
+
         recyclerView.setAdapter(mAdapter);
     }
 

@@ -75,6 +75,7 @@ public class ShipEntity extends BaseEntity implements Ship {
     @ColumnInfo(name = "max_Load_Kg")
     private float maxLoadKg;
 
+    public ShipEntity(){}
 
     @Ignore
     public ShipEntity(@NonNull Ship ship) {
@@ -92,7 +93,7 @@ public class ShipEntity extends BaseEntity implements Ship {
         this.destinationPortId = destinationPortId;
         this.departureDate = departureDate;
     }
-
+    @Ignore
     public ShipEntity(String name, float maxLoadKg, String captainIdFB, String destinationPortIdFB, Date departureDate) {
         this.name = name;
         this.maxLoadKg = maxLoadKg;

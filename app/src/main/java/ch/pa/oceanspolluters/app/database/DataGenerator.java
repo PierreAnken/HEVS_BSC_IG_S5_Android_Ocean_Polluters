@@ -29,7 +29,7 @@ import ch.pa.oceanspolluters.app.util.Roles;
 public class DataGenerator {
 
     private static final String TAG = "DataGenerator";
-    private static  DatabaseReference fireBaseDB = FirebaseDatabase.getInstance().getReference();
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
     private static List<UserEntity> users;
     private static List<PortEntity> ports;
     private static List<ShipEntity> ships;
@@ -41,16 +41,19 @@ public class DataGenerator {
 
 
     public static void initFireBaseData(){
-        //we init all data in Cascade du to asynchrone mode of FireBase
-        fireBaseDB.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        fireBaseDB.getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.getChildrenCount() != 3){
+                    //base items
+                    fireBaseDB.getReference().removeValue();
+                    initItemTypesFB();
                     initUsersFB();
                     initPortsFB();
+
+                    //pojo
                     initShipsFB();
                     initContainersFB();
-                    initItemTypesFB();
                     initItemsFB();
                 }
             }
@@ -62,9 +65,26 @@ public class DataGenerator {
     }
 
 
+    private static void initItemTypesFB(){
+
+        fireBaseDB.getReference().child("itemTypes").removeValue();
+        itemTypes = new ArrayList<>();
+        itemTypes.add(new ItemTypeEntity("Food"));
+        itemTypes.add(new ItemTypeEntity("Clothes"));
+        itemTypes.add(new ItemTypeEntity("Furnitures"));
+        itemTypes.add(new ItemTypeEntity("Weapons"));
+        itemTypes.add(new ItemTypeEntity("Ore"));
+
+        for (ItemTypeEntity itemType:itemTypes) {
+            String key = fireBaseDB.getReference().child("itemTypes").push().getKey();
+            fireBaseDB.getReference().child("itemTypes").child(key).setValue(itemType);
+            itemType.setFB_Key(key);
+        }
+    }
+
     private static void initUsersFB(){
         //check/init users
-        fireBaseDB.child("users").removeValue();
+        fireBaseDB.getReference().child("users").removeValue();
         users = new ArrayList<>();
 
         users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
@@ -72,15 +92,15 @@ public class DataGenerator {
         users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
 
         for (UserEntity user:users) {
-            String key = fireBaseDB.child("users").push().getKey();
-            fireBaseDB.child("users").child(key).setValue(user);
+            String key = fireBaseDB.getReference().child("users").push().getKey();
+            fireBaseDB.getReference().child("users").child(key).setValue(user);
             user.setFB_Key(key);
         }
     }
 
     private static void initPortsFB(){
 
-        fireBaseDB.child("ports").removeValue();
+        fireBaseDB.getReference().child("ports").removeValue();
         ports = new ArrayList<>();
 
         ports.add(new PortEntity("Rotterdam"));
@@ -90,14 +110,14 @@ public class DataGenerator {
         ports.add(new PortEntity("Marseille"));
 
         for (PortEntity port:ports) {
-            String key = fireBaseDB.child("ports").push().getKey();
-            fireBaseDB.child("ports").child(key).setValue(port);
+            String key = fireBaseDB.getReference().child("ports").push().getKey();
+            fireBaseDB.getReference().child("ports").child(key).setValue(port);
             port.setFB_Key(key);
         }
     }
 
     private static void initShipsFB(){
-        fireBaseDB.child("ships").removeValue();
+
         ships = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
@@ -128,15 +148,26 @@ public class DataGenerator {
 
         for (ShipEntity ship:ships) {
 
-            String key = fireBaseDB.child("ships").push().getKey();
-            fireBaseDB.child("ships").child(key).setValue(ship);
+            //set the ship
+            String key = fireBaseDB.getReference().child("ships").push().getKey();
+            fireBaseDB.getReference().child("ships").child(key).setValue(ship);
             ship.setFB_Key(key);
+
+            //add the captain
+            fireBaseDB.getReference("ships/"+ship.getFB_Key()+"/captain").setValue(users.get(0));
+
+            //add the port
+            for(PortEntity port : ports){
+                if(port.getFB_Key().equals(ship.getFB_destinationPortId())){
+                fireBaseDB.getReference("ships/"+ship.getFB_Key()+"/port").setValue(port);
+                break;
+                }
+            }
         }
     }
 
     private static void initContainersFB(){
 
-        fireBaseDB.child("containers").removeValue();
         containers = new ArrayList<>();
 
         for(int i = 0; i<100; i++){
@@ -165,33 +196,17 @@ public class DataGenerator {
         }
 
         for (ContainerEntity container:containers) {
-            String key = fireBaseDB.child("containers").push().getKey();
-            fireBaseDB.child("containers").child(key).setValue(container);
+
+            String key = fireBaseDB.getReference("ships/"+container.getFB_shipId()+"/containers").push().getKey();
+            fireBaseDB.getReference("ships/"+container.getFB_shipId()+"/containers/"+key).setValue(container);
             container.setFB_Key(key);
         }
     }
 
-    private static void initItemTypesFB(){
-
-        fireBaseDB.child("itemTypes").removeValue();
-        itemTypes = new ArrayList<>();
-        itemTypes.add(new ItemTypeEntity("Food"));
-        itemTypes.add(new ItemTypeEntity("Clothes"));
-        itemTypes.add(new ItemTypeEntity("Furnitures"));
-        itemTypes.add(new ItemTypeEntity("Weapons"));
-        itemTypes.add(new ItemTypeEntity("Ore"));
-
-        for (ItemTypeEntity itemType:itemTypes) {
-            String key = fireBaseDB.child("itemTypes").push().getKey();
-            fireBaseDB.child("itemTypes").child(key).setValue(itemType);
-            itemType.setFB_Key(key);
-        }
-    }
 
     private static void initItemsFB(){
 
         items = new ArrayList<>();
-        fireBaseDB.child("items").removeValue();
 
         //for each container
         for(int i = 0; i<containers.size(); i++){
@@ -201,19 +216,21 @@ public class DataGenerator {
 
             for(int j = 0; j<numberItem; j++){
 
-                String itemTypeIdFB = itemTypes.get((int) Math.floor(Math.random() * itemTypes.size())).getFB_Key();
+                int idArrayType = (int) Math.floor(Math.random() * itemTypes.size());
+                String itemTypeIdFB = itemTypes.get(idArrayType).getFB_Key();
                 float weight = (float)Math.random()*50;
 
                 ItemEntity item = new ItemEntity(itemTypeIdFB, weight, containers.get(i).getFB_Key());
 
+                String itemKey = fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items").push().getKey();
+                fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items/"+itemKey).setValue(item);
+                item.setFB_Key(itemKey);
+
+                //set itemType
+                fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items/"+itemKey+"/itemType").setValue(itemTypes.get(idArrayType));
+
                 items.add(item);
             }
-        }
-
-        for (ItemEntity item:items) {
-            String key = fireBaseDB.child("items").push().getKey();
-            fireBaseDB.child("items").child(key).setValue(item);
-            item.setFB_Key(key);
         }
     }
 
