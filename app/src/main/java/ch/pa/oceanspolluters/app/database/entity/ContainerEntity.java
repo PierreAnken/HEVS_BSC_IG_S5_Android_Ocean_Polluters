@@ -74,6 +74,8 @@ public class ContainerEntity extends BaseEntity implements Container {
         this.name = name;
     }
 
+    public ContainerEntity(){}
+
     @Override
     public Integer getId() {
         return id;

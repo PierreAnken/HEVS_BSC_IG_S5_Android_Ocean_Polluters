@@ -76,9 +76,8 @@ public class DataGenerator {
         itemTypes.add(new ItemTypeEntity("Ore"));
 
         for (ItemTypeEntity itemType:itemTypes) {
-            String key = fireBaseDB.getReference().child("itemTypes").push().getKey();
-            fireBaseDB.getReference().child("itemTypes").child(key).setValue(itemType);
-            itemType.setFB_Key(key);
+            itemType.setFB_Key(fireBaseDB.getReference().child("itemTypes").push().getKey());
+            fireBaseDB.getReference().child("itemTypes").child(itemType.getFB_Key()).setValue(itemType);
         }
     }
 
@@ -92,9 +91,8 @@ public class DataGenerator {
         users.add(new UserEntity("Logistic Manager Eralde", 1234, Roles.LogisticManager.id()));
 
         for (UserEntity user:users) {
-            String key = fireBaseDB.getReference().child("users").push().getKey();
-            fireBaseDB.getReference().child("users").child(key).setValue(user);
-            user.setFB_Key(key);
+            user.setFB_Key( fireBaseDB.getReference().child("users").push().getKey());
+            fireBaseDB.getReference().child("users").child(user.getFB_Key()).setValue(user);
         }
     }
 
@@ -110,9 +108,8 @@ public class DataGenerator {
         ports.add(new PortEntity("Marseille"));
 
         for (PortEntity port:ports) {
-            String key = fireBaseDB.getReference().child("ports").push().getKey();
-            fireBaseDB.getReference().child("ports").child(key).setValue(port);
-            port.setFB_Key(key);
+            port.setFB_Key(fireBaseDB.getReference().child("ports").push().getKey());
+            fireBaseDB.getReference().child("ports").child(port.getFB_Key()).setValue(port);
         }
     }
 
@@ -149,9 +146,8 @@ public class DataGenerator {
         for (ShipEntity ship:ships) {
 
             //set the ship
-            String key = fireBaseDB.getReference().child("ships").push().getKey();
-            fireBaseDB.getReference().child("ships").child(key).setValue(ship);
-            ship.setFB_Key(key);
+            ship.setFB_Key(fireBaseDB.getReference().child("ships").push().getKey());
+            fireBaseDB.getReference().child("ships").child(ship.getFB_Key()).setValue(ship);
 
             //add the captain
             fireBaseDB.getReference("ships/"+ship.getFB_Key()+"/captain").setValue(users.get(0));
@@ -197,9 +193,8 @@ public class DataGenerator {
 
         for (ContainerEntity container:containers) {
 
-            String key = fireBaseDB.getReference("ships/"+container.getFB_shipId()+"/containers").push().getKey();
-            fireBaseDB.getReference("ships/"+container.getFB_shipId()+"/containers/"+key).setValue(container);
-            container.setFB_Key(key);
+            container.setFB_Key(fireBaseDB.getReference("ships/"+container.getFB_shipId()+"/containers").push().getKey());
+            fireBaseDB.getReference("ships/"+container.getFB_shipId()+"/containers/"+container.getFB_Key()).setValue(container);
         }
     }
 
@@ -222,12 +217,11 @@ public class DataGenerator {
 
                 ItemEntity item = new ItemEntity(itemTypeIdFB, weight, containers.get(i).getFB_Key());
 
-                String itemKey = fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items").push().getKey();
-                fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items/"+itemKey).setValue(item);
-                item.setFB_Key(itemKey);
+                item.setFB_Key(fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items").push().getKey());
+                fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items/"+item.getFB_Key()).setValue(item);
 
                 //set itemType
-                fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items/"+itemKey+"/itemType").setValue(itemTypes.get(idArrayType));
+                fireBaseDB.getReference("ships/"+containers.get(i).getFB_shipId()+"/containers/"+containers.get(i).getFB_Key()+"/items/"+item.getFB_Key()+"/itemType").setValue(itemTypes.get(idArrayType));
 
                 items.add(item);
             }

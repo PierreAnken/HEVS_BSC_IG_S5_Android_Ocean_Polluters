@@ -54,13 +54,13 @@ public class CaptainHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
-                DisplayShip(OperationMode.View, mShipsWithContainer.get(position).ship.getId());
+                DisplayShip(OperationMode.View, mShipsWithContainer.get(position).ship.getFB_Key());
             }
 
             @Override
             public void onItemLongClick(int position) {
                 Log.d(TAG, "PA_Debug long clicked position:" + position);
-                DisplayShip(OperationMode.Edit, mShipsWithContainer.get(position).ship.getId());
+                DisplayShip(OperationMode.Edit, mShipsWithContainer.get(position).ship.getFB_Key());
             }
         }, ViewType.Captain_Home);
 
@@ -80,16 +80,10 @@ public class CaptainHomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
 
                 mShipsWithContainer = new ArrayList<>();
-
                 for (DataSnapshot shipSnapshot: snapshot.getChildren()) {
-
-                    //get ship
-                    ShipWithContainer shipWithContainer = new ShipWithContainer();
-                    shipWithContainer.ship = shipSnapshot.getValue(ShipEntity.class);
-                    shipWithContainer.captain = shipSnapshot.child("captain").getValue(UserEntity.class);
-                    shipWithContainer.port = shipSnapshot.child("port").getValue(PortEntity.class);
-                    mShipsWithContainer.add(shipWithContainer);
+                    mShipsWithContainer.add(ShipWithContainer.FillShipFromSnap(shipSnapshot));
                 }
+                mShipsWithContainer.sort((o1, o2) -> o1.ship.getDepartureDate().getTime() > o2.ship.getDepartureDate().getTime()? 1 : -1);
                 mAdapter.setData(mShipsWithContainer);
             }
             @Override
@@ -101,7 +95,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void DisplayShip(OperationMode mode, int shipId){
+    private void DisplayShip(OperationMode mode, String shipIdFB){
 
         Intent shipView;
 
@@ -110,8 +104,8 @@ public class CaptainHomeActivity extends AppCompatActivity {
         else
             shipView = new Intent(getApplicationContext(), CaptainShipAddEditActivity.class);
 
-        shipView.putExtra("shipId",Integer.toString(shipId));
-        Log.d(TAG, "PA_Debug ship id to edit:" + Integer.toString(shipId));
+        shipView.putExtra("shipIdFB",shipIdFB);
+        Log.d(TAG, "PA_Debug ship id to edit:" + shipIdFB);
         startActivity(shipView);
     }
 
@@ -125,7 +119,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                DisplayShip(OperationMode.Edit, -1);
+                DisplayShip(OperationMode.Edit, "");
                 return true;
             case android.R.id.home:
                 TB.ConfirmAction(this, getString(R.string.confirmDisconnect), this::finish);

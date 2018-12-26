@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +13,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +48,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
     private Spinner portsSpinner;
 
     private static final String TAG = "CaptainShipAddEdit";
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +56,8 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_captain_ship_add_edit);
 
         Intent shipDetail = getIntent();
-        int shipId = shipDetail.getStringExtra("shipId") != null ? Integer.parseInt(shipDetail.getStringExtra("shipId")): 0;
-
-        if(shipId > 0)
+        String shipIdFB = shipDetail.getStringExtra("shipIdFB");
+        if(!shipIdFB.equals(""))
             setTitle(getString(R.string.ship_edit));
         else
             setTitle(getString(R.string.ship_add));
@@ -57,28 +67,45 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         portsSpinner = findViewById(R.id.ae_destination_port_spinner);
         maxWeight = findViewById(R.id.ae_max_weight);
 
-        Log.d(TAG, "PA_Debug received ship id from intent:" + shipId);
+        Log.d(TAG, "PA_Debug received ship id from intent:" + shipIdFB);
 
-        //get ship and display it in form
-        ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        ShipViewModel mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
-        mShipModel.getShip().observe(this, ship -> {
-            if (ship != null) {
-                mShip = ship;
-                Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
+        //get ship and display it
+        Query shipQ = fireBaseDB.getReference("ships/"+shipIdFB);
+        shipQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshotShip) {
+
+                mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);
+
+                Log.d(TAG, "PA_Debug ship id from FireBase:" +mShip.ship.getFB_Key());
                 updateView();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : with loading ship "+shipIdFB);
             }
         });
 
-        //get port list
-        PortListViewModel.FactoryPorts factoryPorts = new PortListViewModel.FactoryPorts(getApplication());
-        PortListViewModel mPortsModel = ViewModelProviders.of(this, factoryPorts).get(PortListViewModel.class);
-        mPortsModel.getPorts().observe(this, ports -> {
-            if (ports != null) {
-                mPorts = ports;
+        Query portsQ = fireBaseDB.getReference("ports")
+                .orderByChild("name");
+        portsQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshotPorts) {
+                mPorts = new ArrayList<>();
+
+                for(DataSnapshot port : snapshotPorts.getChildren()){
+                    mPorts.add(port.getValue(PortEntity.class));
+                }
                 updateView();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : with loading ship "+shipIdFB);
             }
         });
+
 
     }
 
@@ -93,13 +120,21 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         String shipNameS = shipName.getText().toString();
         String departureDateS = departureDate.getText().toString();
+        String maxWeightS = maxWeight.getText().toString();
+        float maxWeightF = 0;
 
-        float maxWeightF = Float.parseFloat(maxWeight.getText().toString());
-
-        if (maxWeightF < 10000) {
+        if(!TextUtils.isEmpty(maxWeightS )){
+            maxWeightF = Float.parseFloat(maxWeightS);
+            if (maxWeightF < 10000) {
+                valid = false;
+                maxWeight.setError(getString(R.string.error_invalid_date_format));
+            }
+        }else{
             valid = false;
-            maxWeight.setError(getString(R.string.error_invalid_date_format));
+            maxWeight.setError(getString(R.string.error_weight_empty));
         }
+
+
 
         if(TextUtils.isEmpty(shipNameS)){
             valid = false;
@@ -128,42 +163,41 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         if(valid){
             Log.d(TAG, "PA_Debug port selected: " + portsSpinner.getSelectedItem());
-            int portId = 0;
+            int SelectedPort = 0;
             for (PortEntity port : mPorts) {
                 if (port.getName().equals(portsSpinner.getSelectedItem())) {
-                    portId = port.getId();
                     break;
                 }
+                SelectedPort++;
+            }
+            //insert ship
+            if(mShip.ship.getFB_Key() == null){
+                mShip = new ShipWithContainer();
+                mShip.ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getFB_Key(), mPorts.get(SelectedPort).getFB_Key(), convertedDate);
+                mShip.ship.setFB_Key(fireBaseDB.getReference().child("ships").push().getKey());
+                fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()).setValue(mShip.ship);
+
+            }
+            else{
+                fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/name").setValue(shipNameS);
+                fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/maxLoadKg").setValue(maxWeightF);
+                fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/departureDate").setValue(convertedDate);
             }
 
+            //we update port and captain anyway
+            fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/captain").setValue(((BaseApp) getApplication()).getCurrentUser());
+            fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/fb_captainId").setValue(((BaseApp) getApplication()).getCurrentUser().getFB_Key());
+            fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/port").setValue(mPorts.get(SelectedPort));
+            fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()+"/fb_destinationPortId").setValue( mPorts.get(SelectedPort).getFB_Key());
 
-            ShipEntity ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getId(), portId, convertedDate);
-
-            if (mShip != null) {
-                ship.setId(mShip.ship.getId());
-            }
-            ship.setOperationMode(OperationMode.Save);
-
-            new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
-                @Override
-                public void onSuccess(List result) {
-                    Log.d(TAG, "PA_Debug updateShip: success");
-                    finish();
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    Log.d(TAG, "PA_Debug updateShip: failure", e);
-                    finish();
-                }
-            }).execute(ship);
+            finish();
         }
     }
 
     private void updateView(){
         Log.d(TAG, "PA_Debug updateView");
 
-        if(mShip != null){
+        if(mShip.ship.getFB_Key() != null){
             shipName.setText(mShip.ship.getName());
             departureDate.setText(TB.getShortDate(mShip.ship.getDepartureDate()));
             maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
@@ -178,7 +212,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
             for (int i = 0; i < portsNames.length; i++) {
                 portsNames[i] = mPorts.get(i).getName();
 
-                if (mShip != null) {
+                if (mShip.ship.getFB_Key() != null) {
                     if (mPorts.get(i).getName().equals(mShip.port.getName())) {
                         selectedPortPosition = i;
                         Log.d(TAG, "PA_Debug Port from ship found in list " + mShip.port.getName());

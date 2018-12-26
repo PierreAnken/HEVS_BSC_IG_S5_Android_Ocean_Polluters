@@ -18,7 +18,6 @@ public abstract class BaseEntity {
         this.operationMode = operationMode;
     }
 
-    @Exclude
     @Ignore
     private String FB_Key;
     public String getFB_Key(){return FB_Key;}

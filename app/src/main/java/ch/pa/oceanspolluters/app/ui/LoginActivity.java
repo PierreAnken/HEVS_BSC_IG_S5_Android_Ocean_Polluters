@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -40,14 +41,11 @@ import ch.pa.oceanspolluters.app.viewmodel.UserListViewModel;
  */
 public class LoginActivity extends AppCompatActivity{
 
-
-    private UserLoginTask mAuthTask = null;
-
     // UI references.
     private EditText mPassword;
     private Spinner mSpinner;
     private List<UserEntity> users;
-    private static DatabaseReference fireBaseDB = FirebaseDatabase.getInstance().getReference();
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +58,8 @@ public class LoginActivity extends AppCompatActivity{
                 .load(R.drawable.loading)
                 .into((ImageView)findViewById(R.id.loadingGif));
 
-        // we set a bit of delay to see the loading screen
-
-  /*      UserListViewModel.FactoryUsers factoryUsers = new UserListViewModel.FactoryUsers(getApplication());
-        UserListViewModel mUsers = ViewModelProviders.of(this, factoryUsers).get(UserListViewModel.class);
-        mUsers.getUsers().observe(this, usersList -> {
-            if (usersList != null) {
-                users = usersList;
-                generateLoginPage();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                }, 2500);
-            }
-        });*/
-
         //as user dont change we only load them once
-        fireBaseDB.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        fireBaseDB.getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
@@ -86,7 +67,6 @@ public class LoginActivity extends AppCompatActivity{
 
                 for (DataSnapshot userSnapshot: snapshot.getChildren()) {
                     UserEntity user = userSnapshot.getValue(UserEntity.class);
-                    user.setFB_Key(userSnapshot.getKey());
                     users.add(user);
                 }
                 generateLoginPage();
@@ -177,10 +157,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-        // Reset errors.
+         // Reset errors.
          mPassword.setError(null);
 
         // Store values at the time of the login attempt.
@@ -191,46 +168,34 @@ public class LoginActivity extends AppCompatActivity{
             mPassword.setError(getString(R.string.error_empty_password));
         }
         else{
-            if(userName.indexOf('-') < 0)
-                new UserLoginTask().execute(userName,password);
-            else
-                mPassword.setError(getString(R.string.error_user_not_selected));
-        }
-    }
+            if(userName.indexOf('-') < 0){
+                    int userRoleId = -1;
 
-    private class UserLoginTask extends AsyncTask<String, Void, Integer> {
+                    for(int i = 0; i<users.size(); i++){
+                        if (users.get(i).getName().equals(userName) && Integer.toString(users.get(i).getPassword()).equals(password)) {
+                            ((BaseApp)getApplication()).connectUser(users.get(i));
+                            userRoleId = users.get(i).getRoleId();
+                        }
+                    }
 
-        @Override
-        protected Integer doInBackground(String... credentials) {
-            if(credentials.length == 2){
+                if(userRoleId >= 0){
 
-                for(int i = 0; i<users.size(); i++){
-
-                    if (users.get(i).getName().equals(credentials[0]) && Integer.toString(users.get(i).getPassword()).equals(credentials[1])) {
-                        ((BaseApp)getApplication()).connectUser(users.get(i));
-                        return users.get(i).getRoleId();
+                    if (userRoleId == Roles.Docker.id()) {
+                        startActivity(new Intent(getApplicationContext(), DockerHomeActivity.class));
+                    }
+                    else if(userRoleId == Roles.LogisticManager.id()){
+                        startActivity(new Intent(getApplicationContext(), LogisticManagerHomeActivity.class));
+                    }
+                    else{
+                        startActivity(new Intent(getApplicationContext(), CaptainHomeActivity.class));
                     }
                 }
+                else
+                    mPassword.setError(getString(R.string.error_bad_password));
             }
-            return -1;
-        }
 
-        @Override
-        protected void onPostExecute(Integer userRoleId) {
-            if(userRoleId >= 0){
-
-                if (userRoleId == Roles.Docker.id()) {
-                    startActivity(new Intent(getApplicationContext(), DockerHomeActivity.class));
-                }
-                else if(userRoleId == Roles.LogisticManager.id()){
-                    startActivity(new Intent(getApplicationContext(), LogisticManagerHomeActivity.class));
-                }
-                else{
-                    startActivity(new Intent(getApplicationContext(), CaptainHomeActivity.class));
-                }
-            }
             else
-                mPassword.setError(getString(R.string.error_bad_password));
+                mPassword.setError(getString(R.string.error_user_not_selected));
         }
     }
 }
