@@ -64,12 +64,8 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
                 TB.ConfirmAction(appCompatActivity, getString(R.string.confirmLoaded), () -> {
                     ContainerEntity container = mContainersWithItem.get(position).container;
                     fireBaseDB.getReference("ships/" + mShipWithContainer.ship.getFB_Key() + "/containers/" + container.getFB_Key() + "/loaded")
-                            .setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            ((BaseApp) getApplication()).displayShortToast(getString(R.string.toast_container_loaded));
-                        }
-                    });
+                            .setValue(true).addOnSuccessListener(
+                                    aVoid ->((BaseApp) getApplication()).displayShortToast(getString(R.string.toast_container_loaded)));
                 });
             }
 

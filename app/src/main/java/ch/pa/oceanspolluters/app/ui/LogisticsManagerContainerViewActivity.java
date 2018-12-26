@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +12,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -37,6 +44,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
     private TextView shipNames;
 
     private static final String TAG = "lmContainerViewAct";
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,27 +52,35 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lm_container_view);
 
         Intent containerDetail = getIntent();
-        int containerId = Integer.parseInt(containerDetail.getStringExtra("containerId"));
-        Log.d(TAG, "PA_Debug received container id from intent:" + containerId);
+        String containerIdFB = containerDetail.getStringExtra("containerIdFB");
+        String shipIdFB = containerDetail.getStringExtra("shipIdFB");
+        Log.d(TAG, "PA_Debug received container id from intent:" + containerIdFB);
 
         // get container and display it
-        ContainerViewModel.FactoryContainer factory = new ContainerViewModel.FactoryContainer(getApplication(), containerId);
-        ContainerViewModel mContainerViewModel = ViewModelProviders.of(this, factory).get(ContainerViewModel.class);
-        mContainerViewModel.getContainer().observe(this, cont -> {
-            if (cont != null) {
-                mContainerWithItem = cont;
-                Log.d(TAG, "PA_Debug container id from factory:" + cont.container.getId());
-                updateView();
+        Query containerQ = fireBaseDB.getReference("ships/"+shipIdFB+"/containers/"+containerIdFB)
+                .orderByChild("name");
+
+        containerQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshotContainer) {
+                if(snapshotContainer.exists()){
+                    mContainerWithItem = ContainerWithItem.FillContainerFromSnap(snapshotContainer);
+                    updateView();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "Error loaging container:" + containerIdFB);
             }
         });
-
         //add edit button
         LinearLayout containerViewPage = findViewById(R.id.btn_layout_lm_container);
         View btnContainerManager = getLayoutInflater().inflate(R.layout.btn_container_manager, null);
         containerViewPage.addView(btnContainerManager);
         btnContainerManager.setOnClickListener(
                 view -> {
-                    openContainerManager(containerId);
+                    openContainerManager(containerIdFB);
                 }
         );
 
@@ -78,14 +94,14 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         );
     }
 
-    private void openContainerManager(int containerId) {
+    private void openContainerManager(String containerIdFB) {
 
         Intent containerView;
 
         containerView = new Intent(getApplicationContext(), LogisticsManagerContainerContentViewActivity.class);
 
-        containerView.putExtra("containerId",Integer.toString(containerId));
-        Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));
+        containerView.putExtra("containerIdFB",containerIdFB);
+        Log.d(TAG, "PA_Debug container id to edit:" + containerIdFB);
         startActivity(containerView);
 
     }

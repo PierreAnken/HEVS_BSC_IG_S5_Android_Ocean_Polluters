@@ -134,13 +134,10 @@ public class CaptainShipViewActivity extends AppCompatActivity {
     private void deleteShip() {
 
 
-        fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "PA_Debug delete ship: success");
-                ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
-                finish();
-            }
+        fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()).removeValue().addOnSuccessListener(aVoid -> {
+            Log.d(TAG, "PA_Debug delete ship: success");
+            ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
+            finish();
         });
 
     }

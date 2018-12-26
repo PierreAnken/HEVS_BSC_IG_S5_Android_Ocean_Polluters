@@ -50,4 +50,13 @@ public class ContainerWithItem {
         }
         return containersW;
     }
+
+    public static ContainerWithItem FillContainerFromSnap(DataSnapshot snapshotContainer){
+
+        ContainerWithItem containerW = new ContainerWithItem();
+        containerW.container = snapshotContainer.getValue(ContainerEntity.class);
+        containerW.items = ItemWithType.FillItemsFromSnap(snapshotContainer.child("items"));
+
+        return containerW;
+    }
 }
