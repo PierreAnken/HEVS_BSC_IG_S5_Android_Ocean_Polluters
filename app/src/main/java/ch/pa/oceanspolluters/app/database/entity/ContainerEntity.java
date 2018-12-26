@@ -66,14 +66,14 @@ public class ContainerEntity extends BaseEntity implements Container {
         this.loaded = loaded;
         this.name = name;
     }
-
+    @Ignore
     public ContainerEntity(String name, String dockPosition, String shipIdFB, boolean loaded) {
         this.dockPosition = dockPosition;
         this.FB_shipId = shipIdFB;
         this.loaded = loaded;
         this.name = name;
     }
-
+    @Ignore
     public ContainerEntity(){}
 
     @Override

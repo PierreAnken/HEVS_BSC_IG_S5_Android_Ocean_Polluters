@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -64,11 +65,12 @@ public class CaptainShipViewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshotShip) {
 
-                mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);
+                if(snapshotShip.exists()){
+                    mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);
 
-                Log.d(TAG, "PA_Debug ship id from FireBase:" +mShip.ship.getId());
-                updateView();
-
+                    Log.d(TAG, "PA_Debug ship id from FireBase:" +mShip.ship.getFB_Key());
+                    updateView();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -130,22 +132,17 @@ public class CaptainShipViewActivity extends AppCompatActivity {
 
 
     private void deleteShip() {
-        mShip.ship.setOperationMode(OperationMode.Delete);
 
-        new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+
+        fireBaseDB.getReference("ships/"+mShip.ship.getFB_Key()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(List result) {
+            public void onSuccess(Void aVoid) {
                 Log.d(TAG, "PA_Debug delete ship: success");
                 ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
                 finish();
             }
+        });
 
-            @Override
-            public void onFailure(Exception e) {
-                Log.d(TAG, "PA_Debug delete ship: failure", e);
-                ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationFailled));
-            }
-        }).execute(mShip.ship);
     }
 
     private void confirmDelete(){

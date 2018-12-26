@@ -74,7 +74,7 @@ public class ShipEntity extends BaseEntity implements Ship {
 
     @ColumnInfo(name = "max_Load_Kg")
     private float maxLoadKg;
-
+    @Ignore
     public ShipEntity(){}
 
     @Ignore
