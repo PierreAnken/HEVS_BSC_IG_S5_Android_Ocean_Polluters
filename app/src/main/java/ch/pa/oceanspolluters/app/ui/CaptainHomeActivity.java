@@ -20,6 +20,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
@@ -77,13 +78,13 @@ public class CaptainHomeActivity extends AppCompatActivity {
 
         captainShipQ.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 mShipsWithContainer = new ArrayList<>();
                 for (DataSnapshot shipSnapshot: snapshot.getChildren()) {
                     mShipsWithContainer.add(ShipWithContainer.FillShipFromSnap(shipSnapshot));
                 }
-                mShipsWithContainer.sort((o1, o2) -> o1.ship.getDepartureDate().getTime() > o2.ship.getDepartureDate().getTime()? 1 : -1);
+                mShipsWithContainer.sort(Comparator.comparingInt(o -> (int) o.ship.getDepartureDate().getTime()));
                 mAdapter.setData(mShipsWithContainer);
             }
             @Override

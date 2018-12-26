@@ -3,13 +3,21 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
@@ -27,6 +35,7 @@ public class DockerHomeActivity extends AppCompatActivity {
 
     private List<ShipWithContainer> mShipsWithContainer;
     private RecyclerAdapter<ShipWithContainer> mAdapter;
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,7 @@ public class DockerHomeActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked position:" + position);
                 if (mShipsWithContainer.get(position).containerToLoad() > 0) {
-                    DisplayContainersToLoad(mShipsWithContainer.get(position).ship.getId());
+                    DisplayContainersToLoad(mShipsWithContainer.get(position).ship.getFB_Key());
                 } else {
                     ((BaseApp) getApplication()).displayShortToast(getString(R.string.fully_loaded));
                 }
@@ -58,25 +67,35 @@ public class DockerHomeActivity extends AppCompatActivity {
         //get ships for docker
         mShipsWithContainer = new ArrayList<>();
 
-        ShipListViewModel.FactoryShips factory = new ShipListViewModel.FactoryShips(getApplication(), -1);
-        ShipListViewModel mShipsFromDocker = ViewModelProviders.of(this, factory).get(ShipListViewModel.class);
-        mShipsFromDocker.getShips().observe(this, shipsWithContainer -> {
-            if (shipsWithContainer != null) {
-                mShipsWithContainer = shipsWithContainer;
+        Query shipQ = fireBaseDB.getReference("ships");
+
+        shipQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshotShips) {
+
+                mShipsWithContainer = new ArrayList<>();
+                for (DataSnapshot shipSnapshot: snapshotShips.getChildren()) {
+                    mShipsWithContainer.add(ShipWithContainer.FillShipFromSnap(shipSnapshot));
+                }
+                mShipsWithContainer.sort(Comparator.comparingInt(o -> (int) o.ship.getDepartureDate().getTime()));
                 mAdapter.setData(mShipsWithContainer);
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
+
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void DisplayContainersToLoad(int shipId) {
+    private void DisplayContainersToLoad(String shipIdFB) {
 
         Intent shipView;
 
         shipView = new Intent(getApplicationContext(), DockerShipContainerListActivity.class);
 
-        shipView.putExtra("shipId",Integer.toString(shipId));
-        Log.d(TAG, "PA_Debug ship id to view:" + Integer.toString(shipId));
+        shipView.putExtra("shipIdFB",shipIdFB);
+        Log.d(TAG, "PA_Debug ship id to view:" + shipIdFB);
         startActivity(shipView);
     }
 

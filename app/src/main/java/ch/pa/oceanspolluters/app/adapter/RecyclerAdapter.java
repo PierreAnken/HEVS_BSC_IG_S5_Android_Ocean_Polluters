@@ -163,11 +163,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                     ((TextView) holder.mListText.get(1)).setTextColor(Color.GRAY);
             }
 
-
             //departure date label
             ((TextView) holder.mListText.get(1)).setText(textTimeToDeparture);
-
-
 
         } else if (type == ViewType.Captain_Home) {
 

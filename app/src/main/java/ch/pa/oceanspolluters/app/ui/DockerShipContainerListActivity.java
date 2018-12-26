@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,16 +41,12 @@ import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class DockerShipContainerListActivity extends AppCompatActivity {
 
-    private ShipWithContainer mShipWithContainer;
+
     private List<ContainerWithItem> mContainersWithItem;
-
-    private String dockPosition;
-    private String containerName;
-    private String loadingStatus;
-
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
+    private ShipWithContainer mShipWithContainer;
 
     private static final String TAG = "dockerShipContViewAct";
-    private RecyclerAdapter<ContainerWithItem> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,29 +56,23 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.dockerShipContainersRecyclerView);
         AppCompatActivity appCompatActivity = this;
 
-        mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
+        RecyclerAdapter<ContainerWithItem> mAdapter = new RecyclerAdapter<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Log.d(TAG, "PA_Debug clicked on:" + position);
 
                 TB.ConfirmAction(appCompatActivity, getString(R.string.confirmLoaded), () -> {
                     ContainerEntity container = mContainersWithItem.get(position).container;
-                    container.setLoaded(true);
-                    container.setOperationMode(OperationMode.Save);
-
-                    new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+                    fireBaseDB.getReference("ships/" + mShipWithContainer.ship.getFB_Key() + "/containers/" + container.getFB_Key() + "/loaded")
+                            .setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(List result) {
+                        public void onSuccess(Void aVoid) {
                             ((BaseApp) getApplication()).displayShortToast(getString(R.string.toast_container_loaded));
                         }
-
-                        @Override
-                        public void onFailure(Exception e) {
-
-                        }
-                    }).execute(container);
+                    });
                 });
             }
+
             @Override
             public void onItemLongClick(int position) {
             }
@@ -84,63 +83,77 @@ public class DockerShipContainerListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         Intent shipDetail = getIntent();
-        int shipId = Integer.parseInt(shipDetail.getStringExtra("shipId"));
-
-        Intent containerDetail = getIntent();
-        int containerId = Integer.parseInt(containerDetail.getStringExtra("shipId"));
-        Log.d(TAG, "OG_Debug received container id from intent:" + containerId);
-
-        // get the list of containers
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), shipId, true);
-        ContainerListViewModel mContainerListViewModel = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
-        mContainerListViewModel.getContainers().observe(this, contList -> {
-            if (contList != null) {
-                Log.d(TAG, "PA_Debug container received:" + contList.size());
-                mContainersWithItem = contList;
-                mAdapter.setData(mContainersWithItem);
-            }
-        });
-
-        recyclerView.setAdapter(mAdapter);
+        String shipIdFB = shipDetail.getStringExtra("shipIdFB");
 
         //get ship and display it in the header
-        ShipViewModel.FactoryShip factory2 = new ShipViewModel.FactoryShip(getApplication(), shipId);
-        ShipViewModel mShipViewModel = ViewModelProviders.of(this, factory2).get(ShipViewModel.class);
-        mShipViewModel.getShip().observe(this, ship -> {
-            if (ship != null) {
+        Query shipQ = fireBaseDB.getReference("ships/"+shipIdFB);
+        shipQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshotShip) {
 
-                if (ship.containerToLoad() == 0)
-                    this.finish();
+                if(snapshotShip.exists()){
+                    mShipWithContainer = ShipWithContainer.FillShipFromSnap(snapshotShip);
 
-                mShipWithContainer = ship;
-                Log.d(TAG, "OG_Debug ship id from factory:" + ship.ship.getId());
+                    if (mShipWithContainer.ship.getFB_Key() != null) {
 
-                //calculate remaining time
-                Date currentTime = Calendar.getInstance().getTime();
-                long diff = ship.ship.getDepartureDate().getTime() - currentTime.getTime();
-                if (diff < 0)
-                    diff = 0;
-                long diffMinutes = diff / (60 * 1000) % 60;
-                long diffHours = diff / (60 * 60 * 1000) % 24;
-                long diffDays = diff / (60 * 60 * 1000 * 24);
+                        if (mShipWithContainer.containerToLoad() == 0){
+                            ((BaseApp) getApplication()).displayShortToast(getString(R.string.fully_loaded));
+                            finish();
+                        }
 
-                StringBuilder remainingTime = new StringBuilder(ship.ship.getName() + " (");
-                if (diffDays > 0)
-                    remainingTime.append(diffDays + "d:");
-                if (diffDays > 0 || diffHours > 0)
-                    remainingTime.append(diffHours + "h:");
+                        //calculate remaining time
+                        Date currentTime = Calendar.getInstance().getTime();
+                        long diff = mShipWithContainer.ship.getDepartureDate().getTime() - currentTime.getTime();
+                        if (diff < 0)
+                            diff = 0;
+                        long diffMinutes = diff / (60 * 1000) % 60;
+                        long diffHours = diff / (60 * 60 * 1000) % 24;
+                        long diffDays = diff / (60 * 60 * 1000 * 24);
 
-                remainingTime.append(diffMinutes + "m)");
+                        StringBuilder remainingTime = new StringBuilder(mShipWithContainer.ship.getName() + " (");
+                        if (diffDays > 0)
+                            remainingTime.append(diffDays).append("d:");
+                        if (diffDays > 0 || diffHours > 0)
+                            remainingTime.append(diffHours).append("h:");
 
-                TextView title = findViewById(R.id.docker_container_list_title);
-                title.setText(remainingTime.toString());
+                        remainingTime.append(diffMinutes).append("m)");
 
-                //red title if short time
-                if (diffDays < 1 && diffHours < 12) {
-                    title.setBackgroundColor(Color.RED);
+                        TextView title = findViewById(R.id.docker_container_list_title);
+                        title.setText(remainingTime.toString());
+
+                        //red title if short time
+                        if (diffDays < 1 && diffHours < 12) {
+                            title.setBackgroundColor(Color.RED);
+                        }
+                    }
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : with loading ship "+shipIdFB);
+            }
         });
+
+        // get the list of containers
+        Query containersQ = fireBaseDB.getReference("ships/"+shipIdFB+"/containers")
+                .orderByChild("loaded")
+                .equalTo(false);
+        containersQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshotContainers) {
+
+                if(snapshotContainers.exists()){
+                    mContainersWithItem = ContainerWithItem.FillContainersFromSnap(snapshotContainers);
+                    mAdapter.setData(mContainersWithItem);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("PA_DEBUG : with loading ship "+shipIdFB);
+            }
+        });
+        recyclerView.setAdapter(mAdapter);
+
     }
 
     @Override

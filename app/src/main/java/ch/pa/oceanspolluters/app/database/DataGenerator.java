@@ -43,7 +43,7 @@ public class DataGenerator {
     public static void initFireBaseData(){
         fireBaseDB.getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getChildrenCount() != 3){
                     //base items
                     fireBaseDB.getReference().removeValue();

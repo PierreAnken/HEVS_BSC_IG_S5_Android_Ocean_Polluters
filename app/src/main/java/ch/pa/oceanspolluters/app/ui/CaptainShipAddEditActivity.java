@@ -73,7 +73,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         Query shipQ = fireBaseDB.getReference("ships/"+shipIdFB);
         shipQ.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshotShip) {
+            public void onDataChange(@NonNull DataSnapshot snapshotShip) {
 
                 mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);
 
@@ -91,7 +91,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 .orderByChild("name");
         portsQ.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshotPorts) {
+            public void onDataChange(@NonNull DataSnapshot snapshotPorts) {
                 mPorts = new ArrayList<>();
 
                 for(DataSnapshot port : snapshotPorts.getChildren()){

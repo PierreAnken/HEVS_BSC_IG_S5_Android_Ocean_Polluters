@@ -63,7 +63,7 @@ public class CaptainShipViewActivity extends AppCompatActivity {
 
         shipQ.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshotShip) {
+            public void onDataChange(@NonNull DataSnapshot snapshotShip) {
 
                 if(snapshotShip.exists()){
                     mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);

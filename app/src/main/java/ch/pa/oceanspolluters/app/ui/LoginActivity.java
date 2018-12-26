@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity{
         //as user dont change we only load them once
         fireBaseDB.getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 users = new ArrayList<UserEntity>();
 
