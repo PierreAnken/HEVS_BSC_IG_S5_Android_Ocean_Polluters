@@ -45,7 +45,7 @@ public class BaseApp extends Application {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
         RemoteParameters.getRemoteParameters();
-        LanguageEntity.initAppLanguage(getBaseContext());
+        //LanguageEntity.initAppLanguage(getBaseContext());
     }
 
     public void connectUser(UserEntity user){

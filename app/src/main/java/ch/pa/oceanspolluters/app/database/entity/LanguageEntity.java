@@ -117,17 +117,16 @@ public class LanguageEntity extends BaseEntity {
     }
 
     @Exclude
-    private static void setAppLanguage(Context context, String iso){
+    public static void setAppLanguage(Context context, String iso){
 
         Log.d(TAG, "PA_Debug setting app locale language to:" + iso);
 
-        Configuration config = context.getResources().getConfiguration();
         Locale locale = new Locale(iso);
         Locale.setDefault(locale);
         Resources res = context.getResources();
-        Configuration configNew = new Configuration(res.getConfiguration());
-        configNew.setLocale(locale);
-        context = context.createConfigurationContext(configNew);
+        Configuration config= new Configuration(res.getConfiguration());
+        config.setLocale(locale);
+        context = context.createConfigurationContext(config);
 
         Log.d(TAG, "PA_Debug test app local language :" + LanguageEntity.getAppLanguage(context));
     }
