@@ -13,34 +13,32 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
+import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.TB;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
     private ContainerWithItem mContainerWithItem;
 
-    private ShipListViewModel mShipListModel;
     private ArrayAdapter<String> shipAdapter;
     private List<ShipWithContainer> mShips;
-
+    private String containerPathFB;
     private TextView shipNames;
 
     private static final String TAG = "lmContainerViewAct";
@@ -52,12 +50,11 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lm_container_view);
 
         Intent containerDetail = getIntent();
-        String containerIdFB = containerDetail.getStringExtra("containerIdFB");
-        String shipIdFB = containerDetail.getStringExtra("shipIdFB");
-        Log.d(TAG, "PA_Debug received container id from intent:" + containerIdFB);
+        containerPathFB = containerDetail.getStringExtra("containerPathFB");
+        Log.d(TAG, "PA_Debug received container id from intent:" + containerPathFB);
 
         // get container and display it
-        Query containerQ = fireBaseDB.getReference("ships/"+shipIdFB+"/containers/"+containerIdFB)
+        Query containerQ = fireBaseDB.getReference(containerPathFB)
                 .orderByChild("name");
 
         containerQ.addValueEventListener(new ValueEventListener() {
@@ -71,7 +68,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "Error loaging container:" + containerIdFB);
+                Log.d(TAG, "Error loading container:" + containerPathFB);
             }
         });
         //add edit button
@@ -80,7 +77,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         containerViewPage.addView(btnContainerManager);
         btnContainerManager.setOnClickListener(
                 view -> {
-                    openContainerManager(containerIdFB);
+                    openContainerManager(containerPathFB);
                 }
         );
 
@@ -108,21 +105,12 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
     private void confirmDelete() {
         TB.ConfirmAction(this, getString(R.string.sureDeleteContainer), () ->
-                {
-                    mContainerWithItem.container.setOperationMode(OperationMode.Delete);
-                    new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
-                        @Override
-                        public void onSuccess(List result) {
+                fireBaseDB.getReference(containerPathFB).removeValue()
+                        .addOnSuccessListener(aVoid -> {
                             ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
                             finish();
                         }
-
-                        @Override
-                        public void onFailure(Exception e) {
-                            ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationFailled));
-                        }
-                    }).execute(mContainerWithItem.container);
-                }
+                )
         );
     }
 
@@ -144,23 +132,28 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
             shipNames = findViewById(R.id.container_ship_name);
             containerName.setText(mContainerWithItem.container.getName());
             dockPosition.setText(mContainerWithItem.container.getDockPosition());
-            if (mContainerWithItem.container.getLoaded() == true) {
+            if (mContainerWithItem.container.getLoaded()) {
                 loadingStatus.setText("loaded");
             } else {
                 loadingStatus.setText("to load");
             }
 
-            //get ship name from ship id
-            ShipViewModel.FactoryShip factory = new ShipViewModel.FactoryShip(getApplication(), mContainerWithItem.container.getShipId());
-            ShipViewModel mShipModel = ViewModelProviders.of(this, factory).get(ShipViewModel.class);
-            mShipModel.getShip().observe(this, ship -> {
-                if (ship != null) {
-                    Log.d(TAG, "PA_Debug ship id from factory:" + ship.ship.getId());
-                    shipNames.setText(ship.ship.getName());
+            fireBaseDB.getReference("ships/"+mContainerWithItem.container.getFB_shipId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshotShip) {
+
+                   if(snapshotShip.exists()){
+                       ShipEntity ship = snapshotShip.getValue(ShipEntity.class);
+                       shipNames.setText(ship.getName());
+                   }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    System.out.println("PA_DEBUG : with loading all containers");
                 }
             });
-
         }
+
         TextView items = findViewById(R.id.container_items_quantity_weight);
         TextView weight = findViewById(R.id.t_total_weight);
             items.setText(mContainerWithItem.items.size() + " items");
@@ -168,10 +161,10 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
 
     }
 
-    private void AddEditContainer(int containerId) {
+    private void AddEditContainer(String containerPathFB) {
         Intent containerView = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
-        containerView.putExtra("containerId", Integer.toString(containerId));
-        Log.d(TAG, "PA_Debug container id to edit:" + Integer.toString(containerId));
+        containerView.putExtra("containerPathFB", containerPathFB);
+        Log.d(TAG, "PA_Debug container id to edit:" + containerPathFB);
         startActivity(containerView);
     }
 
@@ -189,7 +182,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.edit:
             case R.id.add:
-                AddEditContainer(mContainerWithItem != null ? mContainerWithItem.container.getId() : -1);
+                AddEditContainer(containerPathFB);
                 return true;
             case android.R.id.home:
                 this.finish();

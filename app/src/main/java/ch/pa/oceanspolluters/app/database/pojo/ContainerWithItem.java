@@ -11,10 +11,6 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
-import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
-import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 
 public class ContainerWithItem {
 
@@ -42,11 +38,7 @@ public class ContainerWithItem {
 
         List<ContainerWithItem> containersW = new ArrayList<>();
         for(DataSnapshot containerSnap : snapshotContainers.getChildren()){
-
-            ContainerWithItem containerW = new ContainerWithItem();
-            containerW.container = containerSnap.getValue(ContainerEntity.class);
-            containerW.items = ItemWithType.FillItemsFromSnap(containerSnap.child("items"));
-            containersW.add(containerW);
+            containersW.add(FillContainerFromSnap(containerSnap));
         }
         return containersW;
     }

@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +26,6 @@ import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class DockerHomeActivity extends AppCompatActivity {
 

@@ -1,9 +1,7 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +12,6 @@ import android.view.MenuItem;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -26,16 +23,11 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
-import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
-import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
 import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
-import ch.pa.oceanspolluters.app.viewmodel.ShipListViewModel;
 
 public class CaptainHomeActivity extends AppCompatActivity {
 

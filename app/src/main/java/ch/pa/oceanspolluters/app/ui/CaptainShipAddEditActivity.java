@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,15 +24,10 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.TB;
-import ch.pa.oceanspolluters.app.viewmodel.PortListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class CaptainShipAddEditActivity extends AppCompatActivity {
 

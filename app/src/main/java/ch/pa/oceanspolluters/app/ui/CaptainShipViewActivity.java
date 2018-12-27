@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,34 +12,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
-import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
-import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
-import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
-import ch.pa.oceanspolluters.app.database.entity.PortEntity;
-import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
-import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
-import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.model.Container;
-import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.TB;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class CaptainShipViewActivity extends AppCompatActivity {
 

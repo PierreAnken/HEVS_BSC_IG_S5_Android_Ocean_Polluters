@@ -7,15 +7,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
-import ch.pa.oceanspolluters.app.database.AppDatabase;
 import ch.pa.oceanspolluters.app.database.DataGenerator;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
-import ch.pa.oceanspolluters.app.database.repository.ContainerRepository;
-import ch.pa.oceanspolluters.app.database.repository.ItemRepository;
-import ch.pa.oceanspolluters.app.database.repository.ItemTypeRepository;
-import ch.pa.oceanspolluters.app.database.repository.PortRepository;
-import ch.pa.oceanspolluters.app.database.repository.ShipRepository;
-import ch.pa.oceanspolluters.app.database.repository.UserRepository;
 import ch.pa.oceanspolluters.app.util.LanguageHelper;
 
 public class BaseApp extends Application {
@@ -42,7 +35,6 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         DataGenerator.initFireBaseData();
-        AppDatabase.getInstance(getApplicationContext());
         initLanguage();
     }
 
@@ -69,35 +61,6 @@ public class BaseApp extends Application {
     public UserEntity getCurrentUser(){
         return currentUser;
     }
-
-    public AppDatabase getDatabase() {
-        return AppDatabase.getInstance(this);
-    }
-
-    public ShipRepository getShipRepository() {
-        return ShipRepository.getInstance(getDatabase());
-    }
-
-    public ContainerRepository getContainerRepository() {
-        return ContainerRepository.getInstance(getDatabase());
-    }
-
-    public PortRepository getPortRepository() {
-        return PortRepository.getInstance(getDatabase());
-    }
-
-    public UserRepository getUserRepository() {
-        return UserRepository.getInstance(getDatabase());
-    }
-
-    public ItemRepository getItemRepository() {
-        return ItemRepository.getInstance(getDatabase());
-    }
-
-    public ItemTypeRepository getItemTypeRepository() {
-        return ItemTypeRepository.getInstance(getDatabase());
-    }
-
 
     public void displayShortToast(String text){
         new Handler(Looper.getMainLooper()).post(new Runnable() {

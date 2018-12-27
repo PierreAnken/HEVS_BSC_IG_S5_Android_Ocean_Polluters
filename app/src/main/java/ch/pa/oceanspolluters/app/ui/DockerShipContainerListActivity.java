@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,14 +11,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,17 +24,12 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.adapter.RecyclerAdapter;
-import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ContainerWithItem;
 import ch.pa.oceanspolluters.app.database.pojo.ShipWithContainer;
-import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
-import ch.pa.oceanspolluters.app.viewmodel.ShipViewModel;
 
 public class DockerShipContainerListActivity extends AppCompatActivity {
 

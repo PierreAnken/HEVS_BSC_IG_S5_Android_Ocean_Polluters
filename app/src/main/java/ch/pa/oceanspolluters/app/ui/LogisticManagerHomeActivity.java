@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +28,6 @@ import ch.pa.oceanspolluters.app.util.OperationMode;
 import ch.pa.oceanspolluters.app.util.RecyclerViewItemClickListener;
 import ch.pa.oceanspolluters.app.util.TB;
 import ch.pa.oceanspolluters.app.util.ViewType;
-import ch.pa.oceanspolluters.app.viewmodel.ContainerListViewModel;
 
 public class LogisticManagerHomeActivity extends AppCompatActivity {
 
@@ -65,17 +63,6 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // get all containers
-        mContainerWithItems = new ArrayList<>();
-
-        ContainerListViewModel.FactoryContainers factory = new ContainerListViewModel.FactoryContainers(getApplication(), -1, false);
-        ContainerListViewModel mAllContainers = ViewModelProviders.of(this, factory).get(ContainerListViewModel.class);
-        mAllContainers.getContainers().observe(this, containerWithItems -> {
-            if (containerWithItems != null) {
-                mContainerWithItems = containerWithItems;
-                mAdapter.setData(mContainerWithItems);
-            }
-        });
-
         fireBaseDB.getReference("ships").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshotShips) {
@@ -87,8 +74,10 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
                         ShipWithContainer ship = ShipWithContainer.FillShipFromSnap(shipS);
                         mContainerWithItems.addAll(ship.containers);
                     }
+
+                    mContainerWithItems.sort((o1, o2) -> o1.container.getName().compareToIgnoreCase(o2.container.getName()));
                 }
-                mContainerWithItems.sort((o1, o2) -> o1.container.getName().compareToIgnoreCase(o2.container.getName()));
+
                 mAdapter.setData(mContainerWithItems);
             }
             @Override
@@ -133,8 +122,7 @@ public class LogisticManagerHomeActivity extends AppCompatActivity {
         else // edit or create mode
             containerView = new Intent(getApplicationContext(), LogisticsManagerContainerAddEditActivity.class);
         if(container != null){
-            containerView.putExtra("containerIdFB",container.getFB_Key());
-            containerView.putExtra("shipIdFB",container.getFB_shipId());
+            containerView.putExtra("containerPathFB","ships/"+container.getFB_shipId()+"/containers/"+container.getFB_Key());
             Log.d(TAG, "PA_Debug container id to edit:" +container.getFB_Key());
         }
         startActivity(containerView);

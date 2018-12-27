@@ -1,8 +1,6 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -22,9 +20,7 @@ import android.widget.Spinner;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -34,7 +30,6 @@ import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
 import ch.pa.oceanspolluters.app.util.Roles;
-import ch.pa.oceanspolluters.app.viewmodel.UserListViewModel;
 
 /**
  * A login screen that offers login via email/password.

@@ -3,6 +3,7 @@ package ch.pa.oceanspolluters.app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,16 +13,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.AsyncOperationOnEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
 import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
 import ch.pa.oceanspolluters.app.util.OperationMode;
-import ch.pa.oceanspolluters.app.viewmodel.ItemViewModel;
 
 public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActivity {
 
@@ -29,9 +34,10 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
     private static final String TAG = "lmContItemAddEditAct";
     private TextView mItemWeight;
     private Spinner mSpinnerCategory;
-
-    private int containerId;
+    private String itemPathFB;
+    private String containerIdFB;
     private List<ItemTypeEntity> mItemTypes;
+    private static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,49 +45,52 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         setContentView(R.layout.activity_lm_container_item_add_edit);
 
         Intent containerDetail = getIntent();
-        int itemId = containerDetail.getStringExtra("itemId") != null ? Integer.parseInt(containerDetail.getStringExtra("itemId")) : -1;
-        containerId = containerDetail.getStringExtra("containerId") != null ? Integer.parseInt(containerDetail.getStringExtra("containerId")) : -1;
+        itemPathFB = containerDetail.getStringExtra("itemPathFB");
+        containerIdFB = containerDetail.getStringExtra("containerIdFB");
 
-        Log.d(TAG, "PA_Debug received item id from intent:" + itemId);
-
-        //get itemtype list - we dont need live data as they don't change
+        //get itemtype list
         ItemTypeEntity type = new ItemTypeEntity();
         type.setOperationMode(OperationMode.GetAll);
 
-        try {
-            new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
+        //get types
+
+            fireBaseDB.getReference("itemTypes").addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onSuccess(List<ItemTypeEntity> result) {
-                    Log.d(TAG, "PA_Debug success getting Types");
-                    mItemTypes = result;
-                    updateView();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        mItemTypes = new ArrayList<>();
+                        for(DataSnapshot itemType : dataSnapshot.getChildren()){
+                            mItemTypes.add(itemType.getValue(ItemTypeEntity.class));
+                        }
+                        updateView();
+                    }
                 }
 
                 @Override
-                public void onFailure(Exception e) {
-                    Log.d(TAG, "PA_Debug error getting Types:" + e);
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(TAG, "PA_Debug error getting Types: "+databaseError);
                 }
-
-            }).execute(type);
-
-        } catch (Exception e) {
-            Log.d(TAG, "PA_Debug error getting Types:" + e);
-        }
+            });
 
 
         //we retrieve item
-        if (itemId >= 0) {
-            ItemViewModel.FactoryItem factory = new ItemViewModel.FactoryItem(getApplication(), itemId);
-            ItemViewModel mItemViewModel = ViewModelProviders.of(this, factory).get(ItemViewModel.class);
-            mItemViewModel.getItem().observe(this, item -> {
-                if (item != null) {
-                    mItemWithType = item;
-                    updateView();
+        if (itemPathFB.contains("items")) {
+
+            fireBaseDB.getReference(itemPathFB).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        mItemWithType = ItemWithType.FillItemFromSnap(dataSnapshot);
+                        updateView();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(TAG, "PA_Debug error getting item: "+databaseError);
                 }
             });
         }
-
-
     }
 
     private void updateView() {
@@ -121,15 +130,13 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         String itemWeightS = mItemWeight.getText().toString();
         mItemWeight.setError(null);
 
-        int itemTypeSelected = -1;
-
+        int itemTypeIndex = 0;
         for (ItemTypeEntity itemType : mItemTypes) {
             if (itemType.getName().equals(itemTypeS)) {
-                itemTypeSelected = itemType.getId();
                 break;
             }
+            itemTypeIndex++;
         }
-        Log.d(TAG, "PA_Debug item container id:" + containerId);
 
         if (TextUtils.isEmpty(itemWeightS)) {
             mItemWeight.setError(getString(R.string.error_weight_empty));
@@ -137,27 +144,19 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
         else {
 
             float weight = Float.parseFloat(itemWeightS);
-            ItemEntity item = new ItemEntity(itemTypeSelected, weight, containerId);
 
-            if (mItemWithType != null) {
-                item.setId(mItemWithType.item.getId());
-                Log.d(TAG, "PA_Debug updating item:" + item.getId());
+            if (mItemWithType == null) {
+                mItemWithType = new ItemWithType();
+                mItemWithType.item = new ItemEntity(mItemTypes.get(itemTypeIndex).getFB_Key(), weight, containerIdFB);
+                itemPathFB+="/items/"+mItemWithType.item.getFB_Key();
+
+                fireBaseDB.getReference("itemPathFB").setValue( mItemWithType.item);
+                fireBaseDB.getReference(itemPathFB+"/fb_containerId").setValue(containerIdFB);
             }
 
-            item.setOperationMode(OperationMode.Save);
-            new AsyncOperationOnEntity(getApplication(), new OnAsyncEventListener() {
-                @Override
-                public void onSuccess(List result) {
-                    Log.d(TAG, "PA_Debug updateItem: success");
-                    finish();
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    Log.d(TAG, "PA_Debug updateItem: failure", e);
-                    finish();
-                }
-            }).execute(item);
+            fireBaseDB.getReference(itemPathFB+"/itemType").setValue(mItemTypes.get(itemTypeIndex));
+            fireBaseDB.getReference(itemPathFB+"/fb_itemTypeId").setValue(mItemTypes.get(itemTypeIndex).getFB_Key());
+            fireBaseDB.getReference(itemPathFB+"/weightKg").setValue(weight);
         }
     }
 

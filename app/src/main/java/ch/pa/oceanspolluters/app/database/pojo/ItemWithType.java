@@ -8,7 +8,6 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 
@@ -30,14 +29,19 @@ public class ItemWithType {
 
             List<ItemWithType> itemsW = new ArrayList<>();
             for(DataSnapshot itemS : snapshotItems.getChildren()) {
-                ItemWithType itemW = new ItemWithType();
-                itemW.item = itemS.getValue(ItemEntity.class);
-                itemW.itemTypes = new ArrayList<ItemTypeEntity>();
-                itemW.itemTypes.add(itemS.child("itemType").getValue(ItemTypeEntity.class));
-
-                itemsW.add(itemW);
+                itemsW.add(FillItemFromSnap(itemS));
             }
 
         return itemsW;
+    }
+
+    public static ItemWithType FillItemFromSnap(DataSnapshot snapshotItem){
+
+        ItemWithType itemW = new ItemWithType();
+        itemW.item = snapshotItem.getValue(ItemEntity.class);
+        itemW.itemTypes = new ArrayList<ItemTypeEntity>();
+        itemW.itemTypes.add(snapshotItem.child("itemType").getValue(ItemTypeEntity.class));
+
+        return itemW;
     }
 }
