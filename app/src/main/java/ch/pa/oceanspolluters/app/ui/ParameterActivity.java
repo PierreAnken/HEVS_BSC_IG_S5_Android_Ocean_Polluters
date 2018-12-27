@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
@@ -27,6 +28,10 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_parameter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.title_activity_parameters));
+
+        //get app version from remote parameters
+        TextView versionApp = findViewById(R.id.versionApp);
+        versionApp.setText(BaseApp.getFbRemoteConfig().getString("versionApp"));
 
         mLanguageSpinner = findViewById(R.id.spinner_language);
 

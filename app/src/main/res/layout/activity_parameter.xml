@@ -108,7 +108,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/version_number" />
+                android:id="@+id/versionApp"
+                android:text="" />
 
             <TextView
                 android:layout_width="match_parent"
