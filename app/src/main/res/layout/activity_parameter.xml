@@ -8,18 +8,18 @@
     tools:context=".ui.ParameterActivity"
     android:background="@drawable/texture_eau">
 
+    <!--
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:background="@color/DimGray"
+                android:textColor="@color/WhiteSmoke"
+                android:text="@string/parameters" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:background="@color/DimGray"
-            android:textColor="@color/WhiteSmoke"
-            android:text="@string/parameters" />
-
-    <!-- parameters frame -->
-    <LinearLayout
+         parameters frame -->
+   <!-- <LinearLayout
         style="@style/border_white_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <!-- Labels headers -->
+         Labels headers
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
 
         </LinearLayout>
 
-        <!-- Label texts -->
+        Label texts
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <TextView

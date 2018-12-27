@@ -10,8 +10,8 @@ import android.widget.Toast;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import ch.pa.oceanspolluters.app.database.DataGenerator;
+import ch.pa.oceanspolluters.app.database.entity.LanguageEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
-import ch.pa.oceanspolluters.app.util.LanguageHelper;
 import ch.pa.oceanspolluters.app.util.RemoteParameters;
 
 public class BaseApp extends Application {
@@ -45,12 +45,7 @@ public class BaseApp extends Application {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
         RemoteParameters.getRemoteParameters();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        initLanguage();
+        LanguageEntity.initAppLanguage(getBaseContext());
     }
 
     public void connectUser(UserEntity user){
@@ -78,13 +73,5 @@ public class BaseApp extends Application {
                 Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void initLanguage() {
-        String ul = LanguageHelper.getUserLanguage(this);
-        // if null the language doesn't need to be changed as the user has not chosen one.
-        if (ul != null) {
-            LanguageHelper.updateLanguage(this, ul);
-        }
     }
 }

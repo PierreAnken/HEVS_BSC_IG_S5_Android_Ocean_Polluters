@@ -14,6 +14,7 @@ import java.util.List;
 import ch.pa.oceanspolluters.app.database.entity.ContainerEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
+import ch.pa.oceanspolluters.app.database.entity.LanguageEntity;
 import ch.pa.oceanspolluters.app.database.entity.PortEntity;
 import ch.pa.oceanspolluters.app.database.entity.ShipEntity;
 import ch.pa.oceanspolluters.app.database.entity.UserEntity;
@@ -32,6 +33,7 @@ public class DataGenerator {
     private static List<ItemTypeEntity> itemTypes;
     private static List<ContainerEntity> containers;
     private static List<ItemEntity> items;
+    private static List<LanguageEntity> languages;
 
     //users - ports - ships - container
 
@@ -46,6 +48,7 @@ public class DataGenerator {
                     initItemTypesFB();
                     initUsersFB();
                     initPortsFB();
+                    initLanguagesFB();
 
                     //pojo
                     initShipsFB();
@@ -63,7 +66,6 @@ public class DataGenerator {
 
     private static void initItemTypesFB(){
 
-        fireBaseDB.getReference().child("itemTypes").removeValue();
         itemTypes = new ArrayList<>();
         itemTypes.add(new ItemTypeEntity("Food"));
         itemTypes.add(new ItemTypeEntity("Clothes"));
@@ -73,13 +75,24 @@ public class DataGenerator {
 
         for (ItemTypeEntity itemType:itemTypes) {
             itemType.setFB_Key(fireBaseDB.getReference().child("itemTypes").push().getKey());
-            fireBaseDB.getReference().child("itemTypes").child(itemType.getFB_Key()).setValue(itemType);
+            fireBaseDB.getReference("itemTypes/"+itemType.getFB_Key()).setValue(itemType);
+        }
+    }
+
+    private static void initLanguagesFB(){
+        languages = new ArrayList<>();
+
+        languages.add(new LanguageEntity("fr",true));
+        languages.add(new LanguageEntity("en",false));
+
+        for (LanguageEntity language:languages) {
+            language.setFB_Key(fireBaseDB.getReference("languages").push().getKey());
+            fireBaseDB.getReference("languages/"+language.getFB_Key()).setValue(language);
         }
     }
 
     private static void initUsersFB(){
         //check/init users
-        fireBaseDB.getReference().child("users").removeValue();
         users = new ArrayList<>();
 
         users.add(new UserEntity("Captain Sparrow", 1234, Roles.Captain.id()));
@@ -94,7 +107,6 @@ public class DataGenerator {
 
     private static void initPortsFB(){
 
-        fireBaseDB.getReference().child("ports").removeValue();
         ports = new ArrayList<>();
 
         ports.add(new PortEntity("Rotterdam"));

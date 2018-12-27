@@ -50,7 +50,6 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
 
         //get itemtype list
         ItemTypeEntity type = new ItemTypeEntity();
-        type.setOperationMode(OperationMode.GetAll);
 
         //get types
 

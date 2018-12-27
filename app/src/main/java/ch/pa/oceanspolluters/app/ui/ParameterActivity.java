@@ -1,6 +1,7 @@
 package ch.pa.oceanspolluters.app.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,20 +11,27 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.util.LanguageHelper;
-
-import static ch.pa.oceanspolluters.app.util.LanguageHelper.getUserLanguage;
+import ch.pa.oceanspolluters.app.database.entity.LanguageEntity;
 
 public class ParameterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "ParameterActivity";
     private Spinner mLanguageSpinner;
-    private String currentLang;
-
+    private static List<LanguageEntity> languages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parameter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -33,27 +41,39 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
         TextView versionApp = findViewById(R.id.versionApp);
         versionApp.setText(BaseApp.getFbRemoteConfig().getString("versionApp"));
 
-        mLanguageSpinner = findViewById(R.id.spinner_language);
+       /* mLanguageSpinner = findViewById(R.id.spinner_language);
 
         //setup language spinner
-        ArrayAdapter<String> languageAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{getString(R.string.langFr), getString(R.string.langEn)});
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mLanguageSpinner.setAdapter(languageAdapter);
 
+        FirebaseDatabase.getInstance().getReference("languages").addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            languages = new ArrayList<>();
+                            for(DataSnapshot lang : dataSnapshot.getChildren()){
+                                languages.add(lang.getValue(LanguageEntity.class));
 
-        //get app language
-        currentLang = getUserLanguage(this) == null ? "fr" : getUserLanguage(this);
+                            }
+                            ArrayAdapter<LanguageEntity> languageAdapter = new ArrayAdapter<LanguageEntity>(getApplicationContext(), android.R.layout.simple_spinner_item, languages);
+                            languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            mLanguageSpinner.setAdapter(languageAdapter);
 
-        Log.d(TAG, "PA_Debug current language " + currentLang);
+                            if (languages.get(0).isActive()) {
+                                mLanguageSpinner.setSelection(0);
+                            } else {
+                                mLanguageSpinner.setSelection(1);
+                            }
+                        }
+                    }
 
-        //set selected spinner value
-        if (currentLang.contains("fr")) {
-            mLanguageSpinner.setSelection(0);
-        } else {
-            mLanguageSpinner.setSelection(1);
-        }
-        mLanguageSpinner.setOnItemSelectedListener(this);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                }
+        );
+        mLanguageSpinner.setOnItemSelectedListener(this);*/
     }
 
 
@@ -72,17 +92,13 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         //get spinner lanugage
-        String languageSpinner = "en";
-        if (mLanguageSpinner.getSelectedItemId() == 0)
-            languageSpinner = "fr";
+        String languageSpinner = ((LanguageEntity)mLanguageSpinner.getSelectedItem()).getIso();
 
         Log.d(TAG, "PA_Debug language spinner " + languageSpinner);
 
-        if (!currentLang.equals(languageSpinner)) {
-            LanguageHelper.storeUserLanguage(this, languageSpinner);
-            LanguageHelper.updateLanguage(this, languageSpinner);
-            ((BaseApp) getApplication()).setHomeNeedRefresh(true);
-            this.recreate();
+        if(!languageSpinner.equals(LanguageEntity.getAppLanguage(this))){
+            LanguageEntity.setCurrentLang(getBaseContext(),languageSpinner);
+            //this.recreate();
         }
     }
 
