@@ -66,12 +66,12 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
         shipQ.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshotShip) {
+                if(snapshotShip.exists()){
+                    mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);
 
-                mShip = ShipWithContainer.FillShipFromSnap(snapshotShip);
-
-                Log.d(TAG, "PA_Debug ship id from FireBase:" +mShip.ship.getFB_Key());
-                updateView();
-
+                    Log.d(TAG, "PA_Debug ship id from FireBase:" +mShip.ship.getFB_Key());
+                    updateView();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -163,7 +163,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 SelectedPort++;
             }
             //insert ship
-            if(mShip.ship.getFB_Key() == null){
+            if(mShip == null){
                 mShip = new ShipWithContainer();
                 mShip.ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getFB_Key(), mPorts.get(SelectedPort).getFB_Key(), convertedDate);
                 mShip.ship.setFB_Key(fireBaseDB.getReference().child("ships").push().getKey());
@@ -189,11 +189,13 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
     private void updateView(){
         Log.d(TAG, "PA_Debug updateView");
 
-        if(mShip.ship.getFB_Key() != null){
-            shipName.setText(mShip.ship.getName());
-            departureDate.setText(TB.getShortDate(mShip.ship.getDepartureDate()));
-            maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
+        if(mShip != null){
+            if(mShip.ship.getFB_Key() != null){
+                shipName.setText(mShip.ship.getName());
+                departureDate.setText(TB.getShortDate(mShip.ship.getDepartureDate()));
+                maxWeight.setText(Float.toString(mShip.ship.getMaxLoadKg()));
 
+            }
         }
 
         if (mPorts != null) {
@@ -203,11 +205,12 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
             for (int i = 0; i < portsNames.length; i++) {
                 portsNames[i] = mPorts.get(i).getName();
-
-                if (mShip.ship.getFB_Key() != null) {
-                    if (mPorts.get(i).getName().equals(mShip.port.getName())) {
-                        selectedPortPosition = i;
-                        Log.d(TAG, "PA_Debug Port from ship found in list " + mShip.port.getName());
+                if(mShip != null){
+                    if (mShip.ship.getFB_Key() != null) {
+                        if (mPorts.get(i).getName().equals(mShip.port.getName())) {
+                            selectedPortPosition = i;
+                            Log.d(TAG, "PA_Debug Port from ship found in list " + mShip.port.getName());
+                        }
                     }
                 }
             }

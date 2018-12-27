@@ -95,7 +95,6 @@ public class LogisticsManagerContainerContentViewActivity extends AppCompatActiv
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "PA_Debug delete item: success");
                 ((BaseApp) getApplication()).displayShortToast(getString(R.string.operationSuccess));
-                finish();
             }
         });
     }

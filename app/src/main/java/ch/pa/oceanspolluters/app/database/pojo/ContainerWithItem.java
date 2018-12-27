@@ -30,7 +30,6 @@ public class ContainerWithItem {
                 weight += item.item.getWeightKg();
             }
         }
-        Log.v(TAG, "PA_Debug getting weight of container " + container.getId() + " : " + weight);
         return weight;
     }
 

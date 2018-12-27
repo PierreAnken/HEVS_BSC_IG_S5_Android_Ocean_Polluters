@@ -77,7 +77,7 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         containerViewPage.addView(btnContainerManager);
         btnContainerManager.setOnClickListener(
                 view -> {
-                    openContainerManager(containerPathFB);
+                    openContainerManager();
                 }
         );
 
@@ -91,14 +91,14 @@ public class LogisticsManagerContainerViewActivity extends AppCompatActivity {
         );
     }
 
-    private void openContainerManager(String containerIdFB) {
+    private void openContainerManager() {
 
         Intent containerView;
 
         containerView = new Intent(getApplicationContext(), LogisticsManagerContainerContentViewActivity.class);
 
-        containerView.putExtra("containerIdFB",containerIdFB);
-        Log.d(TAG, "PA_Debug container id to edit:" + containerIdFB);
+        containerView.putExtra("containerPathFB",containerPathFB);
+        Log.d(TAG, "PA_Debug container id to edit:" + containerPathFB);
         startActivity(containerView);
 
     }

@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity{
                 .into((ImageView)findViewById(R.id.loadingGif));
 
         //as user dont change we only load them once
-        fireBaseDB.getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        fireBaseDB.getReference("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
