@@ -35,7 +35,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
 
     private EditText dockPosition;
     private EditText containerName;
-    private Spinner shipNames;
+    private Spinner shipNamesSpinner;
     private ToggleButton loadingStatus;
     private String containerPathFB;
     private static final String TAG = "lmContainerAddEditAct";
@@ -51,7 +51,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
 
         dockPosition = findViewById(R.id.ae_lm_dock_position);
         containerName = findViewById(R.id.ae_lm_container_name);
-        shipNames = findViewById(R.id.ae_lm_ship_name_spinner);
+        shipNamesSpinner = findViewById(R.id.ae_lm_ship_name_spinner);
         loadingStatus = findViewById(R.id.ae_lm_loaded_status);
 
         //edit
@@ -109,7 +109,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
         String containerNameS = containerName.getText().toString().toUpperCase();
         String dockPositionS = dockPosition.getText().toString();
         Boolean loaded = loadingStatus.isChecked();
-        String shipName = shipNames.getSelectedItem().toString();
+        String shipName = shipNamesSpinner.getSelectedItem().toString();
 
         Integer shipIndex = 0;
         for (ShipWithContainer ship : mShips) {
@@ -129,7 +129,7 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
             for (ContainerWithItem container : ship.containers) {
                 if (container.container.getName().equals(containerNameS)) {
                     if (mContainerWithItem != null) {
-                        if (container.container.getId() != mContainerWithItem.container.getId()) {
+                        if (container.container.getFB_Key().equals(mContainerWithItem.container.getFB_Key())) {
                             valid = false;
                             break;
                         }
@@ -190,20 +190,19 @@ public class LogisticsManagerContainerAddEditActivity extends AppCompatActivity 
             String[] shipsNames = new String[mShips.size()];
 
             int currentPosition = 0;
-            for(int i = 0; i<shipsNames.length; i++){
+            for(int i = 0; i<mShips.size(); i++){
                 shipsNames[i] = mShips.get(i).ship.getName();
-                if (mContainerWithItem != null) {
+                if(mContainerWithItem != null){
                     if (mShips.get(i).ship.getFB_Key().equals(mContainerWithItem.container.getFB_shipId())) {
                         currentPosition = i;
-                        break;
                     }
                 }
             }
 
             ArrayAdapter<String> shipAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, shipsNames);
             shipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            shipNames.setAdapter(shipAdapter);
-            shipNames.setSelection(currentPosition);
+            shipNamesSpinner.setAdapter(shipAdapter);
+            shipNamesSpinner.setSelection(currentPosition);
         }
     }
 
