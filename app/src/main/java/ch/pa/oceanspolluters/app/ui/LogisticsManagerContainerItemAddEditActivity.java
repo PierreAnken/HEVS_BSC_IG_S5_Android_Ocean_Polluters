@@ -147,7 +147,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
 
                 mItemWithType.item.setFB_Key(fireBaseDB.getReference(itemPathFB+"/items/").push().getKey());
                 itemPathFB+="/items/"+mItemWithType.item.getFB_Key();
-                
+
                 fireBaseDB.getReference(itemPathFB).setValue( mItemWithType.item);
                 fireBaseDB.getReference(itemPathFB+"/fb_containerId").setValue(containerIdFB);
             }

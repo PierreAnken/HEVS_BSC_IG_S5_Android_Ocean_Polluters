@@ -49,7 +49,7 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
 
         Intent shipDetail = getIntent();
         String shipIdFB = shipDetail.getStringExtra("shipIdFB");
-        if(!shipIdFB.equals(""))
+        if(shipIdFB.equals(""))
             setTitle(getString(R.string.ship_edit));
         else
             setTitle(getString(R.string.ship_add));
@@ -162,8 +162,16 @@ public class CaptainShipAddEditActivity extends AppCompatActivity {
                 }
                 SelectedPort++;
             }
+
+            boolean newShip = true;
+
+            if(mShip != null)
+                if(mShip.ship != null)
+                    if(mShip.ship.getFB_Key() != null)
+                        newShip = false;
+
             //insert ship
-            if(mShip == null){
+            if(newShip){
                 mShip = new ShipWithContainer();
                 mShip.ship = new ShipEntity(shipNameS, maxWeightF, ((BaseApp) getApplication()).getCurrentUser().getFB_Key(), mPorts.get(SelectedPort).getFB_Key(), convertedDate);
                 mShip.ship.setFB_Key(fireBaseDB.getReference().child("ships").push().getKey());
