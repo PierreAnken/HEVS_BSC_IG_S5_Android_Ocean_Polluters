@@ -2,7 +2,6 @@ package ch.pa.oceanspolluters.app.database.pojo;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Relation;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 

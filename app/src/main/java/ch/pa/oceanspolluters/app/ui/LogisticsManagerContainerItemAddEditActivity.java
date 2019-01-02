@@ -1,6 +1,5 @@
 package ch.pa.oceanspolluters.app.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,8 +24,6 @@ import ch.pa.oceanspolluters.app.R;
 import ch.pa.oceanspolluters.app.database.entity.ItemEntity;
 import ch.pa.oceanspolluters.app.database.entity.ItemTypeEntity;
 import ch.pa.oceanspolluters.app.database.pojo.ItemWithType;
-import ch.pa.oceanspolluters.app.util.OnAsyncEventListener;
-import ch.pa.oceanspolluters.app.util.OperationMode;
 
 public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActivity {
 
@@ -149,7 +146,7 @@ public class LogisticsManagerContainerItemAddEditActivity extends AppCompatActiv
                 mItemWithType.item = new ItemEntity(mItemTypes.get(itemTypeIndex).getFB_Key(), weight, containerIdFB);
                 itemPathFB+="/items/"+mItemWithType.item.getFB_Key();
 
-                fireBaseDB.getReference("itemPathFB").setValue( mItemWithType.item);
+                fireBaseDB.getReference(itemPathFB).setValue( mItemWithType.item);
                 fireBaseDB.getReference(itemPathFB+"/fb_containerId").setValue(containerIdFB);
             }
 

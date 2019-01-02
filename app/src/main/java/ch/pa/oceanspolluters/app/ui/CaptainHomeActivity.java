@@ -76,7 +76,7 @@ public class CaptainHomeActivity extends AppCompatActivity {
                 for (DataSnapshot shipSnapshot: snapshot.getChildren()) {
                     mShipsWithContainer.add(ShipWithContainer.FillShipFromSnap(shipSnapshot));
                 }
-                mShipsWithContainer.sort(Comparator.comparingInt(o -> (int) o.ship.getDepartureDate().getTime()));
+                mShipsWithContainer.sort(Comparator.comparing(o -> o.ship.getDepartureDate()));
                 mAdapter.setData(mShipsWithContainer);
             }
             @Override

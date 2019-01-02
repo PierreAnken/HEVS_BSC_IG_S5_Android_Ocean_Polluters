@@ -1,10 +1,6 @@
 package ch.pa.oceanspolluters.app.database.entity;
 
-import android.arch.persistence.room.Ignore;
-
 import com.google.firebase.database.FirebaseDatabase;
-
-import ch.pa.oceanspolluters.app.util.OperationMode;
 
 public abstract class BaseEntity {
     protected static FirebaseDatabase fireBaseDB = FirebaseDatabase.getInstance();
