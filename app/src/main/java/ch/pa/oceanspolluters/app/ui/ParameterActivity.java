@@ -13,13 +13,10 @@ import java.util.List;
 
 import ch.pa.oceanspolluters.app.BaseApp;
 import ch.pa.oceanspolluters.app.R;
-import ch.pa.oceanspolluters.app.database.entity.LanguageEntity;
 
-public class ParameterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ParameterActivity extends AppCompatActivity {
 
     private static final String TAG = "ParameterActivity";
-    private Spinner mLanguageSpinner;
-    private static List<LanguageEntity> languages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -32,39 +29,6 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
         TextView versionApp = findViewById(R.id.versionApp);
         versionApp.setText(BaseApp.getFbRemoteConfig().getString("versionApp"));
 
-       /* mLanguageSpinner = findViewById(R.id.spinner_language);
-
-        //setup language spinner
-
-        FirebaseDatabase.getInstance().getReference("languages").addValueEventListener(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-                            languages = new ArrayList<>();
-                            for(DataSnapshot lang : dataSnapshot.getChildren()){
-                                languages.add(lang.getValue(LanguageEntity.class));
-
-                            }
-                            ArrayAdapter<LanguageEntity> languageAdapter = new ArrayAdapter<LanguageEntity>(getApplicationContext(), android.R.layout.simple_spinner_item, languages);
-                            languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            mLanguageSpinner.setAdapter(languageAdapter);
-
-                            if (languages.get(0).isActive()) {
-                                mLanguageSpinner.setSelection(0);
-                            } else {
-                                mLanguageSpinner.setSelection(1);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                }
-        );
-        mLanguageSpinner.setOnItemSelectedListener(this);*/
     }
 
 
@@ -77,24 +41,5 @@ public class ParameterActivity extends AppCompatActivity implements AdapterView.
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        //get spinner lanugage
-        String languageSpinner = ((LanguageEntity)mLanguageSpinner.getSelectedItem()).getIso();
-
-        Log.d(TAG, "PA_Debug language spinner " + languageSpinner);
-
-        if(!languageSpinner.equals(LanguageEntity.getAppLanguage(this))){
-            LanguageEntity.setCurrentLang(getBaseContext(),languageSpinner);
-            //this.recreate();
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
