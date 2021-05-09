@@ -2,7 +2,7 @@
 
 ## Presentation
 
-This project was part of my BSc formation in Business Information Technology.
+This project was part of my BSc degree in Business Information Technology.
 
 **Goal**: Create a mobile application and store data inside the could using Android and Firebase.
 
