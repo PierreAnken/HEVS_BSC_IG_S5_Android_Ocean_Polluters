@@ -21,29 +21,30 @@ This project was part of my BSc formation in Business Information Technology.
 3. Data edition, add and deletion
 4. Language selection
 
-![](/readmeImages/login.png)
-![](/readmeImages/settings.png)
+<img src="/readmeImages/login.png" width="40%">
+<img src="/readmeImages/settings.png" width="40%">
 
 ### Role : Captain
 - Manage ships and their planning
 
-![](/readmeImages/captain_main.png)
-![](/readmeImages/captain_ship.png)
+<img src="/readmeImages/captain_main.png" width="40%">
+<img src="/readmeImages/captain_ship.png" width="40%">
 
 ### Role : Logistic Manager
 - Manage containers and their content
 
-![](/readmeImages/logistic_manager_main.png)
-![](/readmeImages/logistic_manager_container.png)
-![](/readmeImages/logistic_manager_container_content.png)
-![](/readmeImages/logistic_manager_container_item.png)
+<img src="/readmeImages/logistic_manager_main.png" width="40%">
+<img src="/readmeImages/logistic_manager_container.png" width="40%">
+<img src="/readmeImages/logistic_manager_container_content.png" width="40%">
+<img src="/readmeImages/logistic_manager_container_item.png" width="40%">
 
 
 ### Role : Docker
 - Manage containers loading
-![](/readmeImages/docker_main.png)
-![](/readmeImages/docker_containers.png)
-![](/readmeImages/docker_loading.png)
+
+<img src="/readmeImages/docker_main.png" width="40%">
+<img src="/readmeImages/docker_containers.png" width="40%">
+<img src="/readmeImages/docker_loading.png" width="40%">
 
 ## Authors
 
