@@ -1,5 +1,3 @@
-# HEVS_BSC_IG_S5_Projet_Android_Ocean_Polluters
-
 ## Presentation
 
 This project was part of my BSc degree in Business Information Technology.
